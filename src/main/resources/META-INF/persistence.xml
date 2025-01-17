@@ -3,6 +3,11 @@
     <persistence-unit name="SigBolsasPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!--<non-jta-data-source>java:comp/env/jdbc/SigBolsasDB</non-jta-data-source>-->
+        <class>br.edu.ufra.entidade.Pessoa</class>
+        <class>br.edu.ufra.entidade.PessoaPapel</class>
+        <class>br.edu.ufra.entidade.Papel</class>
+        <class>br.edu.ufra.entidade.Comite</class>
+        <class>br.edu.ufra.entidade.ComitePessoa</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sig_bolsas_bd"/>
