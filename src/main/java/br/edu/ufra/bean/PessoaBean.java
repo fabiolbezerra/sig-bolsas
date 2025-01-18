@@ -13,6 +13,8 @@ import java.util.List;
 public class PessoaBean {
     private final PessoaRN RN = new PessoaRN();
 
+    private Pessoa pessoa = new Pessoa();
+
     private List<Pessoa> pessoas;
 
     public PessoaBean() {
@@ -27,5 +29,25 @@ public class PessoaBean {
 
     public List<Pessoa> getPessoas() {
         return pessoas;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public void salvar() {
+        if (pessoa == null) {
+            //Mensagem de erro: objeto nulo
+        } else {
+            if (RN.salvar(pessoa)) {
+                //Mensagem de sucesso
+            } else {
+                //Mensagem de erro: problemas ao salvar
+            }
+        }
     }
 }

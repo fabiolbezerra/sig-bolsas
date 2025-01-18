@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Detalhes</title>
+</h:head>
+<h:body>
+    <h1>#{pessoaBean.pessoa.nomeCompleto}</h1>
+
+    <h:form id="formPessoa">
+
+        <h:panelGrid columns="2">
+            <p:outputLabel value="Nome completo" />
+            <p:outputLabel value="#{pessoaBean.pessoa.nomeCompleto}" />
+
+            <p:outputLabel value="Telefone" />
+            <p:outputLabel value="#{pessoaBean.pessoa.telefone}" />
+
+            <p:outputLabel value="E-mail" />
+            <p:outputLabel value="#{pessoaBean.pessoa.email}" />
+
+            <p:outputLabel value="Data de nascimento" />
+            <p:outputLabel value="#{pessoaBean.pessoa.nascimento}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+        </h:panelGrid>
+
+        <h2>Papéis no sistema</h2>
+
+        <p:dataList value="#{pessoaBean.pessoa.pessoaPapels}" var="papel">
+            <h:outputText value="#{papel.papel.nome}" />
+        </p:dataList>
+
+        <h2>Comitês que sou membro</h2>
+
+        <p:dataList value="#{pessoaBean.pessoa.comitePessoas}" var="c1" emptyMessage="Não sou membro de comitês">
+            <p:outputLabel value="#{c1.comite.inicio}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+            a
+            <p:outputLabel value="#{c1.comite.fim}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+        </p:dataList>
+
+        <h2>Comitês que criei</h2>
+
+        <p:dataList value="#{pessoaBean.pessoa.comites}" var="c2" emptyMessage="Nenhum comitê criado">
+            <p:outputLabel value="#{c2.inicio}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+            a
+            <p:outputLabel value="#{c2.fim}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+        </p:dataList>
+
+        <h2>Editais que criei</h2>
+
+        <p:dataList value="#{pessoaBean.pessoa.editals}" var="e" emptyMessage="Nenhum edital criado">
+            Edital <h:outputText value="#{e.titulo}" />, de
+            <p:outputLabel value="#{e.dataInicio}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+            a
+            <p:outputLabel value="#{c2.fim}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+        </p:dataList>
+
+        <br/>
+
+        <p:commandLink value="Voltar" action="lista.xhtml" />
+    </h:form>
+</h:body>
+</html>

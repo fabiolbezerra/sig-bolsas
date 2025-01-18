@@ -1,10 +1,13 @@
 package br.edu.ufra.entidade;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "edital")
+@NamedQueries({
+        @NamedQuery(name = "Edital.findAll", query = "SELECT e FROM Edital e"),
+        @NamedQuery(name = "Edital.findById", query = "SELECT e FROM Edital e WHERE e.id = :id")})
 public class Edital {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +27,16 @@ public class Edital {
     private String descricao;
 
     @Column(name = "data_cadastro")
-    private LocalDate dataCadastro;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataCadastro;
 
     @Column(name = "data_inicio", nullable = false)
-    private LocalDate dataInicio;
+    @Temporal(TemporalType.DATE)
+    private Date dataInicio;
 
     @Column(name = "data_final", nullable = false)
-    private LocalDate dataFinal;
+    @Temporal(TemporalType.DATE)
+    private Date dataFinal;
 
     @Column(name = "situacao", nullable = false)
     private Character situacao;
@@ -83,27 +89,27 @@ public class Edital {
         this.descricao = descricao;
     }
 
-    public LocalDate getDataCadastro() {
+    public Date getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(LocalDate dataCadastro) {
+    public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
-    public LocalDate getDataInicio() {
+    public Date getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(Date dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFinal() {
+    public Date getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(LocalDate dataFinal) {
+    public void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
     }
 

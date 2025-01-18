@@ -9,31 +9,11 @@
    <title>Listagem de Pessoas</title>
 </h:head>
 <h:body>
-   <h:form id="formPessoa">
-      <p:growl showDetail="true" showSummary="true" />
-
-      <h1>Pessoas</h1>
-
-
-      <p:dataTable value="#{pessoaBean.pessoas}" var="a">
-         <p:column headerText="Nome Completo">
-            <h:outputText value="#{a.nomeCompleto}"/>
-         </p:column>
-
-         <p:column headerText="Telefone" filterBy="#{a.telefone}">
-            <h:outputText value="#{a.telefone}"/>
-         </p:column>
-
-         <p:column headerText="E-mail" filterBy="#{a.email}">
-            <h:outputText value="#{a.email}"/>
-         </p:column>
-
-         <p:column headerText="Nascimento">
-            <h:outputText value="#{a.nascimento}">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </h:outputText>
-         </p:column>
-      </p:dataTable>
-   </h:form>
+   <ul>
+      <li><h:link value="Pessoas" outcome="/pessoa/lista.xhtml"/></li>
+      <li><h:link value="Editais" outcome="/edital/lista.xhtml"/></li>
+      <li><h:link value="Comitês" outcome="/pessoa/lista.xhtml"/></li>
+      <li><h:link value="Papéis" outcome="/pessoa/lista.xhtml"/></li>
+   </ul>
 </h:body>
 </html>

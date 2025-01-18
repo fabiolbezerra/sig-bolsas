@@ -1,7 +1,7 @@
 package br.edu.ufra.entidade;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -17,10 +17,12 @@ public class Comite {
     private Integer id;
 
     @Column(name = "inicio", nullable = false)
-    private LocalDate inicio;
+    @Temporal(TemporalType.DATE)
+    private Date inicio;
 
     @Column(name = "fim", nullable = false)
-    private LocalDate fim;
+    @Temporal(TemporalType.DATE)
+    private Date fim;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "coordenador", nullable = false)
@@ -40,19 +42,19 @@ public class Comite {
         this.id = id;
     }
 
-    public LocalDate getInicio() {
+    public Date getInicio() {
         return inicio;
     }
 
-    public void setInicio(LocalDate inicio) {
+    public void setInicio(Date inicio) {
         this.inicio = inicio;
     }
 
-    public LocalDate getFim() {
+    public Date getFim() {
         return fim;
     }
 
-    public void setFim(LocalDate fim) {
+    public void setFim(Date fim) {
         this.fim = fim;
     }
 

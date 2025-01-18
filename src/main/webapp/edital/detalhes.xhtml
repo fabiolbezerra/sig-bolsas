@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Detalhes</title>
+</h:head>
+<h:body>
+    <h1>#{editalBean.edital.titulo}</h1>
+
+    <h:form id="formTitulo">
+
+        <h:panelGrid columns="2">
+            <p:outputLabel value="Ano/Número" />
+            <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}" />
+
+            <p:outputLabel value="Situação" />
+            <p:outputLabel value="#{editalBean.edital.situacao}" />
+
+            <p:outputLabel value="Início das inscrições" />
+            <p:outputLabel value="#{editalBean.edital.dataInicio}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Fim das inscrições" />
+            <p:outputLabel value="#{editalBean.edital.dataFinal}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Cadastrado" />
+            <p:outputLabel value="#{editalBean.edital.dataFinal}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </p:outputLabel>
+        </h:panelGrid>
+
+        <h2>Quem cadastrou</h2>
+
+        <h:outputText value="#{editalBean.edital.coordenador.nomeCompleto}" />
+
+        <h2>Comitê de avaliação</h2>
+
+        <p:dataList value="#{editalBean.edital.comite.comitePessoas}" var="p" emptyMessage="Nenhum membro no comitê">
+            <h:outputText value="#{p.pessoa.nomeCompleto}" />
+        </p:dataList>
+
+        <br/>
+
+        <p:commandLink value="Voltar" action="lista.xhtml" />
+    </h:form>
+</h:body>
+</html>
