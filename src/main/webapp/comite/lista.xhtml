@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Comitês</title>
+</h:head>
+<h:body>
+    <h1>Comitês</h1>
+
+    <h:form id="formComite">
+        <p:growl showDetail="true" showSummary="true"/>
+
+        <p:commandLink value="Cadastrar comitê" action="formulario.xhtml" /> <br/><br/>
+
+        <p:dataTable value="#{comiteBean.comites}" var="comite">
+            <p:column headerText="Início da vigência">
+                <h:outputText value="#{comite.inicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Fim da vigência">
+                <h:outputText value="#{comite.fim}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Cadastrado por">
+                <h:outputText value="#{comite.coordenador.nomeCompleto}" />
+            </p:column>
+
+            <p:column headerText="Operações">
+                <p:commandLink value="Editar" action="formulario.xhtml" >
+                    <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+                </p:commandLink>
+                |
+                <p:commandLink value="Detalhes" action="detalhes.xhtml" >
+                    <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+                </p:commandLink>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>
