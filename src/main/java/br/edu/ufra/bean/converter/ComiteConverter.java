@@ -28,7 +28,8 @@ public class ComiteConverter implements Converter {
             return null;
         }
         try {
-            return RN.obter(Integer.valueOf(string));
+            Comite resposta = RN.obter(Integer.valueOf(string));
+            return resposta;
         } catch (Exception e) {
             return null;
         }
@@ -36,7 +37,7 @@ public class ComiteConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        if (object == null || !(object instanceof Comite)) {
+        if (!(object instanceof Comite)) {
             return null;
         }
         Comite comite = (Comite) object;

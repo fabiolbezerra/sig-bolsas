@@ -82,4 +82,16 @@ public class Comite {
         this.editals = editals;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+
+        Comite comite = (Comite) object;
+        return id.equals(comite.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

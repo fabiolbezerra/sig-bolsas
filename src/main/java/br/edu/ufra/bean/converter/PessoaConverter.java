@@ -28,7 +28,8 @@ public class PessoaConverter implements Converter {
             return null;
         }
         try {
-            return RN.obter(Integer.valueOf(string));
+            Pessoa resposta = RN.obter(Integer.valueOf(string));
+            return resposta;
         } catch (Exception e) {
             return null;
         }

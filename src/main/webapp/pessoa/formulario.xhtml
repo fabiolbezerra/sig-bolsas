@@ -15,6 +15,7 @@
     <h:form id="formPessoa">
         <p:growl showDetail="true" showSummary="true"/>
 
+        <h:inputHidden value="#{pessoaBean.pessoa.id}" />
         <h:panelGrid columns="2">
             <p:outputLabel value="Nome completo" />
             <p:inputText value="#{pessoaBean.pessoa.nomeCompleto}" />

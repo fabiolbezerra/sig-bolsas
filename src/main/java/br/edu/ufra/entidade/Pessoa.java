@@ -113,4 +113,16 @@ public class Pessoa {
         this.pessoaPapels = pessoaPapels;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+
+        Pessoa pessoa = (Pessoa) object;
+        return id.equals(pessoa.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
