@@ -7,7 +7,6 @@ import br.edu.ufra.util.UtilBean;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.rmi.CORBA.Util;
 import java.util.List;
 
 @ManagedBean

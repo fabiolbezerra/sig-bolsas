@@ -7,6 +7,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "papel")
+@NamedQueries({
+        @NamedQuery(name = "Papel.findAll", query = "SELECT p FROM Papel p"),
+        @NamedQuery(name = "Papel.findById", query = "SELECT p FROM Papel p WHERE p.id = :id")})
 public class Papel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
