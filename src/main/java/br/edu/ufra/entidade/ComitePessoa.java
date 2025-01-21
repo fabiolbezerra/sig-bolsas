@@ -1,6 +1,7 @@
 package br.edu.ufra.entidade;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "comite_pessoa")
@@ -42,4 +43,15 @@ public class ComitePessoa {
         this.pessoa = pessoa;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ComitePessoa that = (ComitePessoa) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
