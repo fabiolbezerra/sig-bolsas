@@ -1,12 +1,12 @@
 package br.edu.ufra.rn;
 
-import br.edu.ufra.dao.GenericDAO;
+import br.edu.ufra.dao.PessoaDAO;
 import br.edu.ufra.entidade.Pessoa;
 
 import java.util.List;
 
 public class PessoaRN {
-    private final GenericDAO<Pessoa> DAO = new GenericDAO<>();
+    private final PessoaDAO DAO = new PessoaDAO();
 
     public boolean salvar(Pessoa pessoa) {
         if (pessoa == null) {
@@ -27,4 +27,13 @@ public class PessoaRN {
     public Pessoa obter(Integer id) {
         return DAO.obter(Pessoa.class, id);
     }
+
+    public Pessoa obterPorEmail(String email) {
+        return DAO.obterPorEmail(email);
+    }
+
+    public Pessoa login(String email, String senhaCripto) {
+        return DAO.login(email, senhaCripto);
+    }
+
 }

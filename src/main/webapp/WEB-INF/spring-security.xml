@@ -1,0 +1,35 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <http auto-config="true">
+        <intercept-url pattern="/bolsista/**"
+                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
+        <intercept-url pattern="/pesquisador/**"
+                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
+        <intercept-url pattern="/coordenador/**"
+                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
+        <intercept-url pattern="/gerente/**"
+                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
+        <form-login
+                login-page="/index.xhtml"
+                authentication-success-handler-ref="myLoginHandler"
+                authentication-failure-url = "/index.xhtml?e=-1"/>
+        <access-denied-handler error-page="/acessoNegado.xhtml"/>
+    </http>
+
+    <beans:bean id="myLoginHandler"
+                class="br.edu.ufra.seguranca.LoginHandler" />
+
+    <beans:bean id="myAuthenticationHandler"
+                class="br.edu.ufra.seguranca.AuthenticationHandler" />
+
+    <authentication-manager>
+        <authentication-provider ref="myAuthenticationHandler"/>
+    </authentication-manager>
+
+</beans:beans>

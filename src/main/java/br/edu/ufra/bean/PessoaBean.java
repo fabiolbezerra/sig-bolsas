@@ -2,10 +2,12 @@ package br.edu.ufra.bean;
 
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.rn.PessoaRN;
+import br.edu.ufra.util.UtilBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.rmi.CORBA.Util;
 import java.util.List;
 
 @ManagedBean
@@ -39,14 +41,21 @@ public class PessoaBean {
         this.pessoa = pessoa;
     }
 
+    public Pessoa getUsuarioLogado() {
+        return UtilBean.obterUsuarioLogado();
+    }
+
     public void salvar() {
         if (pessoa == null) {
             //Mensagem de erro: objeto nulo
+            UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
             if (RN.salvar(pessoa)) {
                 //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Pessoa gravada com sucesso");
             } else {
                 //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Problema ao gravar a pessoa");
             }
         }
     }
