@@ -15,6 +15,9 @@
     <h:form id="formTitulo">
 
         <h:panelGrid columns="2">
+            <p:outputLabel value="Portaria" />
+            <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}" />
+
             <p:outputLabel value="Ano/Número" />
             <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}" />
 
@@ -42,6 +45,8 @@
         <h:outputText value="#{editalBean.edital.coordenador.nomeCompleto}" />
 
         <h2>Comitê de avaliação</h2>
+
+        <h3>#{editalBean.edital.comite.portaria}</h3>
 
         <p:dataList value="#{editalBean.edital.comite.comitePessoas}" var="p" emptyMessage="Nenhum membro no comitê">
             <h:outputText value="#{p.pessoa.nomeCompleto}" />

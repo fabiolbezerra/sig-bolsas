@@ -16,6 +16,9 @@ public class Comite {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(name = "portaria", nullable = false, length = 45)
+    private String portaria;
+
     @Column(name = "inicio", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date inicio;
@@ -40,6 +43,14 @@ public class Comite {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getPortaria() {
+        return portaria;
+    }
+
+    public void setPortaria(String portaria) {
+        this.portaria = portaria;
     }
 
     public Date getInicio() {

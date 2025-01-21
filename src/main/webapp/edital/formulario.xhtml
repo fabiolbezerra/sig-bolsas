@@ -43,7 +43,7 @@
             <p:outputLabel value="Comitê" />
             <p:selectOneMenu converter="comiteConverter" value="#{editalBean.edital.comite}" >
                 <f:selectItem noSelectionOption="true" itemLabel="Selecione o comitê"/>
-                <f:selectItems value="#{comiteBean.comites}" var="c" itemValue="#{c}" itemLabel="#{c.inicio}" />
+                <f:selectItems value="#{comiteBean.comites}" var="c" itemValue="#{c}" itemLabel="#{c.portaria}" />
             </p:selectOneMenu>
 
             <p:outputLabel value="Coordenador" />

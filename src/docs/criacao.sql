@@ -29,7 +29,9 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`pessoa` (
   `nascimento` DATE NULL,
   `telefone` VARCHAR(11) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`))
+  `senha` VARCHAR(100) NOT NULL DEFAULT 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 
@@ -78,6 +80,7 @@ DROP TABLE IF EXISTS `sig_bolsas_bd`.`comite` ;
 
 CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`comite` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `portaria` VARCHAR(45) NOT NULL,
   `inicio` DATE NOT NULL,
   `fim` DATE NOT NULL,
   `coordenador` INT NOT NULL COMMENT 'Pessoa no papel de coordenador, que cadastrou o comitê',

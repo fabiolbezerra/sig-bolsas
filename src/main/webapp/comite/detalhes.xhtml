@@ -11,6 +11,12 @@
 </h:head>
 <h:body>
     <h1>
+        <h:outputText value="#{comiteBean.comite.portaria}" />
+    </h1>
+
+    <h:form id="formComite">
+        <h2>Vigência</h2>
+
         <h:outputText value="#{comiteBean.comite.inicio}">
             <f:convertDateTime pattern="dd/MM/yyyy"/>
         </h:outputText>
@@ -18,9 +24,6 @@
         <h:outputText value="#{comiteBean.comite.inicio}">
             <f:convertDateTime pattern="dd/MM/yyyy"/>
         </h:outputText>
-    </h1>
-
-    <h:form id="formComite">
 
         <h2>Membros</h2>
 

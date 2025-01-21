@@ -29,6 +29,9 @@ public class Pessoa {
     @Column(name = "email", nullable = false, length = 50)
     private String email;
 
+    @Column(name = "senha", nullable = false, length = 100)
+    private String senha;
+
     @OneToMany(mappedBy = "coordenador")
     private Set<Comite> comites = new LinkedHashSet<>();
 
@@ -79,6 +82,14 @@ public class Pessoa {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public Set<Comite> getComites() {
