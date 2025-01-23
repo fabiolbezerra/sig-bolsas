@@ -1,60 +1,65 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<h:head>
-    <title>Detalhes</title>
-</h:head>
-<h:body>
-    <h1>#{editalBean.edital.titulo}</h1>
+    <ui:define name="title">
+        Detalhes
+    </ui:define>
 
-    <h:form id="formTitulo">
+    <ui:define name="content">
+        <h1>#{editalBean.edital.titulo}</h1>
 
-        <h:panelGrid columns="2">
-            <p:outputLabel value="Portaria" />
-            <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}" />
+        <h:form id="formTitulo">
 
-            <p:outputLabel value="Ano/Número" />
-            <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}" />
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Portaria"/>
+                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
 
-            <p:outputLabel value="Situação" />
-            <p:outputLabel value="#{editalBean.edital.situacao}" />
+                <p:outputLabel value="Ano/Número"/>
+                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
 
-            <p:outputLabel value="Início das inscrições" />
-            <p:outputLabel value="#{editalBean.edital.dataInicio}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </p:outputLabel>
+                <p:outputLabel value="Situação"/>
+                <p:outputLabel value="#{editalBean.edital.situacao}"/>
 
-            <p:outputLabel value="Fim das inscrições" />
-            <p:outputLabel value="#{editalBean.edital.dataFinal}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </p:outputLabel>
+                <p:outputLabel value="Início das inscrições"/>
+                <p:outputLabel value="#{editalBean.edital.dataInicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
 
-            <p:outputLabel value="Cadastrado" />
-            <p:outputLabel value="#{editalBean.edital.dataFinal}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </p:outputLabel>
-        </h:panelGrid>
+                <p:outputLabel value="Fim das inscrições"/>
+                <p:outputLabel value="#{editalBean.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
 
-        <h2>Quem cadastrou</h2>
+                <p:outputLabel value="Cadastrado"/>
+                <p:outputLabel value="#{editalBean.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:panelGrid>
 
-        <h:outputText value="#{editalBean.edital.coordenador.nomeCompleto}" />
+            <h2>Quem cadastrou</h2>
 
-        <h2>Comitê de avaliação</h2>
+            <h:outputText value="#{editalBean.edital.coordenador.nomeCompleto}"/>
 
-        <h3>#{editalBean.edital.comite.portaria}</h3>
+            <h2>Comitê de avaliação</h2>
 
-        <p:dataList value="#{editalBean.edital.comite.comitePessoas}" var="p" emptyMessage="Nenhum membro no comitê">
-            <h:outputText value="#{p.pessoa.nomeCompleto}" />
-        </p:dataList>
+            <h3>#{editalBean.edital.comite.portaria}</h3>
 
-        <br/>
+            <p:dataList value="#{editalBean.edital.comite.comitePessoas}" var="p"
+                        emptyMessage="Nenhum membro no comitê">
+                <h:outputText value="#{p.pessoa.nomeCompleto}"/>
+            </p:dataList>
 
-        <p:commandLink value="Voltar" action="lista.xhtml" />
-    </h:form>
-</h:body>
-</html>
+            <br/>
+
+            <p:commandLink value="Voltar" action="lista.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
