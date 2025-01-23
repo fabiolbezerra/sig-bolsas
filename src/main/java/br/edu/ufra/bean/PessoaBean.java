@@ -40,10 +40,6 @@ public class PessoaBean {
         this.pessoa = pessoa;
     }
 
-    public Pessoa getUsuarioLogado() {
-        return UtilBean.obterUsuarioLogado();
-    }
-
     public void salvar() {
         if (pessoa == null) {
             //Mensagem de erro: objeto nulo

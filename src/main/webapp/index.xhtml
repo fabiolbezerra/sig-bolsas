@@ -1,52 +1,65 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <title>Sig-Bolsas Login</title>
-</h:head>
-<h:body>
-    <form
-            id="formLogin"
-            action="#{request.contextPath}/j_spring_security_check"
-            method="post">
-        <div align="center">
-            <h1>Login</h1>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-            <h3>Sistema de Gerenciamento de Bolsistas</h3>
+    <ui:define name="title">
+        Login
+    </ui:define>
 
-            <hr width="15%"/>
+    <ui:define name="top">
+        <h2>Diário de Turmas</h2>
+    </ui:define>
 
-            <h:outputText
-                    value="E-mail ou senha inválidos"
-                    rendered="#{param.get('e') != null}"
-                    style="color: red; font-size: 1.2em; "/>
+    <ui:define name="content">
+        <form id="formLogin"
+              action="#{request.contextPath}/j_spring_security_check"
+              method="post">
 
-            <div class="ui-g-12">
-                <p:inputText id="j_username"
-                             placeholder="Email"
-                             required="true" />
+            <div align="center">
+                <h3>Entrar no Sistema</h3>
+
+                <hr width="15%"/>
+
+                <h:outputText
+                        value="E-mail ou senha inválidos"
+                        rendered="#{param.get('e') != null}"
+                        style="color: red; font-size: 1.2em; "/>
+
+                <div class="ui-g-12">
+                    <p:inputText id="j_username"
+                                 placeholder="Email"
+                                 required="true"/>
+                </div>
+
+                <div class="ui-g-12">
+                    <p:password id="j_password"
+                                placeholder="Senha"
+                                required="true"
+                                feedback="false"/>
+                </div>
+
+                <hr width="15%"/>
+
+                <div class="ui-g-12">
+                    <p:commandButton
+                            onclick="#{request.contextPath} / j_spring_security_check;"
+                            value="Acessar"
+                            icon="fa fa-sign-in"
+                            style="width: 120px">
+                    </p:commandButton>
+                </div>
+
+
+                <hr width="15%"/>
             </div>
+        </form>
+    </ui:define>
 
-            <br/>
-
-            <div class="ui-g-12">
-                <p:password id="j_password"
-                            placeholder="Senha"
-                            required="true"
-                            feedback="false"/>
-            </div>
-
-            <hr width="15%"/>
-
-            <div class="ui-g-12 button-container">
-                <p:commandButton
-                        onclick="#{request.contextPath} / j_spring_security_check;"
-                        value="Acessar"
-                />
-            </div>
-        </div>
-    </form>
-</h:body>
-</html>
+</ui:composition>
