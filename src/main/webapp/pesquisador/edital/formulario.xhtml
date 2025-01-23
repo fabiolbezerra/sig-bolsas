@@ -1,60 +1,66 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
 
-<h:head>
-    <title>Edital</title>
-</h:head>
-<h:body>
-    <h1>Edital</h1>
+    <ui:define name="title">
+        Cadastro de Edital
+    </ui:define>
 
-    <h:form id="formEdital">
-        <p:growl showDetail="true" showSummary="true"/>
+    <ui:define name="content">
+        <h1>Edital</h1>
 
-        <h:inputHidden value="#{editalBean.edital.id}" />
-        <h:panelGrid columns="2">
-            <p:outputLabel value="Título" />
-            <p:inputText value="#{editalBean.edital.titulo}" />
+        <h:form id="formEdital">
+            <p:growl showDetail="true" showSummary="true"/>
 
-            <p:outputLabel value="Ano" />
-            <p:inputMask mask="9999" value="#{editalBean.edital.ano}" />
+            <h:inputHidden value="#{editalBean.edital.id}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Título"/>
+                <p:inputText value="#{editalBean.edital.titulo}"/>
 
-            <p:outputLabel value="Número" />
-            <p:inputText value="#{editalBean.edital.numero}" size="5" />
+                <p:outputLabel value="Ano"/>
+                <p:inputMask mask="9999" value="#{editalBean.edital.ano}"/>
 
-            <p:outputLabel value="Início das inscrições" />
-            <p:calendar pattern="dd/MM/yyyy" value="#{editalBean.edital.dataInicio}" />
+                <p:outputLabel value="Número"/>
+                <p:inputText value="#{editalBean.edital.numero}" size="5"/>
 
-            <p:outputLabel value="Fim das inscrições" />
-            <p:calendar pattern="dd/MM/yyyy" value="#{editalBean.edital.dataFinal}" />
+                <p:outputLabel value="Início das inscrições"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{editalBean.edital.dataInicio}"/>
 
-            <p:outputLabel value="Situação" />
-            <p:selectOneMenu value="#{editalBean.edital.situacao}">
-                <f:selectItem itemValue="C" itemLabel="Cadastrado" />
-                <f:selectItem itemValue="P" itemLabel="Publicado" />
-                <f:selectItem itemValue="N" itemLabel="Não publicado" />
-                <f:selectItem itemValue="E" itemLabel="Encerrado" />
-            </p:selectOneMenu>
+                <p:outputLabel value="Fim das inscrições"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{editalBean.edital.dataFinal}"/>
 
-            <p:outputLabel value="Comitê" />
-            <p:selectOneMenu converter="comiteConverter" value="#{editalBean.edital.comite}" >
-                <f:selectItem noSelectionOption="true" itemLabel="Selecione o comitê"/>
-                <f:selectItems value="#{comiteBean.comites}" var="c" itemValue="#{c}" itemLabel="#{c.portaria}" />
-            </p:selectOneMenu>
+                <p:outputLabel value="Situação"/>
+                <p:selectOneMenu value="#{editalBean.edital.situacao}">
+                    <f:selectItem itemValue="C" itemLabel="Cadastrado"/>
+                    <f:selectItem itemValue="P" itemLabel="Publicado"/>
+                    <f:selectItem itemValue="N" itemLabel="Não publicado"/>
+                    <f:selectItem itemValue="E" itemLabel="Encerrado"/>
+                </p:selectOneMenu>
 
-            <p:outputLabel value="Coordenador" />
-            <p:selectOneMenu converter="pessoaConverter" value="#{editalBean.edital.coordenador}" >
-                <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
-                <f:selectItems value="#{pessoaBean.pessoas}" var="p" itemValue="#{p}" itemLabel="#{p.nomeCompleto}" />
-            </p:selectOneMenu>
-        </h:panelGrid>
+                <p:outputLabel value="Comitê"/>
+                <p:selectOneMenu converter="comiteConverter" value="#{editalBean.edital.comite}">
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione o comitê"/>
+                    <f:selectItems value="#{comiteBean.comites}" var="c" itemValue="#{c}" itemLabel="#{c.portaria}"/>
+                </p:selectOneMenu>
 
-        <p:button outcome="lista.xhtml" value="Cancelar"/>
-        <p:commandButton value="Salvar" action="#{editalBean.salvar()}"/>
-    </h:form>
-</h:body>
-</html>
+                <p:outputLabel value="Coordenador"/>
+                <p:selectOneMenu converter="pessoaConverter" value="#{editalBean.edital.coordenador}">
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
+                    <f:selectItems value="#{pessoaBean.pessoas}" var="p" itemValue="#{p}"
+                                   itemLabel="#{p.nomeCompleto}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+
+            <p:button outcome="lista.xhtml" value="Cancelar"/>
+            <p:commandButton value="Salvar" action="#{editalBean.salvar()}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

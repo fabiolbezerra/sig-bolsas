@@ -1,40 +1,46 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
 
-<h:head>
-    <title>Comitê</title>
-</h:head>
-<h:body>
-    <h1>Comitê</h1>
+    <ui:define name="title">
+        Cadastro de Comitê
+    </ui:define>
 
-    <h:form id="formComite">
-        <p:growl showDetail="true" showSummary="true"/>
+    <ui:define name="content">
+        <h1>Comitê</h1>
 
-        <h:inputHidden value="#{comiteBean.comite.id}" />
-        <h:panelGrid columns="2">
-            <p:outputLabel value="Portaria" />
-            <p:inputText value="#{comiteBean.comite.portaria}" />
+        <h:form id="formComite">
+            <p:growl showDetail="true" showSummary="true"/>
 
-            <p:outputLabel value="Início da vigência" />
-            <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.inicio}" />
+            <h:inputHidden value="#{comiteBean.comite.id}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Portaria"/>
+                <p:inputText value="#{comiteBean.comite.portaria}"/>
 
-            <p:outputLabel value="Fim da vigência" />
-            <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.fim}" />
+                <p:outputLabel value="Início da vigência"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.inicio}"/>
 
-            <p:outputLabel value="Coordenador" />
-            <p:selectOneMenu converter="pessoaConverter" value="#{comiteBean.comite.coordenador}" >
-                <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
-                <f:selectItems value="#{pessoaBean.pessoas}" var="p" itemValue="#{p}" itemLabel="#{p.nomeCompleto}" />
-            </p:selectOneMenu>
-        </h:panelGrid>
+                <p:outputLabel value="Fim da vigência"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.fim}"/>
 
-        <p:button outcome="lista.xhtml" value="Cancelar"/>
-        <p:commandButton value="Salvar" action="#{comiteBean.salvar()}"/>
-    </h:form>
-</h:body>
-</html>
+                <p:outputLabel value="Coordenador"/>
+                <p:selectOneMenu converter="pessoaConverter" value="#{comiteBean.comite.coordenador}">
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
+                    <f:selectItems value="#{pessoaBean.pessoas}" var="p" itemValue="#{p}"
+                                   itemLabel="#{p.nomeCompleto}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+
+            <p:button outcome="lista.xhtml" value="Cancelar"/>
+            <p:commandButton value="Salvar" action="#{comiteBean.salvar()}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
