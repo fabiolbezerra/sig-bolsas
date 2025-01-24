@@ -2,6 +2,7 @@ package br.edu.ufra.rn;
 
 import br.edu.ufra.dao.PessoaDAO;
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.util.UtilTexto;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class PessoaRN {
             return false;
         } else {
             if (pessoa.getId() == null || pessoa.getId() == 0) {
+                pessoa.setSenha(UtilTexto.criptografarSHA256(pessoa.getSenha()));
                 return DAO.criar(pessoa);
             } else {
                 return DAO.alterar(pessoa);
