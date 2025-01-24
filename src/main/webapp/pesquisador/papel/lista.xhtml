@@ -1,35 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
 
-<h:head>
-    <title>Papéis</title>
-</h:head>
-<h:body>
-    <h1>Papéis</h1>
+    <ui:define name="title">
+        Papéis
+    </ui:define>
 
-    <h:form id="formPapel">
-        <p:growl showDetail="true" showSummary="true"/>
+    <ui:define name="content">
 
-        <p:dataTable value="#{papelBean.papeis}" var="papel">
-            <p:column headerText="Nome">
-                <h:outputText value="#{papel.nome}"/>
-            </p:column>
+        <h1>Papéis</h1><br/>
 
-            <p:column headerText="Código">
-                <h:outputText value="#{papel.codigo}"/>
-            </p:column>
+        <h:form id="formPapel">
 
-            <p:column headerText="Operações">
-                <p:commandLink value="Detalhes" action="detalhes.xhtml" >
-                    <f:setPropertyActionListener value="#{papel}" target="#{papelBean.papel}"/>
-                </p:commandLink>
-            </p:column>
-        </p:dataTable>
-    </h:form>
-</h:body>
-</html>
+            <p:growl showDetail="true" showSummary="true"/>
+
+            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/> <br/><br/>
+
+            <p:dataTable value="#{papelBean.papeis}" var="papel">
+                <p:column headerText="Nome">
+                    <h:outputText value="#{papel.nome}"/>
+                </p:column>
+
+                <p:column headerText="Código">
+                    <h:outputText value="#{papel.codigo}"/>
+                </p:column>
+
+                <p:column headerText="Operações">
+                    <p:commandLink value="Detalhes" action="detalhes.xhtml">
+                        <f:setPropertyActionListener value="#{papel}" target="#{papelBean.papel}"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <br/>
+
+            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
