@@ -11,45 +11,45 @@
 >
 
     <ui:define name="title">
+        Listagem de Pessoas
     </ui:define>
 
     <ui:define name="content">
-        <h1>Listagem de Pessoas</h1>
-        <h:form id="formPessoa">
-            <p:growl showDetail="true" showSummary="true"/>
+    <h:form id="formPessoa">
+        <p:growl showDetail="true" showSummary="true"/>
 
-            <p:commandLink value="Cadastrar pessoa" action="formulario.xhtml"/> <br/><br/>
+        <p:commandLink value="Cadastrar pessoa" action="formulario.xhtml" /> <br/><br/>
 
-            <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa">
-                <p:column headerText="Nome Completo">
-                    <h:outputText value="#{pessoa.nomeCompleto}"/>
-                </p:column>
+        <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa">
+            <p:column headerText="Nome Completo">
+                <h:outputText value="#{pessoa.nomeCompleto}"/>
+            </p:column>
 
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{pessoa.telefone}"/>
-                </p:column>
+            <p:column headerText="Telefone">
+                <h:outputText value="#{pessoa.telefone}"/>
+            </p:column>
 
-                <p:column headerText="E-mail">
-                    <h:outputText value="#{pessoa.email}"/>
-                </p:column>
+            <p:column headerText="E-mail">
+                <h:outputText value="#{pessoa.email}"/>
+            </p:column>
 
-                <p:column headerText="Nascimento">
-                    <h:outputText value="#{pessoa.nascimento}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+            <p:column headerText="Nascimento">
+                <h:outputText value="#{pessoa.nascimento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
 
-                <p:column headerText="Operações">
-                    <p:commandLink value="Editar" action="formulario.xhtml">
-                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-                    </p:commandLink>
-                    |
-                    <p:commandLink value="Detalhes" action="detalhes.xhtml">
-                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-                    </p:commandLink>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+            <p:column headerText="Operações">
+                <p:commandLink value="Editar" action="formulario.xhtml" >
+                    <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                </p:commandLink>
+                |
+                <p:commandLink value="Detalhes" action="detalhes.xhtml" >
+                    <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                </p:commandLink>
+            </p:column>
+        </p:dataTable>
+    </h:form>
 
     </ui:define>
 
