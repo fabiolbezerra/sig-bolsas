@@ -16,7 +16,9 @@
 
     <ui:define name="content">
 
-        <h1>Papéis</h1><br/>
+        <h1>Papéis</h1>
+
+        <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/>
 
         <h:form id="formPapel">
 
@@ -41,7 +43,7 @@
             </p:dataTable>
             <br/>
 
-            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/>
+            <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/>
         </h:form>
 
     </ui:define>
