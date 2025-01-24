@@ -10,54 +10,56 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-<ui:define name="Editais">
-  Listagem de Editais
-</ui:define>
+    <ui:define name="Editais">
+    </ui:define>
 
     <ui:define name="content">
+        <h1> Listagem de Editais </h1>
+        <h:form id="formEdital">
+            <p:growl showDetail="true" showSummary="true"/>
 
-    <h:form id="formEdital">
-        <p:growl showDetail="true" showSummary="true"/>
+            <p:commandLink value="Cadastrar edital" action="formulario.xhtml"/> <br/><br/>
+            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/> <br/><br/>
 
-        <p:commandLink value="Cadastrar edital" action="formulario.xhtml" /> <br/><br/>
+            <p:dataTable value="#{editalBean.editais}" var="edital">
+                <p:column headerText="Título">
+                    <h:outputText value="#{edital.titulo}"/>
+                </p:column>
 
-        <p:dataTable value="#{editalBean.editais}" var="edital">
-            <p:column headerText="Título">
-                <h:outputText value="#{edital.titulo}"/>
-            </p:column>
+                <p:column headerText="Ano e Número">
+                    <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
+                </p:column>
 
-            <p:column headerText="Ano e Número">
-                <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
-            </p:column>
+                <p:column headerText="Cadastro">
+                    <h:outputText value="#{edital.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
 
-            <p:column headerText="Cadastro">
-                <h:outputText value="#{edital.dataCadastro}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
+                <p:column headerText="Inscrições">
+                    <h:outputText value="#{edital.dataInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                    a
+                    <h:outputText value="#{edital.dataFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
 
-            <p:column headerText="Inscrições">
-                <h:outputText value="#{edital.dataInicio}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-                a
-                <h:outputText value="#{edital.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
+                <p:column headerText="Operações">
+                    <p:commandLink value="Editar" action="formulario.xhtml">
+                        <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+                    </p:commandLink>
+                    |
+                    <p:commandLink value="Detalhes" action="detalhes.xhtml">
+                        <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/>
+        </h:form>
 
-            <p:column headerText="Operações">
-                <p:commandLink value="Editar" action="formulario.xhtml" >
-                    <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
-                </p:commandLink>
-                |
-                <p:commandLink value="Detalhes" action="detalhes.xhtml" >
-                    <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
-                </p:commandLink>
-            </p:column>
-        </p:dataTable>
-    </h:form>
-
-</ui:define>
+    </ui:define>
 
 </ui:composition>

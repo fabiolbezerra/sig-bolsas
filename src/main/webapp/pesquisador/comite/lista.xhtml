@@ -11,16 +11,15 @@
 >
 
     <ui:define name="Comitês">
-        Listagem de Comitês
     </ui:define>
 
     <ui:define name="content">
+        <h1> Listagem de Comitês </h1>
         <h:form id="formComite">
             <p:growl showDetail="true" showSummary="true"/>
 
-
-
         <p:commandLink value="Cadastrar comitê" action="formulario.xhtml" /> <br/><br/>
+        <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/> <br/><br/>
 
         <p:dataTable value="#{comiteBean.comites}" var="comite">
             <p:column headerText="Portaria">
@@ -53,6 +52,10 @@
                 </p:commandLink>
             </p:column>
         </p:dataTable>
+
+            <br/>
+
+            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/>
         </h:form>
 
     </ui:define>
