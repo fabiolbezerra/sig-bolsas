@@ -11,18 +11,18 @@
 >
 
     <ui:define name="title">
-        Listagem de Pessoas
+        Pessoas
     </ui:define>
 
     <ui:define name="content">
         <h2>Listagem de pessoas</h2>
 
+        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar pessoa" outcome="formulario.xhtml"/>
+
+        <br/><br/>
+
         <h:form id="formPessoa">
             <p:growl showDetail="true" showSummary="true"/>
-
-            <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar pessoa" outcome="formulario.xhtml"/>
-
-             <br/><br/>
 
             <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa">
                 <p:column headerText="Nome Completo">
@@ -55,7 +55,7 @@
             </p:dataTable>
             <br/>
 
-            <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/>
+            <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/>
 
         </h:form>
 

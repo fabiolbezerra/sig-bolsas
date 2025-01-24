@@ -11,19 +11,18 @@
 >
 
     <ui:define name="Editais">
+        Editais
     </ui:define>
 
     <ui:define name="content">
         <h1> Listagem de Editais </h1>
 
-        <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar" outcome="/pesquisador/edital/formulario.xhtml"/>
+        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Edital" outcome="/pesquisador/edital/formulario.xhtml"/>
+
+        <br/><br/>
 
         <h:form id="formEdital">
             <p:growl showDetail="true" showSummary="true"/>
-
-            <p:commandLink value="Cadastrar edital" action="formulario.xhtml"/> <br/><br/>
-            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/> <br/><br/>
-
             <p:dataTable value="#{editalBean.editais}" var="edital">
                 <p:column headerText="Título">
                     <h:outputText value="#{edital.titulo}"/>
@@ -62,7 +61,7 @@
 
             <br/>
 
-            <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/>
+            <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/>
         </h:form>
 
     </ui:define>
