@@ -15,12 +15,14 @@
     </ui:define>
 
     <ui:define name="content">
+        <h2>Listagem de pessoas</h2>
+
         <h:form id="formPessoa">
             <p:growl showDetail="true" showSummary="true"/>
 
-            <p:commandLink value="Cadastrar Pessoas" action="formulario.xhtml"/><br/><br/>
+            <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar pessoa" outcome="formulario.xhtml"/>
 
-            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/> <br/><br/>
+             <br/><br/>
 
             <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa">
                 <p:column headerText="Nome Completo">
