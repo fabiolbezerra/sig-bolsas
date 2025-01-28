@@ -16,6 +16,7 @@ public class PessoaBean {
 
     private Pessoa pessoa = new Pessoa();
     private String senha;
+    private String novaSenha;
 
     private List<Pessoa> pessoas;
 
@@ -35,6 +36,14 @@ public class PessoaBean {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getNovaSenha() {
+        return novaSenha;
+    }
+
+    public void setNovaSenha(String novaSenha) {
+        this.novaSenha = novaSenha;
     }
 
     public List<Pessoa> getPessoas() {
@@ -60,6 +69,23 @@ public class PessoaBean {
             } else {
                 //Mensagem de erro: problemas ao salvar
                 UtilBean.criarMensagemDeErro("Problema ao gravar a pessoa");
+            }
+        }
+    }
+
+    public void alterarSenha() {
+        if (pessoa == null) {
+            //Mensagem de erro: objeto nulo
+            UtilBean.criarMensagemDeErro("Objeto nulo");
+        } else {
+            pessoa = RN.alterarSenha(pessoa.getEmail(), pessoa.getSenha(), novaSenha);
+            if (pessoa != null) {
+                //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Senha alterada com sucesso");
+            } else {
+                //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Problema ao alterar a senha");
+                pessoa = new Pessoa();
             }
         }
     }

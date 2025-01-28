@@ -22,6 +22,19 @@ public class PessoaRN {
         }
     }
 
+    public Pessoa alterarSenha(String email, String senhaAtual, String novaSenha) {
+        String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senhaAtual);
+        Pessoa pessoaLogada = login(email, senhaAtualCriptografada);
+        if (pessoaLogada != null){
+            String novaSenhaCriptografada = UtilTexto.criptografarSHA256(novaSenha);
+            pessoaLogada.setSenha(novaSenhaCriptografada);
+            if (!DAO.alterar(pessoaLogada)){
+                pessoaLogada = null;
+            }
+        }
+        return pessoaLogada;
+    }
+
     public List<Pessoa> listarTodas() {
         return DAO.obterTodos(Pessoa.class);
     }
