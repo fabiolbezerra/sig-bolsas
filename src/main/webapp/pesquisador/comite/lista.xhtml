@@ -15,14 +15,16 @@
     </ui:define>
 
     <ui:define name="content">
-        <h2> Listagem de Comitês </h2>
+        <h1> Listagem de Comitês </h1>
+
+        <br/>
+
+        <p:link value="Início" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Comitê" outcome="formulario.xhtml"/>
+
+        <br/> <br/>
 
         <h:form id="formComite">
             <p:growl showDetail="true" showSummary="true"/>
-
-            <p:link value="Início" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar comitê" outcome="formulario.xhtml"/>
-
-            <br/> <br/>
 
             <p:dataTable value="#{comiteBean.comites}" var="comite">
                 <p:column headerText="Portaria">
