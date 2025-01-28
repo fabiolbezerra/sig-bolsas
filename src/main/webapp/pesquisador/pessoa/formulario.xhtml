@@ -20,7 +20,8 @@
             <p:growl autoUpdate="true" showDetail="true" showSummary="true"/>
 
 
-            <h:inputHidden value="#{pessoaBean.pessoa.id}"/>
+            <h:inputHidden value="#{pessoaBean.pessoa.id}" />
+            <h:inputHidden value="#{pessoaBean.pessoa.senha}" />
             <h:panelGrid columns="2">
                 <p:outputLabel value="Nome completo"/>
                 <p:inputText value="#{pessoaBean.pessoa.nomeCompleto}"/>
@@ -31,8 +32,16 @@
                 <p:outputLabel value="E-mail"/>
                 <p:inputText value="#{pessoaBean.pessoa.email}"/>
 
-                <p:outputLabel value="Senha"/>
-                <p:password value="#{pessoaBean.pessoa.senha}"/>
+                <p:outputLabel value="Senha" rendered="#{pessoaBean.pessoa.id == null}"/>
+                <p:password id="senha1"
+                            value="#{pessoaBean.pessoa.senha}"
+                            match="senha2"
+                            rendered="#{pessoaBean.pessoa.id == null}" />
+
+                <p:outputLabel value="Redigite a Senha" rendered="#{pessoaBean.pessoa.id == null}"/>
+                <p:password id="senha2"
+                            value="#{pessoaBean.senha}"
+                            rendered="#{pessoaBean.pessoa.id == null}" />
 
                 <p:outputLabel value="Data de nascimento"/>
                 <p:calendar pattern="dd/MM/yyyy" value="#{pessoaBean.pessoa.nascimento}"/>
