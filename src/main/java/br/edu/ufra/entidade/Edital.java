@@ -42,6 +42,9 @@ public class Edital {
     @Column(name = "situacao", nullable = false)
     private Character situacao;
 
+    @Column(name = "tipo", nullable = false)
+    private Character tipo;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "coordenador", nullable = false)
     private Pessoa coordenador;
@@ -120,6 +123,14 @@ public class Edital {
 
     public void setSituacao(Character situacao) {
         this.situacao = situacao;
+    }
+
+    public Character getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Character tipo) {
+        this.tipo = tipo;
     }
 
     public Pessoa getCoordenador() {

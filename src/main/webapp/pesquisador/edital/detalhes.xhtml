@@ -26,7 +26,10 @@
                 <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
 
                 <p:outputLabel value="Situação"/>
-                <p:outputLabel value="#{editalBean.edital.situacao}"/>
+                <p:outputLabel value="#{editalBean.obterSituacao(editalBean.edital.situacao)}"/>
+
+                <p:outputLabel value="Tipo"/>
+                <p:outputLabel value="#{editalBean.obterTipo(editalBean.edital.tipo)}"/>
 
                 <p:outputLabel value="Início das inscrições"/>
                 <p:outputLabel value="#{editalBean.edital.dataInicio}">

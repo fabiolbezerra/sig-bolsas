@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`edital` (
   `data_inicio` DATE NOT NULL,
   `data_final` DATE NOT NULL,
   `situacao` CHAR NOT NULL DEFAULT 'C' COMMENT 'Status do edital:\nC - Cadastrado\nP - Publicado\nN - Não publicado\nE - Encerrado',
+  `tipo` CHAR NOT NULL DEFAULT 'P' COMMENT 'P - Pesquisa / E - Extensão / D - Desenvolvimento Tecnológico',
   `coordenador` INT NOT NULL COMMENT 'Pessoa no papel de coordenador, que cadastrou o edital',
   `comite` INT NOT NULL,
   PRIMARY KEY (`id`),

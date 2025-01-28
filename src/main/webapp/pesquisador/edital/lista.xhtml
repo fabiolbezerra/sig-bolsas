@@ -48,6 +48,14 @@
                     </h:outputText>
                 </p:column>
 
+                <p:column headerText="Situação">
+                    <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}" />
+                </p:column>
+
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{editalBean.obterTipo(edital.tipo)}" />
+                </p:column>
+
                 <p:column headerText="Operações">
                     <p:commandLink value="Editar" action="formulario.xhtml">
                         <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>

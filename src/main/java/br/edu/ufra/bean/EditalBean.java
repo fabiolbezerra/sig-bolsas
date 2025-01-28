@@ -49,6 +49,25 @@ public class EditalBean implements Serializable {
         this.edital = edital;
     }
 
+    public String obterSituacao(Character situacao) {
+        switch (situacao) {
+            case 'C': return "Cadastrado";
+            case 'P': return "Publicado";
+            case 'N': return "Não publicado";
+            case 'E': return "Encerrado";
+            default: return "-";
+        }
+    }
+
+    public String obterTipo(Character tipo) {
+        switch (tipo) {
+            case 'P': return "Pesquisa";
+            case 'D': return "Desenvolvimento Tecnológico";
+            case 'E': return "Extensão";
+            default: return "-";
+        }
+    }
+
     public void salvar() {
         if (edital == null) {
             //Mensagem de erro: objeto nulo
