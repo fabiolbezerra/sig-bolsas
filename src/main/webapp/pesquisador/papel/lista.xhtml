@@ -18,6 +18,8 @@
 
         <h1>Papéis</h1>
 
+        <br/>
+
         <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/>
 
         <br/><br/>
@@ -25,8 +27,6 @@
         <h:form id="formPapel">
 
             <p:growl showDetail="true" showSummary="true"/>
-
-            <p:commandLink value="Voltar" action="/pesquisador/principal.xhtml"/> <br/><br/>
 
             <p:dataTable value="#{papelBean.papeis}" var="papel">
                 <p:column headerText="Nome">
@@ -43,9 +43,10 @@
                     </p:commandLink>
                 </p:column>
             </p:dataTable>
+
             <br/>
 
-            <p:link value="Voltar" outcome="/pesquisador/principal.xhtml"/>
+            <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/>
         </h:form>
 
     </ui:define>
