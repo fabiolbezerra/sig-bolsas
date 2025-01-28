@@ -4,6 +4,7 @@ import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.rn.ComiteRN;
 import br.edu.ufra.rn.EditalRN;
+import br.edu.ufra.util.UtilBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -71,11 +72,14 @@ public class EditalBean implements Serializable {
     public void salvar() {
         if (edital == null) {
             //Mensagem de erro: objeto nulo
+            UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
             if (EDITAL_RN.salvar(edital)) {
                 //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Edital gravado com sucesso");
             } else {
                 //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Problema ao gravar o edital");
             }
         }
     }

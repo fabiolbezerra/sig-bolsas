@@ -2,6 +2,7 @@ package br.edu.ufra.bean;
 
 import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.rn.ComiteRN;
+import br.edu.ufra.util.UtilBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -42,11 +43,14 @@ public class ComiteBean {
     public void salvar() {
         if (comite == null) {
             //Mensagem de erro: objeto nulo
+            UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
             if (RN.salvar(comite)) {
                 //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Comitê gravado com sucesso");
             } else {
                 //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Problema ao gravar o comitê");
             }
         }
     }
