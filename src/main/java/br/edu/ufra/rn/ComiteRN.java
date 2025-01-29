@@ -2,7 +2,6 @@ package br.edu.ufra.rn;
 
 import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.dao.ComiteDAO;
-import java.util.Date;
 import java.util.List;
 
 public class ComiteRN {
@@ -28,8 +27,8 @@ public class ComiteRN {
         return DAO.obter(Comite.class, id);
     }
 
-    public List<Comite> listarVigentes(Date dataIndicada) {
-        return DAO.listarVigentesEm(dataIndicada);
+    public List<Comite> obterVigentes() {
+        return DAO.obterVigentes();
     }
 
 }

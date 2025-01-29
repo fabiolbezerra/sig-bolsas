@@ -9,15 +9,16 @@ import java.util.List;
 
 public class ComiteDAO extends GenericDAO<Comite> {
 
-    public List<Comite> listarVigentesEm(Date dataIndicada) {
+    public List<Comite> obterVigentes() {
         EntityManager em = getEntityManager();
         String sql = "select c from Comite c "
-                + " where c.inicio <= :dataIndicada "
-                + " and c.fim >= :dataIndicada ";
+                + " where c.inicio <= :hoje "
+                + " and c.fim >= :hoje ";
         TypedQuery<Comite> query = em.createQuery(sql, Comite.class);
         List<Comite> resposta = null;
+        final Date HOJE = new Date();
         try {
-            resposta = query.setParameter("dataIndicada", dataIndicada).getResultList();
+            resposta = query.setParameter("hoje", HOJE).getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         } finally {
