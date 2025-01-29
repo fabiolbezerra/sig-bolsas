@@ -1,12 +1,12 @@
 package br.edu.ufra.rn;
 
-import br.edu.ufra.dao.GenericDAO;
 import br.edu.ufra.entidade.Comite;
-
+import br.edu.ufra.dao.ComiteDAO;
+import java.util.Date;
 import java.util.List;
 
 public class ComiteRN {
-    private final GenericDAO<Comite> DAO = new GenericDAO<>();
+   private final ComiteDAO DAO = new ComiteDAO();
 
     public boolean salvar(Comite Comite) {
         if (Comite == null) {
@@ -27,4 +27,9 @@ public class ComiteRN {
     public Comite obter(Integer id) {
         return DAO.obter(Comite.class, id);
     }
+
+    public List<Comite> listarVigentes(Date dataIndicada) {
+        return DAO.listarVigentesEm(dataIndicada);
+    }
+
 }
