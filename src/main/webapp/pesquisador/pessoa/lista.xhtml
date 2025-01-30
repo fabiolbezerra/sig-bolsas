@@ -57,6 +57,10 @@
                     <p:commandLink title="Alterar Senha" value="Senha" action="formulario-senha.xhtml">
                         <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
                     </p:commandLink>
+                    |
+                    <p:commandLink title="Alterar E-mail" value="E-mail" action="formulario-email.xhtml">
+                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                    </p:commandLink>
                 </p:column>
             </p:dataTable>
             <br/>
