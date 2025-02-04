@@ -1,12 +1,15 @@
 package br.edu.ufra.bean;
 
+import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.entidade.PessoaPapel;
 import br.edu.ufra.rn.PessoaRN;
 import br.edu.ufra.util.UtilBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
@@ -15,9 +18,12 @@ public class PessoaBean {
     private final PessoaRN RN = new PessoaRN();
 
     private Pessoa pessoa = new Pessoa();
+
     private String senha;
     private String novaSenha;
     private String novoEmail;
+
+    private List<Papel> papeis;
 
     private List<Pessoa> pessoas;
 
@@ -55,6 +61,14 @@ public class PessoaBean {
         this.novoEmail = novoEmail;
     }
 
+    public List<Papel> getPapeis() {
+        return papeis;
+    }
+
+    public void setPapeis(List<Papel> papeis) {
+        this.papeis = papeis;
+    }
+
     public List<Pessoa> getPessoas() {
         return pessoas;
     }
@@ -65,6 +79,12 @@ public class PessoaBean {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+        if (pessoa != null && pessoa.getPessoaPapels() != null)  {
+            papeis = new ArrayList<>();
+            for (PessoaPapel p: pessoa.getPessoaPapels()) {
+                papeis.add(p.getPapel());
+            }
+        }
     }
 
     public void salvar() {
@@ -108,9 +128,33 @@ public class PessoaBean {
             if (pessoa != null) {
                 //Mensagem de sucesso
                 UtilBean.criarMensagemDeInformacao("E-mail alterado com sucesso");
+                novoEmail = "";
             } else {
                 //Mensagem de erro: problemas ao salvar
                 UtilBean.criarMensagemDeErro("Problema ao alterar o e-mail");
+                pessoa = new Pessoa();
+            }
+        }
+    }
+
+    public void alterarPermissao() {
+        if (pessoa == null) {
+            //Mensagem de erro: objeto nulo
+            UtilBean.criarMensagemDeErro("Objeto nulo");
+        } else {
+            String emailLogado = UtilBean.obterUsuarioLogado().getEmail();
+            pessoa = RN.obter(pessoa.getId());
+
+            //atualizando a lista de papéis após atualiza a pessoa
+            setPessoa(RN.alterarPermissoes(emailLogado, senha, pessoa, papeis));
+
+            if (pessoa != null) {
+                //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Permissões alteradas com sucesso");
+                senha = "";
+            } else {
+                //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Problema ao alterar as permissões");
                 pessoa = new Pessoa();
             }
         }

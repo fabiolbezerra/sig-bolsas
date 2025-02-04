@@ -22,9 +22,7 @@
         <h:form id="formPessoa">
             <p:growl autoUpdate="true" showDetail="true" showSummary="true"/>
 
-<!--            <h:inputHidden value="#{pessoaBean.pessoa.email}"/>-->
-<!--            <h:inputHidden value="#{pessoaBean.pessoa.senha}"/>-->
-
+            <h:inputHidden value="#{pessoaBean.pessoa.id}"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="Nome completo"/>
                 <h:outputText value="#{pessoaBean.pessoa.nomeCompleto}"/>
@@ -42,20 +40,17 @@
             </h:panelGrid>
 
             <h:panelGrid columns="2">
-
-                <p:outputLabel value="E-mail Atual"/>
-                <p:inputText id="emailAtual"
-                            value="#{pessoaBean.pessoa.email}"/>
-
                 <h3 style="margin-top:15px">Papéis:</h3>
-                <p:selectManyCheckbox id="papels" value="#{checkboxView.selectedOptions}" widgetVar="blub">
-                    <p:ajax listener="#{checkboxView.selectedOptionsChanged}" />
-                    <f:selectItem itemLabel="Gerente" itemValue="Gerente"/>
-                    <f:selectItem itemLabel="Pesquisador" itemValue="Pesquisador"/>
-                    <f:selectItem itemLabel="Coordenador" itemValue="Coordenador"/>
-                    <f:selectItem itemLabel="Bolsista" itemValue="Bolsista"/>
-                    <f:selectItem itemLabel="Administrador" itemValue="Administrador"/>
+                <p:selectManyCheckbox value="#{pessoaBean.papeis}"
+                                      converter="papelConverter">
+                    <f:selectItems value="#{papelBean.papeis}"
+                                   var="papel"
+                                   itemLabel="#{papel.nome}"
+                                   itemValue="#{papel}"/>
                 </p:selectManyCheckbox>
+
+                <p:outputLabel value="Digite sua senha"/>
+                <p:password value="#{pessoaBean.senha}"/>
             </h:panelGrid>
 
             <p:button outcome="lista.xhtml" value="Cancelar"/>
