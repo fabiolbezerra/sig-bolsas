@@ -19,7 +19,8 @@
 
         <br/>
 
-        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Edital" outcome="formulario.xhtml"/>
+        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Edital"
+                                                                                  outcome="formulario.xhtml"/>
 
         <br/><br/>
 
@@ -51,21 +52,21 @@
                 </p:column>
 
                 <p:column headerText="Situação">
-                    <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}" />
+                    <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}"/>
                 </p:column>
 
                 <p:column headerText="Tipo">
-                    <h:outputText value="#{editalBean.obterTipo(edital.tipo)}" />
+                    <h:outputText value="#{editalBean.obterTipo(edital.tipo)}"/>
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:commandLink value="Editar" action="formulario.xhtml">
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
                         <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
-                    </p:commandLink>
-                    |
-                    <p:commandLink value="Detalhes" action="detalhes.xhtml">
-                        <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
-                    </p:commandLink>
+
+                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
+                            <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+                        </p:menuitem>
+                    </p:splitButton>
                 </p:column>
             </p:dataTable>
 
