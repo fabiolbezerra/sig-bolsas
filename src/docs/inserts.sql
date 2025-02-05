@@ -62,3 +62,21 @@ insert into edital
     values
     (1, 'Bolsas de Iniciação Científica', 2024, 1, '???', '2024-01-15', '2024-01-31', '2024-02-28', 'C', 'E', 3, 1),
     (2, 'Bolsas de Iniciação Científica/Tecnológica', 2025, 1, '???', '2025-01-15', '2025-01-31', '2025-02-28', 'C', 'P', 3, 2);
+
+-- inscrições
+insert into inscricao
+    (id, data_inscricao, protocolo, edital, pessoa)
+    values
+    (1, '2024-20-01', '202400100001', 1, 1),
+    (2, '2024-21-01', '202400100002', 1, 3),
+    (3, '2025-20-01', '202500100001', 2, 5),
+    (4, '2025-20-01', '202500100002', 2, 7);
+
+-- planos de trabalho
+insert into plano_de_trabalho
+    (id, data_cadastro, titulo, resumo, edital, pessoa)
+    values
+    (1, '2024-20-01', 'Plano 001', 'Resumo 001', 1, 1),
+    (1, '2024-20-01', 'Plano 002', 'Resumo 002', 1, 3),
+    (1, '2025-20-01', 'Plano 003', 'Resumo 003', 2, 5),
+    (1, '2025-20-01', 'Plano 004', 'Resumo 004', 2, 7);

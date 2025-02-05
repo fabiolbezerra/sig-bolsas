@@ -153,6 +153,61 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`comite_pessoa` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`inscricao`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`inscricao` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`inscricao` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `data_inscricao` DATETIME NOT NULL,
+  `protocolo` VARCHAR(15) NULL COMMENT 'Número de protocolo da inscrição. Formato:\n- Edital (ano + numero)\n- Sequencial (4 números)',
+  `edital` INT NOT NULL,
+  `pessoa` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_inscricao_edital1_idx` (`edital` ASC),
+  INDEX `fk_inscricao_pessoa1_idx` (`pessoa` ASC),
+  CONSTRAINT `fk_inscricao_edital1`
+    FOREIGN KEY (`edital`)
+    REFERENCES `sig_bolsas_bd`.`edital` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_inscricao_pessoa1`
+    FOREIGN KEY (`pessoa`)
+    REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`plano_de_trabalho`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`plano_de_trabalho` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`plano_de_trabalho` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `data_cadastro` DATETIME NOT NULL,
+  `titulo` VARCHAR(100) NOT NULL,
+  `resumo` TEXT NULL,
+  `edital` INT NOT NULL,
+  `pessoa` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_plano_de_trabalho_edital1_idx` (`edital` ASC),
+  INDEX `fk_plano_de_trabalho_pessoa1_idx` (`pessoa` ASC),
+  CONSTRAINT `fk_plano_de_trabalho_edital1`
+    FOREIGN KEY (`edital`)
+    REFERENCES `sig_bolsas_bd`.`edital` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_plano_de_trabalho_pessoa1`
+    FOREIGN KEY (`pessoa`)
+    REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
