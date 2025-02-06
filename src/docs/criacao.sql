@@ -15,7 +15,7 @@ DROP SCHEMA IF EXISTS `sig_bolsas_bd` ;
 --
 -- Banco de dados do Sistema de Gestão de Bolsistas
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `sig_bolsas_bd` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
+CREATE SCHEMA IF NOT EXISTS `sig_bolsas_bd` DEFAULT CHARACTER SET utf8 ;
 USE `sig_bolsas_bd` ;
 
 -- -----------------------------------------------------
