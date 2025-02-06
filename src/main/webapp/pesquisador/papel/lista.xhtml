@@ -38,9 +38,9 @@
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:commandLink value="Detalhes" action="detalhes.xhtml">
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
                         <f:setPropertyActionListener value="#{papel}" target="#{papelBean.papel}"/>
-                    </p:commandLink>
+                    </p:splitButton>
                 </p:column>
             </p:dataTable>
 

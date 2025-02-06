@@ -19,7 +19,8 @@
 
         <br/>
 
-        <p:link value="Início" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Comitê" outcome="formulario.xhtml"/>
+        <p:link value="Início" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Comitê"
+                                                                                  outcome="formulario.xhtml"/>
 
         <br/> <br/>
 
@@ -48,13 +49,13 @@
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:commandLink value="Editar" action="formulario.xhtml">
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
                         <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-                    </p:commandLink>
-                    |
-                    <p:commandLink value="Detalhes" action="detalhes.xhtml">
-                        <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-                    </p:commandLink>
+
+                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
+                            <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+                        </p:menuitem>
+                    </p:splitButton>
                 </p:column>
             </p:dataTable>
 

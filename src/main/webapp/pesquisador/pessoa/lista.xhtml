@@ -19,7 +19,8 @@
 
         <br/>
 
-        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Pessoa" outcome="formulario.xhtml"/>
+        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Pessoa"
+                                                                                  outcome="formulario.xhtml"/>
 
         <br/><br/>
 
@@ -46,27 +47,27 @@
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:commandLink value="Editar" action="formulario.xhtml">
+
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
                         <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-                    </p:commandLink>
-                    |
-                    <p:commandLink value="Detalhes" action="detalhes.xhtml">
-                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-                    </p:commandLink>
-                    |
-                    <p:commandLink title="Alterar Senha" value="Senha" action="formulario-senha.xhtml">
-                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-                    </p:commandLink>
-                    |
-                    <p:commandLink title="Alterar E-mail" value="E-mail" action="formulario-email.xhtml">
-                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-                    </p:commandLink>
-                    |
-                    <p:commandLink title="Alterar os papéis (permissões)"
-                                   value="Permissão"
-                                   action="formulario-papel.xhtml">
-                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-                    </p:commandLink>
+
+                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
+                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                        </p:menuitem>
+
+                        <p:menuitem value="Senha" action="formulario-senha.xhtml" icon="fa fa-unlock-alt" aria-hidden="true">
+                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                        </p:menuitem>
+
+                        <p:menuitem value="E-mail" action="formulario-email.xhtml" icon="fa fa-envelope" aria-hidden="true">
+                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                        </p:menuitem>
+                        <p:menuitem title="Alterar os papéis (permissões)"
+                                    value="Permissão"
+                                    action="formulario-papel.xhtml" icon="fa fa-check-circle" aria-hidden="true">
+                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                        </p:menuitem>
+                    </p:splitButton>
                 </p:column>
             </p:dataTable>
             <br/>
