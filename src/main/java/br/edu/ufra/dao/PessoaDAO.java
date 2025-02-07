@@ -119,4 +119,23 @@ public class PessoaDAO extends GenericDAO<Pessoa> {
             em.close();
         }
     }
+
+    public List<Pessoa> buscarPessoa(String termoPesquisa, String campoTabela) {
+        EntityManager em = getEntityManager();
+        String sql = "select p from Pessoa p "
+                + " where p." + campoTabela
+                + " like '%" + termoPesquisa + "%'";
+        TypedQuery<Pessoa> query = em.createQuery(sql, Pessoa.class);
+
+        List<Pessoa> resposta = null;
+        try {
+            resposta = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } finally {
+            em.close();
+        }
+        return resposta;
+    }
+
 }

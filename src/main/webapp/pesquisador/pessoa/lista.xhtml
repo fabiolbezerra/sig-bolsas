@@ -27,8 +27,41 @@
         <h:form id="formPessoa">
             <p:growl showDetail="true" showSummary="true"/>
 
-            <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa">
-                <p:column headerText="Nome Completo">
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:inputText placeholder="Chave de busca..."
+                                 size="30" value="#{pessoaBean.termoPesquisa}"/>
+                    <span class="ui-separator">
+	                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+	            </span>
+                    <p:commandButton value="Buscar" icon="fa fa-search"
+                                     actionListener="#{pessoaBean.buscarPessoa()}" update="pessoasDataTable"/>
+
+                    <span class="ui-separator">
+	                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+	            </span>
+                    <p:outputLabel value=" "/>
+                    <p:selectOneMenu value="#{pessoaBean.campoTabela}">
+                        <f:selectItem itemValue="nomeCompleto" itemLabel="Nome Completo"/>
+                        <f:selectItem itemValue="telefone" itemLabel="Telefone"/>
+                        <f:selectItem itemValue="email" itemLabel="E-mail"/>
+                        <f:selectItem itemValue="nascimento" itemLabel="Data de Nascimento"/>
+                    </p:selectOneMenu>
+                    <span class="ui-separator">
+	                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+	            </span>
+
+
+                </f:facet>
+            </p:toolbar>
+
+            <p:spacer height="20px" />
+
+
+            <p:dataTable id="pessoasDataTable" value="#{pessoaBean.pessoas}" var="pessoa"
+                         emptyMessage="Nenhuma informação a ser exibida"
+                         paginator="true" rows="10" paginatorPosition="bottom">
+            <p:column headerText="Nome Completo">
                     <h:outputText value="#{pessoa.nomeCompleto}"/>
                 </p:column>
 

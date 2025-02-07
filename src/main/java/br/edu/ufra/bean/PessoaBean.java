@@ -22,7 +22,8 @@ public class PessoaBean {
     private String senha;
     private String novaSenha;
     private String novoEmail;
-
+    private String termoPesquisa;
+    private String campoTabela;
     private List<Papel> papeis;
 
     private List<Pessoa> pessoas;
@@ -34,7 +35,7 @@ public class PessoaBean {
     @PostConstruct
     public void init() {
         System.out.println("Inicializando PessoaBean ...");
-        pessoas = RN.listarTodas();
+        pessoas = RN.buscarPessoa("", "nomeCompleto");
     }
 
     public String getSenha() {
@@ -59,6 +60,22 @@ public class PessoaBean {
 
     public void setNovoEmail(String novoEmail) {
         this.novoEmail = novoEmail;
+    }
+
+    public String getTermoPesquisa() {
+        return termoPesquisa;
+    }
+
+    public void setTermoPesquisa(String termoPesquisa) {
+        this.termoPesquisa = termoPesquisa;
+    }
+
+    public String getCampoTabela() {
+        return campoTabela;
+    }
+
+    public void setCampoTabela(String campoTabela) {
+        this.campoTabela = campoTabela;
     }
 
     public List<Papel> getPapeis() {
@@ -158,5 +175,9 @@ public class PessoaBean {
                 pessoa = new Pessoa();
             }
         }
+    }
+
+    public List<Pessoa> buscarPessoa(){
+        return pessoas = RN.buscarPessoa(termoPesquisa, campoTabela);
     }
 }

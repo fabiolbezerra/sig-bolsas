@@ -83,4 +83,8 @@ public class PessoaRN {
         return DAO.login(email, senhaCripto);
     }
 
+    public List<Pessoa> buscarPessoa(String termoPesquisa, String campoTabela){
+        return DAO.buscarPessoa(termoPesquisa, campoTabela);
+    }
+
 }
