@@ -74,9 +74,11 @@ insert into inscricao
 
 -- planos de trabalho
 insert into plano_de_trabalho
-    (id, data_cadastro, titulo, resumo, edital, pessoa)
+    (id, data_cadastro, titulo, resumo, inscricao)
     values
-    (1, '2024-01-20', 'Plano 001', 'Resumo 001', 1, 1),
-    (2, '2024-01-21', 'Plano 002', 'Resumo 002', 1, 3),
-    (3, '2025-01-20', 'Plano 003', 'Resumo 003', 2, 5),
-    (4, '2025-01-21', 'Plano 004', 'Resumo 004', 2, 7);
+    (1, '2024-01-20', 'Plano 001', 'Resumo 001', 1),
+    (2, '2024-01-21', 'Plano 002', 'Resumo 002', 2),
+    (3, '2025-01-20', 'Plano 003', 'Resumo 003', 3),
+    (4, '2025-01-21', 'Plano 004', 'Resumo 004', 4),
+    (5, '2025-01-20', 'Plano 005', 'Resumo 005', 3),
+    (6, '2025-01-21', 'Plano 006', 'Resumo 006', 4);

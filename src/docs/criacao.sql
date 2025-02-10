@@ -190,19 +190,12 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`plano_de_trabalho` (
   `data_cadastro` DATETIME NOT NULL,
   `titulo` VARCHAR(100) NOT NULL,
   `resumo` TEXT NULL,
-  `edital` INT NOT NULL,
-  `pessoa` INT NOT NULL,
+  `inscricao` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_plano_de_trabalho_edital1_idx` (`edital` ASC),
-  INDEX `fk_plano_de_trabalho_pessoa1_idx` (`pessoa` ASC),
-  CONSTRAINT `fk_plano_de_trabalho_edital1`
-    FOREIGN KEY (`edital`)
-    REFERENCES `sig_bolsas_bd`.`edital` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_plano_de_trabalho_pessoa1`
-    FOREIGN KEY (`pessoa`)
-    REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
+  INDEX `fk_plano_de_trabalho_inscricao1_idx` (`inscricao` ASC),
+  CONSTRAINT `fk_plano_de_trabalho_inscricao1`
+    FOREIGN KEY (`inscricao`)
+    REFERENCES `sig_bolsas_bd`.`inscricao` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
