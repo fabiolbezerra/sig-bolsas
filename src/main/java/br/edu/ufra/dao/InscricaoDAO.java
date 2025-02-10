@@ -1,10 +1,12 @@
 package br.edu.ufra.dao;
 
+import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.entidade.Inscricao;
 import br.edu.ufra.entidade.Pessoa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 
 public class InscricaoDAO extends GenericDAO<Inscricao> {
@@ -19,6 +21,48 @@ public class InscricaoDAO extends GenericDAO<Inscricao> {
         try {
             resposta = query
                     .setParameter("pessoa", pessoa)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } finally {
+            em.close();
+        }
+
+        return resposta;
+    }
+
+    public List<Inscricao> obter(Edital edital) {
+        EntityManager em = getEntityManager();
+
+        final String SQL = "select i from Inscricao i where i.edital = :edital ";
+        TypedQuery<Inscricao> query = em.createQuery(SQL, Inscricao.class);
+
+        List<Inscricao> resposta = null;
+        try {
+            resposta = query
+                    .setParameter("edital", edital)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } finally {
+            em.close();
+        }
+
+        return resposta;
+    }
+
+    public List<Inscricao> obter(Edital edital, Date inicio, Date fim) {
+        EntityManager em = getEntityManager();
+
+        final String SQL = "select i from Inscricao i where i.edital = :edital and i.dataInscricao >= :inicio and i.dataInscricao <= :fim";
+        TypedQuery<Inscricao> query = em.createQuery(SQL, Inscricao.class);
+
+        List<Inscricao> resposta = null;
+        try {
+            resposta = query
+                    .setParameter("edital", edital)
+                    .setParameter("inicio", inicio)
+                    .setParameter("fim", fim)
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.err);

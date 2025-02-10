@@ -2,10 +2,13 @@ package br.edu.ufra.entidade;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "plano_de_trabalho")
-//TODO: named query?
+@NamedQueries({
+        @NamedQuery(name = "PlanoDeTrabalho.findAll", query = "SELECT pt FROM PlanoDeTrabalho pt"),
+        @NamedQuery(name = "PlanoDeTrabalho.findById", query = "SELECT pt FROM PlanoDeTrabalho pt WHERE pt.id = :id")})
 public class PlanoDeTrabalho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,5 +69,15 @@ public class PlanoDeTrabalho {
         this.inscricao = inscricao;
     }
 
-    //TODO: equals e hashCode?
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        PlanoDeTrabalho that = (PlanoDeTrabalho) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

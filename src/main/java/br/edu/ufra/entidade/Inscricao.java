@@ -2,12 +2,16 @@ package br.edu.ufra.entidade;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "inscricao")
-//TODO: named query?
+@NamedQueries({
+        @NamedQuery(name = "Inscricao.findAll", query = "SELECT i FROM Inscricao i"),
+        @NamedQuery(name = "Inscricao.findById", query = "SELECT i FROM Inscricao i WHERE i.id = :id")})
 public class Inscricao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +19,8 @@ public class Inscricao {
     private Integer id;
 
     @Column(name = "data_inscricao", nullable = false)
-    private Instant dataInscricao;
+    @Temporal(TemporalType.DATE)
+    private Date dataInscricao;
 
     @Column(name = "protocolo", length = 15)
     private String protocolo;
@@ -39,11 +44,11 @@ public class Inscricao {
         this.id = id;
     }
 
-    public Instant getDataInscricao() {
+    public Date getDataInscricao() {
         return dataInscricao;
     }
 
-    public void setDataInscricao(Instant dataInscricao) {
+    public void setDataInscricao(Date dataInscricao) {
         this.dataInscricao = dataInscricao;
     }
 
@@ -79,6 +84,15 @@ public class Inscricao {
         this.planoDeTrabalhos = planoDeTrabalhos;
     }
 
-    //TODO: equals e hashCode?
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Inscricao inscricao = (Inscricao) o;
+        return Objects.equals(id, inscricao.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
