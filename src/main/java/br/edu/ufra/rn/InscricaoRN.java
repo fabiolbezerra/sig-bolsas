@@ -12,10 +12,14 @@ public class InscricaoRN {
     private final static InscricaoDAO DAO = new InscricaoDAO();
 
     public boolean salvar(Inscricao inscricao) {
-        if (inscricao.getId() == null) {
+        if (inscricao == null){
             return false;
         } else {
-            return DAO.criar(inscricao);
+            if (inscricao.getId() == null || inscricao.getId() == 0) {
+                return DAO.criar(inscricao);
+            } else {
+                return DAO.alterar(inscricao);
+            }
         }
     }
 
@@ -23,7 +27,7 @@ public class InscricaoRN {
         return DAO.obterTodos(Inscricao.class);
     }
 
-    public Inscricao obterPorId(Integer id) {
+    public Inscricao obter(Integer id) {
         if (id == null) {
             return null;
         } else {
@@ -46,16 +50,7 @@ public class InscricaoRN {
             novaInscricao.setPessoa(pesquisador);
             novaInscricao.setDataInscricao(new Date());
             novaInscricao.setProtocolo("TODO");
-            return DAO.criar(novaInscricao);
-        }
-    }
-
-    // Caso necessário:
-    public boolean cancelarInscricao (Inscricao inscricao) {
-        if (inscricao == null || inscricao.getId() == null) {
-            return false;
-        } else {
-            return DAO.excluir(inscricao);
+            return salvar(novaInscricao);
         }
     }
 
@@ -78,8 +73,7 @@ public class InscricaoRN {
     public List<Inscricao> obterPorEdital (Edital edital, Date inicio, Date fim){
         if (edital == null || inicio == null || fim == null) {
             return null;
-        }
-        else {
+        } else {
            return obterPorEdital(edital, inicio, fim);
         }
     }
