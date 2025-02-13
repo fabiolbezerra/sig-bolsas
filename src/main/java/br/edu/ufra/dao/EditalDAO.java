@@ -12,14 +12,14 @@ public class EditalDAO extends GenericDAO<Edital> {
     public List<Edital> obterVigentes() {
 
         EntityManager em = getEntityManager();
-        String sql = "select e from Edital e where e.dataInicio >= :hoje and e.dataFinal <= :hoje ";
+        String sql = "select e from Edital e where e.dataInicio <= :hoje and e.dataFinal >= :hoje ";
         TypedQuery<Edital> query = em.createQuery(sql, Edital.class);
 
-        Date hoje = new Date();
+        final Date HOJE = new Date();
         List<Edital> resposta = null;
         try {
             resposta = query
-                    .setParameter("hoje", hoje)
+                    .setParameter("hoje", HOJE)
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -29,17 +29,17 @@ public class EditalDAO extends GenericDAO<Edital> {
         return resposta;
     }
 
-    public List<Edital> obterVigentesPosterior() {
+    public List<Edital> obterNaoVigentes() {
 
         EntityManager em = getEntityManager();
-        String sql = "select e from Edital e where e.dataInicio >= :hoje";
+        String sql = "select e from Edital e where e.dataInicio > :hoje or e.dataFinal < :hoje ";
         TypedQuery<Edital> query = em.createQuery(sql, Edital.class);
 
-        Date hoje = new Date();
+        final Date HOJE = new Date();
         List<Edital> resposta = null;
         try {
             resposta = query
-                    .setParameter("hoje", hoje)
+                    .setParameter("hoje", HOJE)
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -48,24 +48,5 @@ public class EditalDAO extends GenericDAO<Edital> {
         }
         return resposta;
     }
-
-    public List<Edital> obterVigentesAnterior() {
-        EntityManager em = getEntityManager();
-        String sql = "select e from Edital e where e.dataFinal <= :hoje ";
-        TypedQuery<Edital> query = em.createQuery(sql, Edital.class);
-        Date hoje = new Date();
-        List<Edital> resposta = null;
-        try {
-            resposta = query
-                    .setParameter("hoje", hoje)
-                    .getResultList();
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        } finally {
-            em.close();
-        }
-        return resposta;
-    }
-
 
 }

@@ -25,7 +25,7 @@ public class ComiteBean {
     @PostConstruct
     public void init() {
         System.out.println("Inicializando ComiteBean ...");
-        comites = RN.listarTodas();
+        comites = RN.listarTodos();
     }
 
     public List<Comite> getComites() {

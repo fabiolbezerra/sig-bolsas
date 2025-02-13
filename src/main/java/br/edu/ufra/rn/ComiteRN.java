@@ -19,7 +19,7 @@ public class ComiteRN {
         }
     }
 
-    public List<Comite> listarTodas() {
+    public List<Comite> listarTodos() {
         return DAO.obterTodos(Comite.class);
     }
 

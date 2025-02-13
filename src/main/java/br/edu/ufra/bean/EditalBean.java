@@ -1,8 +1,6 @@
 package br.edu.ufra.bean;
 
-import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.entidade.Edital;
-import br.edu.ufra.rn.ComiteRN;
 import br.edu.ufra.rn.EditalRN;
 import br.edu.ufra.util.UtilBean;
 
@@ -10,22 +8,17 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import java.io.Serializable;
-import java.util.Locale;
 import java.util.List;
 
 @ManagedBean
 @RequestScoped
 public class EditalBean implements Serializable {
     private final EditalRN EDITAL_RN = new EditalRN();
-    private final ComiteRN COMITE_RN = new ComiteRN();
 
     private Edital edital = new Edital();
 
     private List<Edital> editais;
-    private List<Comite> comites;
 
-    private List<Edital> filteredEditais;
-    private boolean globalFilterOnly;
 
     public EditalBean() {
         System.out.println("Criando EditalBean ...");
@@ -33,18 +26,16 @@ public class EditalBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        globalFilterOnly = false;
         System.out.println("Inicializando EditalBean ...");
-        editais = EDITAL_RN.listarTodas();
-        comites = COMITE_RN.listarTodas();
+        editais = EDITAL_RN.listarTodos();
     }
 
     public List<Edital> getEditais() {
         return editais;
     }
 
-    public List<Comite> getComites() {
-        return comites;
+    public List<Edital> getEditaisAbertos() {
+        return EDITAL_RN.obterVigentes();
     }
 
     public Edital getEdital() {
