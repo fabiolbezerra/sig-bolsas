@@ -5,8 +5,10 @@ import br.edu.ufra.util.UtilTexto;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
-public class CpfConverter implements Converter {
+@FacesConverter(value = "cpfCnpfConverter")
+public class CpfCnpfConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String string) {
         if (string == null || string.trim().equals("") || !UtilTexto.isCPFouCNPJ(string)) {
@@ -21,7 +23,7 @@ public class CpfConverter implements Converter {
         if (object == null || !(object instanceof String)) {
             return null;
         } else {
-            return UtilTexto.formatarCpfouCnpj((String) object);
+            return UtilTexto.formatarCpfouCnpj(object.toString());
         }
     }
 }

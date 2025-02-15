@@ -141,7 +141,6 @@ public class UtilTexto {
     public static boolean isEmail(final String enderecoEmail) {
         final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        ;
         Matcher matcher = pattern.matcher(enderecoEmail);
         return matcher.matches();
     }

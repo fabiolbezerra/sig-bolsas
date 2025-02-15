@@ -20,28 +20,32 @@
             <p:growl showDetail="true" showSummary="true"/>
 
 
-            <h:inputHidden value="#{pessoaBean.pessoa.id}" />
-            <h:inputHidden value="#{pessoaBean.pessoa.senha}" />
+            <h:inputHidden value="#{pessoaBean.pessoa.id}"/>
+            <h:inputHidden value="#{pessoaBean.pessoa.senha}"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="Nome completo"/>
-                <p:inputText id="nomeCompleto" value="#{pessoaBean.pessoa.nomeCompleto}" validator="nomeCompletoValidator" />
+                <p:inputText value="#{pessoaBean.pessoa.nomeCompleto}"
+                             validator="nomeCompletoValidator"/>
 
                 <p:outputLabel value="Telefone"/>
-                <p:inputMask mask="99999999999" value="#{pessoaBean.pessoa.telefone}"/>
+                <p:inputMask mask="(99) 99999-9999"
+                             value="#{pessoaBean.pessoa.telefone}"
+                             converter="telefoneConverter"/>
 
                 <p:outputLabel value="E-mail"/>
-                <p:inputText value="#{pessoaBean.pessoa.email}"/>
+                <p:inputText value="#{pessoaBean.pessoa.email}"
+                             validator="emailValidator" />
 
                 <p:outputLabel value="Senha" rendered="#{pessoaBean.pessoa.id == null}"/>
                 <p:password id="senha1"
                             value="#{pessoaBean.pessoa.senha}"
                             match="senha2"
-                            rendered="#{pessoaBean.pessoa.id == null}" />
+                            rendered="#{pessoaBean.pessoa.id == null}"/>
 
                 <p:outputLabel value="Redigite a Senha" rendered="#{pessoaBean.pessoa.id == null}"/>
                 <p:password id="senha2"
                             value="#{pessoaBean.senha}"
-                            rendered="#{pessoaBean.pessoa.id == null}" />
+                            rendered="#{pessoaBean.pessoa.id == null}"/>
 
                 <p:outputLabel value="Data de nascimento"/>
                 <p:calendar pattern="dd/MM/yyyy" value="#{pessoaBean.pessoa.nascimento}"/>

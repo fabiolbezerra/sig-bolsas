@@ -19,8 +19,8 @@
 
         <br/>
 
-        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Pessoa"
-                                                                                  outcome="formulario.xhtml"/>
+        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> |
+        <p:link value="Nova pessoa" outcome="formulario.xhtml"/>
 
         <br/><br/>
 
@@ -66,7 +66,7 @@
                 </p:column>
 
                 <p:column headerText="Telefone">
-                    <h:outputText value="#{pessoa.telefone}"/>
+                    <h:outputText value="#{pessoa.telefone}" converter="telefoneConverter"/>
                 </p:column>
 
                 <p:column headerText="E-mail">
