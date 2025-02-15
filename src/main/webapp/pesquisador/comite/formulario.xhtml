@@ -18,7 +18,7 @@
         <h1>Comitê</h1>
 
         <h:form id="formComite">
-            <p:growl autoUpdate="true" showDetail="true" showSummary="true"/>
+            <p:growl showDetail="true" showSummary="true"/>
 
             <h:inputHidden value="#{comiteBean.comite.id}"/>
             <h:panelGrid columns="2">
@@ -40,7 +40,7 @@
             </h:panelGrid>
 
             <p:button outcome="lista.xhtml" value="Cancelar"/>
-            <p:commandButton value="Salvar" action="#{comiteBean.salvar()}"/>
+            <p:commandButton value="Salvar" action="#{comiteBean.salvar()}" update="@form"/>
         </h:form>
     </ui:define>
 </ui:composition>

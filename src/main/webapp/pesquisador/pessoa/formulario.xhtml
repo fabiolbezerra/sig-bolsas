@@ -17,14 +17,14 @@
     <ui:define name="content">
         <h1>Pessoa</h1>
         <h:form id="formPessoa">
-            <p:growl autoUpdate="true" showDetail="true" showSummary="true"/>
+            <p:growl showDetail="true" showSummary="true"/>
 
 
             <h:inputHidden value="#{pessoaBean.pessoa.id}" />
             <h:inputHidden value="#{pessoaBean.pessoa.senha}" />
             <h:panelGrid columns="2">
                 <p:outputLabel value="Nome completo"/>
-                <p:inputText value="#{pessoaBean.pessoa.nomeCompleto}"/>
+                <p:inputText id="nomeCompleto" value="#{pessoaBean.pessoa.nomeCompleto}" validator="nomeCompletoValidator" />
 
                 <p:outputLabel value="Telefone"/>
                 <p:inputMask mask="99999999999" value="#{pessoaBean.pessoa.telefone}"/>
@@ -48,7 +48,7 @@
             </h:panelGrid>
 
             <p:button outcome="lista.xhtml" value="Cancelar"/>
-            <p:commandButton value="Salvar" action="#{pessoaBean.salvar()}"/>
+            <p:commandButton value="Salvar" action="#{pessoaBean.salvar()}" update="@form"/>
         </h:form>
     </ui:define>
 </ui:composition>

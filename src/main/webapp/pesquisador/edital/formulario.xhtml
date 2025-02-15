@@ -18,7 +18,7 @@
         <h1>Edital</h1>
 
         <h:form id="formEdital">
-            <p:growl autoUpdate="true" showDetail="true" showSummary="true"/>
+            <p:growl showDetail="true" showSummary="true"/>
 
             <h:inputHidden value="#{editalBean.edital.id}"/>
             <h:panelGrid columns="2">
@@ -67,7 +67,7 @@
             </h:panelGrid>
 
             <p:button outcome="lista.xhtml" value="Cancelar"/>
-            <p:commandButton value="Salvar" action="#{editalBean.salvar()}"/>
+            <p:commandButton value="Salvar" action="#{editalBean.salvar()}" update="@form"/>
         </h:form>
     </ui:define>
 </ui:composition>
