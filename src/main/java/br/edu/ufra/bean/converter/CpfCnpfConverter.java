@@ -11,7 +11,7 @@ import javax.faces.convert.FacesConverter;
 public class CpfCnpfConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String string) {
-        if (string == null || string.trim().equals("") || !UtilTexto.isCPFouCNPJ(string)) {
+        if (string == null || string.trim().equals("")) {
             return null;
         } else {
             return UtilTexto.removeSimbolosPontuacoes(string);

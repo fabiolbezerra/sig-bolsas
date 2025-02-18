@@ -19,6 +19,20 @@ CREATE SCHEMA IF NOT EXISTS `sig_bolsas_bd` DEFAULT CHARACTER SET utf8 ;
 USE `sig_bolsas_bd` ;
 
 -- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`unidade_administrativa`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`unidade_administrativa` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`unidade_administrativa` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(50) NOT NULL,
+  `sigla` VARCHAR(20) NOT NULL,
+  `tipo` CHAR NOT NULL DEFAULT 'I' COMMENT 'I - Instituto\nC - Campus',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `sig_bolsas_bd`.`pessoa`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sig_bolsas_bd`.`pessoa` ;
@@ -30,8 +44,15 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`pessoa` (
   `telefone` VARCHAR(11) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   `senha` VARCHAR(100) NOT NULL DEFAULT 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb',
+  `unidade_administrativa` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  INDEX `fk_pessoa_unidade_administrativa1_idx` (`unidade_administrativa` ASC),
+  CONSTRAINT `fk_pessoa_unidade_administrativa1`
+    FOREIGN KEY (`unidade_administrativa`)
+    REFERENCES `sig_bolsas_bd`.`unidade_administrativa` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
