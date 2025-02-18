@@ -25,7 +25,7 @@
                 <f:convertDateTime pattern="dd/MM/yyyy"/>
             </h:outputText>
             a
-            <h:outputText value="#{comiteBean.comite.inicio}">
+            <h:outputText value="#{comiteBean.comite.fim}">
                 <f:convertDateTime pattern="dd/MM/yyyy"/>
             </h:outputText>
 
@@ -47,7 +47,11 @@
 
             <br/>
 
-            <p:commandLink value="Voltar" action="lista.xhtml"/>
+            <p:commandLink value="Voltar" action="lista.xhtml">
+                <f:param name="lista" value="#{comiteBean.todos}"/>
+            </p:commandLink>
         </h:form>
+            <f:param name="lista" value="#{comiteBean.todos}"/>
+
     </ui:define>
 </ui:composition>
