@@ -44,6 +44,29 @@ public class Pessoa {
     @OneToMany(mappedBy = "pessoa")
     private Set<PessoaPapel> pessoaPapels = new LinkedHashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "unidade_administrativa", nullable = false)
+    private UnidadeAdministrativa unidadeAdministrativa;
+
+    @OneToMany(mappedBy = "pessoa")
+    private Set<Inscricao> inscricaos = new LinkedHashSet<>();
+
+    public Set<Inscricao> getInscricaos() {
+        return inscricaos;
+    }
+
+    public void setInscricaos(Set<Inscricao> inscricaos) {
+        this.inscricaos = inscricaos;
+    }
+
+    public UnidadeAdministrativa getUnidadeAdministrativa() {
+        return unidadeAdministrativa;
+    }
+
+    public void setUnidadeAdministrativa(UnidadeAdministrativa unidadeAdministrativa) {
+        this.unidadeAdministrativa = unidadeAdministrativa;
+    }
+
     public Integer getId() {
         return id;
     }
