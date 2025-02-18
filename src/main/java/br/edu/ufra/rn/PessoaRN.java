@@ -3,13 +3,11 @@ package br.edu.ufra.rn;
 import br.edu.ufra.dao.PessoaDAO;
 import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.Pessoa;
-import br.edu.ufra.entidade.PessoaPapel;
 import br.edu.ufra.util.UtilTexto;
-
 import java.util.List;
 
 public class PessoaRN {
-    private final PessoaDAO DAO = new PessoaDAO();
+    public static final PessoaDAO DAO = new PessoaDAO();
 
     public boolean salvar(Pessoa pessoa) {
         if (pessoa == null) {
@@ -83,8 +81,20 @@ public class PessoaRN {
         return DAO.login(email, senhaCripto);
     }
 
-    public List<Pessoa> buscarPessoa(String termoPesquisa, String campoTabela){
-        return DAO.buscarPessoa(termoPesquisa, campoTabela);
+    public static List<Pessoa> obter(String pista, char criterio){
+        if (pista == null){
+            return null;
+        } else {
+            switch (criterio){
+                case 'N':
+                    return DAO.obterPorNome(pista);
+                case 'E':
+                    return DAO.obterEmail(pista);
+                case 'D':
+                    return DAO.obterPorDataDeNascimento(pista);
+                    default:
+                        return DAO.obterPorNome(pista);
+            }
+        }
     }
-
 }

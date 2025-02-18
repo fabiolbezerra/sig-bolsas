@@ -27,41 +27,32 @@
         <h:form id="formPessoa">
             <p:growl showDetail="true" showSummary="true"/>
 
-            <p:toolbar>
-                <f:facet name="left">
-                    <p:inputText placeholder="Chave de busca..."
-                                 size="30" value="#{pessoaBean.termoPesquisa}"/>
-                    <span class="ui-separator">
-	                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-	            </span>
-                    <p:commandButton value="Buscar" icon="fa fa-search"
-                                     actionListener="#{pessoaBean.buscarPessoa()}" update="pessoasDataTable"/>
-
-                    <span class="ui-separator">
-	                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-	            </span>
-                    <p:outputLabel value=" "/>
-                    <p:selectOneMenu value="#{pessoaBean.campoTabela}">
-                        <f:selectItem itemValue="nomeCompleto" itemLabel="Nome Completo"/>
-                        <f:selectItem itemValue="telefone" itemLabel="Telefone"/>
-                        <f:selectItem itemValue="email" itemLabel="E-mail"/>
-                        <f:selectItem itemValue="nascimento" itemLabel="Data de Nascimento"/>
-                    </p:selectOneMenu>
-                    <span class="ui-separator">
-	                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-	            </span>
-
-
+            <p:panelGrid columns="2">
+                <f:facet name="header">
+                    Critério de Pesquisa
                 </f:facet>
-            </p:toolbar>
 
-            <p:spacer height="20px" />
+                <f:facet name="footer">
+                    <p:commandButton value="Buscar" action="#{pessoaBean.pesquisar()}" update="@form"/>
+                </f:facet>
+
+                <p:selectOneMenu value="#{pessoaBean.criterio}">
+                    <f:selectItem itemValue="N" itemLabel="Nome Completo"/>
+                    <f:selectItem itemValue="E" itemLabel="E-mail"/>
+                    <f:selectItem itemValue="D" itemLabel="Data de Nascimento"/>
+
+                </p:selectOneMenu>
+
+                <p:inputText value="#{pessoaBean.chaveDeBusca}" placeholder="Digite a pista de pesquisa"/>
+            </p:panelGrid>
+
+            <br/><br/>
 
 
-            <p:dataTable id="pessoasDataTable" value="#{pessoaBean.pessoas}" var="pessoa"
+            <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa"
                          emptyMessage="Nenhuma informação a ser exibida"
                          paginator="true" rows="10" paginatorPosition="bottom">
-            <p:column headerText="Nome Completo">
+                <p:column headerText="Nome Completo">
                     <h:outputText value="#{pessoa.nomeCompleto}"/>
                 </p:column>
 
@@ -82,23 +73,25 @@
                 <p:column headerText="Operações">
 
                     <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
-                        <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                        <f:param name="pessoa" value="#{pessoa.id}"/>
 
                         <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
-                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                            <f:param name="pessoa" value="#{pessoa.id}"/>
                         </p:menuitem>
 
-                        <p:menuitem value="Senha" action="formulario-senha.xhtml" icon="fa fa-unlock-alt" aria-hidden="true">
-                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                        <p:menuitem value="Senha" action="formulario-senha.xhtml" icon="fa fa-unlock-alt"
+                                    aria-hidden="true">
+                            <f:param name="pessoa" value="#{pessoa.id}"/>
                         </p:menuitem>
 
-                        <p:menuitem value="E-mail" action="formulario-email.xhtml" icon="fa fa-envelope" aria-hidden="true">
-                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                        <p:menuitem value="E-mail" action="formulario-email.xhtml" icon="fa fa-envelope"
+                                    aria-hidden="true">
+                            <f:param name="pessoa" value="#{pessoa.id}"/>
                         </p:menuitem>
                         <p:menuitem title="Alterar os papéis (permissões)"
                                     value="Permissão"
                                     action="formulario-papel.xhtml" icon="fa fa-check-circle" aria-hidden="true">
-                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
+                            <f:param name="pessoa" value="#{pessoa.id}"/>
                         </p:menuitem>
                     </p:splitButton>
                 </p:column>

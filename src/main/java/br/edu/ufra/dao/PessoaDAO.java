@@ -7,7 +7,12 @@ import br.edu.ufra.entidade.PessoaPapel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static br.edu.ufra.rn.PessoaRN.DAO;
+
 
 public class PessoaDAO extends GenericDAO<Pessoa> {
     public Pessoa login(String email, String senha) {
@@ -120,16 +125,49 @@ public class PessoaDAO extends GenericDAO<Pessoa> {
         }
     }
 
-    public List<Pessoa> buscarPessoa(String termoPesquisa, String campoTabela) {
+    public List<Pessoa> obterPorNome(String nome) {
         EntityManager em = getEntityManager();
-        String sql = "select p from Pessoa p "
-                + " where p." + campoTabela
-                + " like '%" + termoPesquisa + "%'";
-        TypedQuery<Pessoa> query = em.createQuery(sql, Pessoa.class);
+        String query = "select p from Pessoa p where p.nomeCompleto like :nome";
+         final TypedQuery<Pessoa> q = em.createQuery(query, Pessoa.class);
 
         List<Pessoa> resposta = null;
         try {
-            resposta = query.getResultList();
+           nome = '%' + nome + '%';
+           resposta = q.setParameter("nome", nome).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } finally {
+            em.close();
+        }
+        return resposta;
+    }
+    public List<Pessoa> obterEmail(String email) {
+        EntityManager em = getEntityManager();
+        String query = "select p from Pessoa p where p.email like :email";
+        final TypedQuery<Pessoa> q = em.createQuery(query, Pessoa.class);
+
+        List<Pessoa> resposta = null;
+        try {
+            email= '%' + email + '%';
+            resposta = q.setParameter("email", email).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } finally {
+            em.close();
+        }
+        return resposta;
+    }
+    public List<Pessoa> obterPorDataDeNascimento(String nascimento) {
+        EntityManager em = getEntityManager();
+        String query = "select p from Pessoa p where p.nascimento = :nascimento";
+        final TypedQuery<Pessoa> q = em.createQuery(query, Pessoa.class);
+
+        List<Pessoa> resposta = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false);
+            Date dataNascimento = sdf.parse(nascimento);
+            resposta = q.setParameter("nascimento", dataNascimento).getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         } finally {

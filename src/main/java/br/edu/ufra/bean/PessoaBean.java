@@ -9,11 +9,15 @@ import br.edu.ufra.util.UtilBean;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
 
+@ViewScoped
 @ManagedBean
-@RequestScoped
+
 public class PessoaBean {
     private final PessoaRN RN = new PessoaRN();
 
@@ -22,8 +26,8 @@ public class PessoaBean {
     private String senha;
     private String novaSenha;
     private String novoEmail;
-    private String termoPesquisa;
-    private String campoTabela;
+    private char criterio;
+    private String chaveDeBusca;
     private List<Papel> papeis;
 
     private List<Pessoa> pessoas;
@@ -35,7 +39,21 @@ public class PessoaBean {
     @PostConstruct
     public void init() {
         System.out.println("Inicializando PessoaBean ...");
-        pessoas = RN.buscarPessoa("", "nomeCompleto");
+        FacesContext currentInstance = FacesContext.getCurrentInstance();
+        String pessoaID = currentInstance.getExternalContext().getRequestParameterMap().get("pessoa");
+        if (pessoaID != null) {
+            try {
+                int id = Integer.parseInt(pessoaID);
+                pessoa = RN.obter(id);
+                if (pessoa == null) {
+                    pessoa = new Pessoa();
+                    UtilBean.criarMensagemDeAviso("Não foi recuperar o pessoa. Código inválido.");
+                }
+            } catch (Exception e) {
+                pessoa = new Pessoa();
+                UtilBean.criarMensagemDeErro("Não foi recuperar o pessoa");
+            }
+        }
     }
 
     public String getSenha() {
@@ -62,20 +80,20 @@ public class PessoaBean {
         this.novoEmail = novoEmail;
     }
 
-    public String getTermoPesquisa() {
-        return termoPesquisa;
+    public char getCriterio() {
+        return criterio;
     }
 
-    public void setTermoPesquisa(String termoPesquisa) {
-        this.termoPesquisa = termoPesquisa;
+    public void setCriterio(char criterio) {
+        this.criterio = criterio;
     }
 
-    public String getCampoTabela() {
-        return campoTabela;
+    public String getChaveDeBusca() {
+        return chaveDeBusca;
     }
 
-    public void setCampoTabela(String campoTabela) {
-        this.campoTabela = campoTabela;
+    public void setChaveDeBusca(String chaveDeBusca) {
+        this.chaveDeBusca = chaveDeBusca;
     }
 
     public List<Papel> getPapeis() {
@@ -96,9 +114,9 @@ public class PessoaBean {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
-        if (pessoa != null && pessoa.getPessoaPapels() != null)  {
+        if (pessoa != null && pessoa.getPessoaPapels() != null) {
             papeis = new ArrayList<>();
-            for (PessoaPapel p: pessoa.getPessoaPapels()) {
+            for (PessoaPapel p : pessoa.getPessoaPapels()) {
                 papeis.add(p.getPapel());
             }
         }
@@ -177,7 +195,17 @@ public class PessoaBean {
         }
     }
 
-    public List<Pessoa> buscarPessoa(){
-        return pessoas = RN.buscarPessoa(termoPesquisa, campoTabela);
+    public void pesquisar() {
+        if (chaveDeBusca == null || chaveDeBusca.trim().length() == 0) {
+            UtilBean.criarMensagemDeAviso("Nenhuma chave de busca ou pista informada");
+        } else {
+            pessoas = PessoaRN.obter(chaveDeBusca, criterio);
+            if (pessoas == null || pessoas.isEmpty()) {
+                UtilBean.criarMensagemDeAviso("Nenhuma pessoa encontrada.");
+                UtilBean.criarMensagemDeInformacao("Tente um outro criterio/pista de pesquisa");
+            } else {
+                UtilBean.criarMensagemDeInformacao("Pessoa encontrada com sucesso");
+            }
+        }
     }
 }
