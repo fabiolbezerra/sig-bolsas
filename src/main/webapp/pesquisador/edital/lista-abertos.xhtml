@@ -26,49 +26,50 @@
         <h:form id="formEdital">
             <p:growl showDetail="true" showSummary="true"/>
 
-            <p:carousel value="#{editalBean.editaisAbertos}"
-                        var="edital"
-                        numVisible="2"
-                        autoPlayInterval="10000">
+            <p:dataTable value="#{editalBean.editaisAbertos}" var="edital">
+                <p:column headerText="Título" filterBy="#{edital.titulo}" filterMatchMode="contains">
+                    <h:outputText value="#{edital.titulo}"/>
+                </p:column>
 
-                <p:panelGrid columns="4" >
-                    <f:facet name="header">
-                        <h:outputText value="#{edital.titulo}"/>
-                    </f:facet>
+                <p:column headerText="Ano e Número">
+                    <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
+                </p:column>
 
-                    <p:outputLabel value="Ano/Número"/>
-                    <p:outputPanel>
-                        <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
-                    </p:outputPanel>
+                <p:column headerText="Cadastro">
+                    <h:outputText value="#{edital.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
 
-                    <p:outputLabel value="Inscrições"/>
-                    <p:outputPanel>
-                        <h:outputText value="#{edital.dataInicio}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                        a
-                        <h:outputText value="#{edital.dataFinal}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                    </p:outputPanel>
+                <p:column headerText="Inscrições">
+                    <h:outputText value="#{edital.dataInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                    a
+                    <h:outputText value="#{edital.dataFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
 
-                    <p:outputLabel value="Situação"/>
+                <p:column headerText="Situação">
                     <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}"/>
+                </p:column>
 
-                    <p:outputLabel value="Tipo"/>
+                <p:column headerText="Tipo">
                     <h:outputText value="#{editalBean.obterTipo(edital.tipo)}"/>
+                </p:column>
 
-                    <f:facet name="footer">
-                        <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
+                <p:column headerText="Operações">
+                    <p:splitButton value="Inscrever-se" action="detalhes.xhtml" icon="fa fa-search">
+                        <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+
+                        <p:menuitem value="Detalhes" action="detalhes.xhtml" icon="fa fa-pencil">
                             <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+                        </p:menuitem>
+                    </p:splitButton>
+                </p:column>
 
-                            <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
-                                <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
-                            </p:menuitem>
-                        </p:splitButton>
-                    </f:facet>
-                </p:panelGrid>
-            </p:carousel>
+            </p:dataTable>
 
             <br/>
 

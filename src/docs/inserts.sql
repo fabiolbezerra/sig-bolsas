@@ -1,15 +1,23 @@
+-- unidade admnistrativa
+insert into unidade_administrativa
+    (id, nome, sigla, tipo)
+    values
+    (1, 'Instituto Ciberespacial', 'ICIBE', 'I'),
+    (2, 'Campus Paragominas', 'PARAGOMINAS', 'C');
+
+
 -- pessoas
 insert into pessoa
-    (id, nome_completo, nascimento, telefone, email, senha)
+    (id, nome_completo, nascimento, telefone, email, senha, unidade_administrativa)
     values
-    (1, 'Fábio', '1978-10-15', '91999991111', 'fabio@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
-    (2, 'Yan', '2001-11-09', '91999992222', 'yan@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
-    (3, 'Bruno', '1988-10-29', '91999993333', 'bruno@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
-    (4, 'Tatiane', '1989-01-05', '91999994444', 'tatiane@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
-    (5, 'Ivan', '1989-02-05', '91999990001', 'ivan@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
-    (6, 'Deciola', '1989-03-05', '91999990002', 'deciola@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
-    (7, 'Klissiomara', '1989-04-05', '91999990003', 'klissiomara@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
-    (8, 'Orlando', '1989-05-05', '91999990004', 'orlando@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb');
+    (1, 'Fábio', '1978-10-15', '91999991111', 'fabio@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1),
+    (2, 'Yan', '2001-11-09', '91999992222', 'yan@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1),
+    (3, 'Bruno', '1988-10-29', '91999993333', 'bruno@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1),
+    (4, 'Tatiane', '1989-01-05', '91999994444', 'tatiane@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1),
+    (5, 'Ivan', '1989-02-05', '91999990001', 'ivan@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1),
+    (6, 'Deciola', '1989-03-05', '91999990002', 'deciola@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1),
+    (7, 'Klissiomara', '1989-04-05', '91999990003', 'klissiomara@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1),
+    (8, 'Orlando', '1989-05-05', '91999990004', 'orlando@ufra.edu.br', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 1);
 
 -- papéis
 insert into papel
