@@ -35,10 +35,11 @@ public class InscricaoRN {
         }
     }
 
-    public boolean novaInscricao(Edital edital, Pessoa pesquisador) {
+    public boolean novaInscricao(Edital edital, Pessoa pesquisador, String senha) {
         if (edital == null || pesquisador == null) {
             return false;
         } else {
+            //TODO: validar o pesquisaor
             List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
             for (Inscricao inscricao : inscricoes) {
                 if (edital.equals(inscricao.getEdital())) {
