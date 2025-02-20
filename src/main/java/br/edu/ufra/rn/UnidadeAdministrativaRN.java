@@ -1,8 +1,6 @@
 package br.edu.ufra.rn;
 
 import br.edu.ufra.dao.GenericDAO;
-import br.edu.ufra.entidade.Comite;
-import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.UnidadeAdministrativa;
 
 import java.util.List;
