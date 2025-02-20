@@ -27,7 +27,9 @@
                 <p:inputText value="#{unidadeAdministrativaBean.unidade.nome}"/>
 
                 <p:outputLabel value="Sigla"/>
-                <p:inputText value="#{unidadeAdministrativaBean.unidade.sigla}"/>
+                <p:inputText value="#{unidadeAdministrativaBean.unidade.sigla}"
+                             required="true"
+                             requiredMessage="A sigla da unidade é obrigatória"/>
 
                 <p:outputLabel value="Titulação"/>
                 <p:selectOneMenu value="#{unidadeAdministrativaBean.unidade.tipo}">

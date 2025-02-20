@@ -13,12 +13,15 @@ import java.util.List;
 @RequestScoped
 public class UnidadeAdministrativaBean {
     private final UnidadeAdministrativaRN RN = new UnidadeAdministrativaRN();
+
     private UnidadeAdministrativa unidade = new UnidadeAdministrativa();
+
     private List<UnidadeAdministrativa> unidades;
 
     public UnidadeAdministrativaBean() {
         System.out.println("Criando UnidadeAdministrativaBean ...");
     }
+
     @PostConstruct
     public void init() {
         System.out.println("Inicializando UnidadeAdministrativaBean ...");
@@ -42,17 +45,12 @@ public class UnidadeAdministrativaBean {
             //Mensagem de erro: objeto nulo
             UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
-            if (unidade.getSigla() == null || unidade.getSigla().isEmpty()) {
-                //Mensagem de erro: sigla vazia
-                UtilBean.criarMensagemDeErro("Sigla vazia");
+            if (RN.salvar(unidade)) {
+                //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Unidade Administrativa gravada com sucesso");
             } else {
-                if (RN.salvar(unidade)) {
-                    //Mensagem de sucesso
-                    UtilBean.criarMensagemDeInformacao("Unidade Administrativa gravada com sucesso");
-                } else {
-                    //Mensagem de erro: problemas ao salvar
-                    UtilBean.criarMensagemDeErro("Problema ao gravar a Unidade Administrativa");
-                }
+                //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Problema ao gravar a Unidade Administrativa");
             }
         }
     }
