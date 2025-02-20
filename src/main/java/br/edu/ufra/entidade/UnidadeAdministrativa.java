@@ -1,12 +1,15 @@
 package br.edu.ufra.entidade;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "unidade_administrativa")
 @NamedQueries({
-        @NamedQuery(name = "UnidadeAdministrativa.findAll", query = "SELECT o FROM Papel o"),
-        @NamedQuery(name = "UnidadeAdministrativa.findById", query = "SELECT o FROM Papel o WHERE o.id = :id")})
+        @NamedQuery(name = "UnidadeAdministrativa.findAll", query = "SELECT o FROM UnidadeAdministrativa o"),
+        @NamedQuery(name = "UnidadeAdministrativa.findById", query = "SELECT o FROM UnidadeAdministrativa o WHERE o.id = :id")})
 public class UnidadeAdministrativa {
     @Id
     @Column(name = "id", nullable = false)
@@ -15,11 +18,15 @@ public class UnidadeAdministrativa {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
 
+    @NotNull
     @Column(name = "sigla", nullable = false, length = 20)
     private String sigla;
 
     @Column(name = "tipo", nullable = false)
     private Character tipo;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidadeAdministrativa")
+    private Set<Pessoa> membros = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -51,6 +58,22 @@ public class UnidadeAdministrativa {
 
     public void setTipo(Character tipo) {
         this.tipo = tipo;
+    }
+
+    public Set<Pessoa> getMembros() {
+        return membros;
+    }
+
+    public void setMembros(Set<Pessoa> membros) {
+        this.membros = membros;
+    }
+
+    public String obterTipo(Character tipo) {
+        switch (tipo) {
+            case 'I': return "Instituto";
+            case 'C': return "Campus";
+            default: return "-";
+        }
     }
 
     @Override
