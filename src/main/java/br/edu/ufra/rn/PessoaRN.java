@@ -3,6 +3,7 @@ package br.edu.ufra.rn;
 import br.edu.ufra.dao.PessoaDAO;
 import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.util.UtilEmail;
 import br.edu.ufra.util.UtilTexto;
 import java.util.List;
 
@@ -30,9 +31,25 @@ public class PessoaRN {
             pessoaLogada.setSenha(novaSenhaCriptografada);
             if (!DAO.alterar(pessoaLogada)) {
                 pessoaLogada = null;
+            } else {
+//                notificarAlteracaoDaSenha(pessoaLogada);
             }
         }
         return pessoaLogada;
+    }
+
+    public void notificarAlteracaoDaSenha(Pessoa pessoa){
+        String destinatario = pessoa.getEmail();
+        String titulo = "Confirmação da alteração da senha";
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Prezado(a) ");
+        mensagem.append(pessoa.getNomeCompleto());
+        mensagem.append("\n\n");
+        mensagem.append("Confirmamos que sua senha foi alterada com sucesso.\n\n");
+        mensagem.append("Atenciosamente \n");
+        mensagem.append("SIG-BOLSAS");
+        UtilEmail email = new UtilEmail();
+        email.enviarEmail(destinatario, titulo, mensagem.toString());
     }
 
     public Pessoa alterarEmail(String email, String senhaAtual, String novoEmail) {
@@ -42,9 +59,26 @@ public class PessoaRN {
             pessoaLogada.setEmail(novoEmail);
             if (!DAO.alterar(pessoaLogada)) {
                 pessoaLogada = null;
+            } else {
+//                notificarAlteracaoDoEmail(pessoaLogada, email);
             }
         }
         return pessoaLogada;
+    }
+
+    public void notificarAlteracaoDoEmail(Pessoa pessoa, String emailAntigo){
+        String destinatario = pessoa.getEmail();
+        String titulo = "Confirmação da alteração do email";
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Prezado(a) ");
+        mensagem.append(pessoa.getNomeCompleto());
+        mensagem.append("\n\n");
+        mensagem.append("Confirmamos que seu email foi alterado com sucesso.\n\n");
+        mensagem.append("Atenciosamente \n");
+        mensagem.append("SIG-BOLSAS");
+        UtilEmail email = new UtilEmail();
+        email.enviarEmail(destinatario, titulo, mensagem.toString());
+        email.enviarEmail(emailAntigo, titulo, mensagem.toString());
     }
 
     public Pessoa alterarPermissoes(String emailLogado, String senhaLogado, Pessoa pessoa, List<Papel> papeis) {
