@@ -12,7 +12,7 @@ public class InscricaoRN {
     private final static InscricaoDAO DAO = new InscricaoDAO();
 
     public boolean salvar(Inscricao inscricao) {
-        if (inscricao == null){
+        if (inscricao == null) {
             return false;
         } else {
             if (inscricao.getId() == null || inscricao.getId() == 0) {
@@ -35,10 +35,11 @@ public class InscricaoRN {
         }
     }
 
-    public boolean novaInscricao(Edital edital, Pessoa pesquisador) {
+    public boolean novaInscricao(Edital edital, Pessoa pesquisador, String senha) {
         if (edital == null || pesquisador == null) {
             return false;
         } else {
+            //TODO: validar o pesquisaor
             List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
             for (Inscricao inscricao : inscricoes) {
                 if (edital.equals(inscricao.getEdital())) {
@@ -62,7 +63,7 @@ public class InscricaoRN {
         }
     }
 
-    public List<Inscricao> obterPorEdital (Edital edital){
+    public List<Inscricao> obterPorEdital(Edital edital) {
         if (edital == null || edital.getId() == null) {
             return null;
         } else {
@@ -70,11 +71,27 @@ public class InscricaoRN {
         }
     }
 
-    public List<Inscricao> obterPorEdital (Edital edital, Date inicio, Date fim){
+    public Inscricao obter(Pessoa pesquisador, Edital edital) {
+        if (pesquisador == null || pesquisador.getId() == null || edital == null || edital.getId() == 0) {
+            return null;
+        } else {
+            Inscricao resposta = null;
+            List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
+            for (Inscricao inscricao : inscricoes) {
+                if (edital.equals(inscricao.getEdital())) {
+                    resposta = inscricao;
+                    break;
+                }
+            }
+            return resposta;
+        }
+    }
+
+    public List<Inscricao> obterPorEdital(Edital edital, Date inicio, Date fim) {
         if (edital == null || inicio == null || fim == null) {
             return null;
         } else {
-           return obterPorEdital(edital, inicio, fim);
+            return obterPorEdital(edital, inicio, fim);
         }
     }
 }

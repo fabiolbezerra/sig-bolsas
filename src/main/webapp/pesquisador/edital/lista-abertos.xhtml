@@ -60,8 +60,9 @@
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:splitButton value="Inscrever-se" action="detalhes.xhtml" icon="fa fa-search">
-                        <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+                    <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-search">
+                        <f:setPropertyActionListener value="#{edital}" target="#{inscricaoBean.edital}"/>
+                        <f:setPropertyActionListener value="#{papelBean.usuarioLogado}" target="#{inscricaoBean.pesquisador}"/>
 
                         <p:menuitem value="Detalhes" action="detalhes.xhtml" icon="fa fa-pencil">
                             <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>

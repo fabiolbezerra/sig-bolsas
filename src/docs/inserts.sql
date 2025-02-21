@@ -3,7 +3,11 @@ insert into unidade_administrativa
     (id, nome, sigla, tipo)
     values
     (1, 'Instituto Ciberespacial', 'ICIBE', 'I'),
-    (2, 'Campus Paragominas', 'PARAGOMINAS', 'C');
+    (2, 'Instituto de Ciências Agrárias', 'ICA', 'I'),
+    (3, 'Instituto de Saúde e Proteção Animal', 'ISPA', 'I'),
+    (4, 'Campus Paragominas', 'PGM', 'C'),
+    (5, 'Campus Capitão-Poço', 'CPP', 'C'),
+    (6, 'Campus Capanema', 'CAP', 'C');
 
 
 -- pessoas
