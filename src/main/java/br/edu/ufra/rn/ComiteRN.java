@@ -2,10 +2,7 @@ package br.edu.ufra.rn;
 
 import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.dao.ComiteDAO;
-import br.edu.ufra.entidade.Pessoa;
-
 import java.util.List;
-import java.util.Objects;
 
 public class ComiteRN {
    private final ComiteDAO DAO = new ComiteDAO();
@@ -30,13 +27,10 @@ public class ComiteRN {
         return DAO.obter(Comite.class, id);
     }
 
-    public List<Comite> listarVigentes(String andSQL) {
-        return DAO.listarVigentes(andSQL);
+    public List<Comite> listarVigentes() {
+        return DAO.listarVigentes();
     }
     public List<Comite> listarEncerrados() {
         return DAO.listarEncerrados();
-    }
-    public List<Comite> pesquisarPor(String termoPesquisa, String campoTabela){
-        return DAO.pesquisarPor(termoPesquisa , campoTabela);
     }
 }

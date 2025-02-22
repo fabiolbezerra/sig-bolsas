@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Detalhes
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>
+            <h:outputText value="#{comiteBean.comite.portaria}"/>
+        </h1>
+
+        <h:form id="formComite">
+            <h2>Vigência</h2>
+
+            <h:outputText value="#{comiteBean.comite.inicio}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+            a
+            <h:outputText value="#{comiteBean.comite.fim}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+
+            <h2>Membros</h2>
+
+            <p:dataList value="#{comiteBean.comite.comitePessoas}" var="membro" emptyMessage="Nenhum membro">
+                <h:outputText value="#{membro.pessoa.nomeCompleto}"/>
+            </p:dataList>
+
+            <h2>Comitê cadastrado por</h2>
+
+            <h:outputText value="#{comiteBean.comite.coordenador.nomeCompleto}"/>
+
+            <h2>Editais que o comitê atua</h2>
+
+            <p:dataList value="#{comiteBean.comite.editals}" var="edital" emptyMessage="Nenhum edital">
+                <h:outputText value="#{edital.titulo} - #{edital.ano}/#{edital.numero}"/>
+            </p:dataList>
+
+            <br/>
+
+            <p:commandLink value="Voltar" action="lista-encerrados.xhtml"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

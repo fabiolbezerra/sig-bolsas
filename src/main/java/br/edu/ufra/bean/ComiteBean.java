@@ -3,17 +3,12 @@ package br.edu.ufra.bean;
 import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.rn.ComiteRN;
 import br.edu.ufra.util.UtilBean;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.List;
-import java.util.Date;
 
 @ManagedBean
 @ViewScoped
@@ -24,10 +19,6 @@ public class ComiteBean implements Serializable {
 
     private List<Comite> comites;
     private String todos;
-    private String termoPesquisa;
-    private String campoTabela;
-
-
     public ComiteBean() {
         System.out.println("Criando ComiteBean ...");
     }
@@ -35,8 +26,8 @@ public class ComiteBean implements Serializable {
     @PostConstruct
     public void init() {
         System.out.println("Inicializando ComiteBean ...");
-        comites = RN.pesquisarPor("","portaria");
         FacesContext currentInstance = FacesContext.getCurrentInstance();
+        comites = RN.listarTodos();
         String comiteID = currentInstance.getExternalContext().getRequestParameterMap().get("comite");
         if (comiteID != null) {
             try {
@@ -52,22 +43,6 @@ public class ComiteBean implements Serializable {
             }
         }
 
-    }
-
-    public String getCampoTabela() {
-        return campoTabela;
-    }
-
-    public void setCampoTabela(String campoTabela) {
-        this.campoTabela = campoTabela;
-    }
-
-    public String getTermoPesquisa() {
-        return termoPesquisa;
-    }
-
-    public void setTermoPesquisa(String termoPesquisa) {
-        this.termoPesquisa = termoPesquisa;
     }
 
     public List<Comite> getComites() {
@@ -110,32 +85,7 @@ public class ComiteBean implements Serializable {
     }
 
     public List<Comite> listarVigentes() {
-        String andSQL = "";
-        if (termoPesquisa != null && campoTabela != null && !campoTabela.equals("T")){
-            if (campoTabela.equals("portaria")){
-               andSQL += "and c.portaria like '%" + termoPesquisa + "%'";
-            }
-            if (campoTabela.equals("inicio")){
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Formato SQL
-                Date dataPesquisa;
-                try {
-                    dataPesquisa = sdf.parse(termoPesquisa); // Converte a String para Date
-                    String dataFormatadaSQL = sqlDateFormat.format(dataPesquisa);
-                    andSQL += "and c.inicio = '" + dataFormatadaSQL+ "'";
-                } catch (Exception e) {
-                    UtilBean.criarMensagemDeErro("Formato de data inválido. Use o padrão dd/MM/yyyy.");
-                    return Collections.emptyList(); // retorna uma lista vazia ou outra ação
-                }
-
-            }
-            if (campoTabela.equals("fim")){
-                andSQL += "and c.fim = " + termoPesquisa ;
-            }
-
-        }
-
-        return comites = RN.listarVigentes(andSQL);
+        return comites = RN.listarVigentes();
 
     }
 
@@ -148,7 +98,5 @@ public class ComiteBean implements Serializable {
         return comites = RN.listarEncerrados();
 
     }
-    public List<Comite> pesquisarPor() {
-        return comites = RN.pesquisarPor(termoPesquisa,campoTabela);
-    }
+
 }
