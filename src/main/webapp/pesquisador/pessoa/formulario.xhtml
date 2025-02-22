@@ -32,9 +32,10 @@
                              value="#{pessoaBean.pessoa.telefone}"
                              converter="telefoneConverter"/>
 
-                <p:outputLabel value="E-mail"/>
+                <p:outputLabel value="E-mail"  rendered="#{pessoaBean.pessoa.id == null}"/>
                 <p:inputText value="#{pessoaBean.pessoa.email}"
-                             validator="emailValidator" />
+                             validator="emailValidator"
+                             rendered="#{pessoaBean.pessoa.id == null}"/>
 
                 <p:outputLabel value="Senha" rendered="#{pessoaBean.pessoa.id == null}"/>
                 <p:password id="senha1"
