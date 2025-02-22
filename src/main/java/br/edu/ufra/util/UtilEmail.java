@@ -6,11 +6,11 @@ import org.apache.commons.mail.SimpleEmail;
 
 public class UtilEmail {
 
-    private final String HOST = "smtp.gmail.com";
-    private final int PORTA_SMTP = 587;
-    private final boolean TLS = true;
-    private final String USUARIO = "noreply.tukio@gmail.com";
-    private final String SENHA = "vdqmqmsntsmgrhuu";
+    private static final String HOST = "smtp.gmail.com";
+    private static final int PORTA_SMTP = 587;
+    private static final boolean TLS = true;
+    private static final String USUARIO = "noreply.tukio@gmail.com";
+    private static final String SENHA = "vdqmqmsntsmgrhuu";
 
     public UtilEmail() {
 
@@ -23,7 +23,7 @@ public class UtilEmail {
      * @param assunto      título ou assunto do e-mail
      * @param mensagem     corpo da mensagem
      */
-    public void enviarEmail(String destinatario, String assunto, String mensagem) {
+    public static void enviarEmail(String destinatario, String assunto, String mensagem) {
         Thread thread = new Thread(() -> {
             try {
                 Email email = new SimpleEmail();

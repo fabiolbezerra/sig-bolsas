@@ -153,6 +153,22 @@ public class PessoaBean {
             }
         }
     }
+    public void enviarEmailRenicializacaoDeSenha() {
+        if (pessoa == null) {
+            //Mensagem de erro: objeto nulo
+            UtilBean.criarMensagemDeErro("Objeto nulo");
+        } else {
+            pessoa = RN.reinicializarSenha(novoEmail);
+            if (pessoa != null) {
+                //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Um e-mail com nova senha foi enviado");
+            } else {
+                //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Nenhum usuário com o e-mail informado");
+                pessoa = new Pessoa();
+            }
+        }
+    }
 
     public void alterarEmail() {
         if (pessoa == null) {

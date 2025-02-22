@@ -131,4 +131,25 @@ public class PessoaRN {
             }
         }
     }
+
+
+    public Pessoa reinicializarSenha(String email) {
+        Pessoa pessoaLogada = obterPorEmail(email);
+        if (pessoaLogada != null) {
+            String novaSenha = UtilTexto.gerarLetrasENumeros(6);
+
+            String novaSenhaCriptografada = UtilTexto.criptografarSHA256(novaSenha);
+            pessoaLogada.setSenha(novaSenhaCriptografada);
+            if (!DAO.alterar(pessoaLogada)) {
+                return null;
+            }
+            String assunto = "Reinicialização de senha";
+            String mensagem = "Sua nova senha é: " + novaSenha;
+
+            UtilEmail.enviarEmail(email, assunto, mensagem);
+
+
+        }
+        return pessoaLogada;
+    }
 }
