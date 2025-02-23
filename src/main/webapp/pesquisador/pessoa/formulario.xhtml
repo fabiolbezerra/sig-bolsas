@@ -50,6 +50,13 @@
 
                 <p:outputLabel value="Data de nascimento"/>
                 <p:calendar pattern="dd/MM/yyyy" value="#{pessoaBean.pessoa.nascimento}"/>
+
+                <p:outputLabel value="Unidade Administrativa"/>
+                <p:selectOneMenu converter="unidadeAdministrativaConverter" value="#{pessoaBean.pessoa.unidadeAdministrativa}">
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma Unidade Administrativa"/>
+                    <f:selectItems value="#{unidadeAdministrativaBean.unidades}" var="u" itemValue="#{u}"
+                                   itemLabel="#{u.nome}"/>
+                </p:selectOneMenu>
             </h:panelGrid>
 
             <p:button outcome="lista.xhtml" value="Cancelar"/>
