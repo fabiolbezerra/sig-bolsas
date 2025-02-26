@@ -30,7 +30,7 @@
                 <h:outputText value="#{pessoaBean.pessoa.nomeCompleto}"/>
 
                 <p:outputLabel value="Telefone"/>
-                <h:outputText value="#{pessoaBean.pessoa.telefone}"/>
+                <h:outputText value="#{pessoaBean.pessoa.telefone}" converter="telefoneConverter"/>
 
                 <p:outputLabel value="E-mail"/>
                 <h:outputText value="#{pessoaBean.pessoa.email}"/>

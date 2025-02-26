@@ -23,7 +23,7 @@
                 <p:outputLabel value="#{pessoaBean.pessoa.nomeCompleto}"/>
 
                 <p:outputLabel value="Telefone"/>
-                <p:outputLabel value="#{pessoaBean.pessoa.telefone}"/>
+                <p:outputLabel value="#{pessoaBean.pessoa.telefone}" converter="telefoneConverter"/>
 
                 <p:outputLabel value="E-mail"/>
                 <p:outputLabel value="#{pessoaBean.pessoa.email}"/>
