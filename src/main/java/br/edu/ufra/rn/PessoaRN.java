@@ -23,82 +23,6 @@ public class PessoaRN {
         }
     }
 
-    public Pessoa alterarSenha(String email, String senhaAtual, String novaSenha) {
-        String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senhaAtual);
-        Pessoa pessoaLogada = login(email, senhaAtualCriptografada);
-        if (pessoaLogada != null) {
-            String novaSenhaCriptografada = UtilTexto.criptografarSHA256(novaSenha);
-            pessoaLogada.setSenha(novaSenhaCriptografada);
-            if (!DAO.alterar(pessoaLogada)) {
-                pessoaLogada = null;
-            } else {
-                notificarAlteracaoDaSenha(pessoaLogada);
-            }
-        }
-        return pessoaLogada;
-    }
-
-    public void notificarAlteracaoDaSenha(Pessoa pessoa){
-        String destinatario = pessoa.getEmail();
-        String titulo = "Confirmação da alteração da senha";
-        StringBuilder mensagem = new StringBuilder();
-        mensagem.append("Prezado(a) ");
-        mensagem.append(pessoa.getNomeCompleto());
-        mensagem.append("\n\n");
-        mensagem.append("Confirmamos que sua senha foi alterada com sucesso.\n\n");
-        mensagem.append("Atenciosamente \n");
-        mensagem.append("SIG-BOLSAS");
-        UtilEmail email = new UtilEmail();
-        email.enviarEmail(destinatario, titulo, mensagem.toString());
-    }
-
-    public Pessoa alterarEmail(String email, String senhaAtual, String novoEmail) {
-        String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senhaAtual);
-        Pessoa pessoaLogada = login(email, senhaAtualCriptografada);
-        if (pessoaLogada != null) {
-            pessoaLogada.setEmail(novoEmail);
-            if (!DAO.alterar(pessoaLogada)) {
-                pessoaLogada = null;
-            } else {
-                notificarAlteracaoDoEmail(pessoaLogada, email);
-            }
-        }
-        return pessoaLogada;
-    }
-
-    public void notificarAlteracaoDoEmail(Pessoa pessoa, String emailAntigo){
-        String destinatario = pessoa.getEmail();
-        String titulo = "Confirmação da alteração do email";
-        StringBuilder mensagem = new StringBuilder();
-        mensagem.append("Prezado(a) ");
-        mensagem.append(pessoa.getNomeCompleto());
-        mensagem.append("\n\n");
-        mensagem.append("Confirmamos que seu email foi alterado com sucesso.\n\n");
-        mensagem.append("Atenciosamente \n");
-        mensagem.append("SIG-BOLSAS");
-        UtilEmail email = new UtilEmail();
-        email.enviarEmail(destinatario, titulo, mensagem.toString());
-        email.enviarEmail(emailAntigo, titulo, mensagem.toString());
-    }
-
-    public Pessoa alterarPermissoes(String emailLogado, String senhaLogado, Pessoa pessoa, List<Papel> papeis) {
-        if (pessoa == null || papeis == null || papeis.isEmpty()) {
-            return null;
-        } else {
-            String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senhaLogado);
-            Pessoa pessoaLogada = login(emailLogado, senhaAtualCriptografada);
-            if (pessoaLogada == null) {
-                return null;
-            }
-            if (!DAO.alterarPermissoes(pessoa, papeis)) {
-                pessoa = null;
-            } else {
-                pessoa = obter(pessoa.getId());
-            }
-            return pessoa;
-        }
-    }
-
     public List<Pessoa> listarTodas() {
         return DAO.obterTodos(Pessoa.class);
     }
@@ -132,7 +56,6 @@ public class PessoaRN {
         }
     }
 
-
     public Pessoa reinicializarSenha(String email) {
         Pessoa pessoaLogada = obterPorEmail(email);
         if (pessoaLogada != null) {
@@ -151,5 +74,97 @@ public class PessoaRN {
 
         }
         return pessoaLogada;
+    }
+
+    public String iniciarValidacaoDoEmail(String email) {
+        final String CODIGO = UtilTexto.gerarNumeros(6);
+
+        String titulo = "Confirmação da alteração da senha";
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Prezado usuário");
+        mensagem.append("\n\n");
+        mensagem.append("Para continuar a criação de uma conta no sistema, ");
+        mensagem.append("precisamos que confirme seu e-mail digitando o código abaixo:\n\n");
+        mensagem.append(CODIGO);
+        mensagem.append("\n\n");
+        mensagem.append("Atenciosamente \n");
+        mensagem.append("SIG-BOLSAS");
+        UtilEmail.enviarEmail(email, titulo, mensagem.toString());
+
+        return CODIGO;
+    }
+
+    public Pessoa alterarSenha(String email, String senhaAtual, String novaSenha) {
+        String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senhaAtual);
+        Pessoa pessoaLogada = login(email, senhaAtualCriptografada);
+        if (pessoaLogada != null) {
+            String novaSenhaCriptografada = UtilTexto.criptografarSHA256(novaSenha);
+            pessoaLogada.setSenha(novaSenhaCriptografada);
+            if (!DAO.alterar(pessoaLogada)) {
+                pessoaLogada = null;
+            } else {
+                notificarAlteracaoDaSenha(pessoaLogada);
+            }
+        }
+        return pessoaLogada;
+    }
+
+    private void notificarAlteracaoDaSenha(Pessoa pessoa){
+        String destinatario = pessoa.getEmail();
+        String titulo = "Confirmação da alteração da senha";
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Prezado(a) ");
+        mensagem.append(pessoa.getNomeCompleto());
+        mensagem.append("\n\n");
+        mensagem.append("Confirmamos que sua senha foi alterada com sucesso.\n\n");
+        mensagem.append("Atenciosamente \n");
+        mensagem.append("SIG-BOLSAS");
+        UtilEmail.enviarEmail(destinatario, titulo, mensagem.toString());
+    }
+
+    public Pessoa alterarEmail(String email, String senhaAtual, String novoEmail) {
+        String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senhaAtual);
+        Pessoa pessoaLogada = login(email, senhaAtualCriptografada);
+        if (pessoaLogada != null) {
+            pessoaLogada.setEmail(novoEmail);
+            if (!DAO.alterar(pessoaLogada)) {
+                pessoaLogada = null;
+            } else {
+                notificarAlteracaoDoEmail(pessoaLogada, email);
+            }
+        }
+        return pessoaLogada;
+    }
+
+    private void notificarAlteracaoDoEmail(Pessoa pessoa, String emailAntigo){
+        String destinatario = pessoa.getEmail();
+        String titulo = "Confirmação da alteração do email";
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Prezado(a) ");
+        mensagem.append(pessoa.getNomeCompleto());
+        mensagem.append("\n\n");
+        mensagem.append("Confirmamos que seu email foi alterado com sucesso.\n\n");
+        mensagem.append("Atenciosamente \n");
+        mensagem.append("SIG-BOLSAS");
+        UtilEmail.enviarEmail(destinatario, titulo, mensagem.toString());
+        UtilEmail.enviarEmail(emailAntigo, titulo, mensagem.toString());
+    }
+
+    public Pessoa alterarPermissoes(String emailLogado, String senhaLogado, Pessoa pessoa, List<Papel> papeis) {
+        if (pessoa == null || papeis == null || papeis.isEmpty()) {
+            return null;
+        } else {
+            String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senhaLogado);
+            Pessoa pessoaLogada = login(emailLogado, senhaAtualCriptografada);
+            if (pessoaLogada == null) {
+                return null;
+            }
+            if (!DAO.alterarPermissoes(pessoa, papeis)) {
+                pessoa = null;
+            } else {
+                pessoa = obter(pessoa.getId());
+            }
+            return pessoa;
+        }
     }
 }
