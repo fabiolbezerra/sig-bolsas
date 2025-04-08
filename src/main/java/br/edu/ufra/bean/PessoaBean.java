@@ -25,6 +25,8 @@ public class PessoaBean {
 
     private String senha;
     private String novaSenha;
+    private String novaSenhaRedigitada;
+
     private String novoEmail;
     private char criterio;
     private String chaveDeBusca;
@@ -70,6 +72,14 @@ public class PessoaBean {
 
     public void setNovaSenha(String novaSenha) {
         this.novaSenha = novaSenha;
+    }
+
+    public String getNovaSenhaRedigitada() {
+        return novaSenhaRedigitada;
+    }
+
+    public void setNovaSenhaRedigitada(String novaSenhaRedigitada) {
+        this.novaSenhaRedigitada = novaSenhaRedigitada;
     }
 
     public String getNovoEmail() {
@@ -142,15 +152,18 @@ public class PessoaBean {
             //Mensagem de erro: objeto nulo
             UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
-            pessoa = RN.alterarSenha(pessoa.getEmail(), pessoa.getSenha(), novaSenha);
-            if (pessoa != null) {
+            Pessoa pessoaTemp = RN.alterarSenha(pessoa.getEmail(), senha, novaSenha);
+            if (pessoaTemp != null) {
                 //Mensagem de sucesso
                 UtilBean.criarMensagemDeInformacao("Senha alterada com sucesso");
+                pessoa = pessoaTemp;
             } else {
                 //Mensagem de erro: problemas ao salvar
                 UtilBean.criarMensagemDeErro("Problema ao alterar a senha");
-                pessoa = new Pessoa();
             }
+            senha = "";
+            novaSenha = "";
+            novaSenhaRedigitada = "";
         }
     }
     public void enviarEmailRenicializacaoDeSenha() {
@@ -175,16 +188,17 @@ public class PessoaBean {
             //Mensagem de erro: objeto nulo
             UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
-            pessoa = RN.alterarEmail(pessoa.getEmail(), pessoa.getSenha(), novoEmail);
-            if (pessoa != null) {
+            Pessoa pessoaTemp = RN.alterarEmail(pessoa.getEmail(), senha, novoEmail); //senha e e-mail digitados no form
+            if (pessoaTemp != null) {
                 //Mensagem de sucesso
                 UtilBean.criarMensagemDeInformacao("E-mail alterado com sucesso");
-                novoEmail = "";
+                pessoa = pessoaTemp;
             } else {
                 //Mensagem de erro: problemas ao salvar
                 UtilBean.criarMensagemDeErro("Problema ao alterar o e-mail");
-                pessoa = new Pessoa();
             }
+            novoEmail = "";
+            senha = "";
         }
     }
 

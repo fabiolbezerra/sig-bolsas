@@ -32,7 +32,7 @@ public class PessoaRN {
             if (!DAO.alterar(pessoaLogada)) {
                 pessoaLogada = null;
             } else {
-//                notificarAlteracaoDaSenha(pessoaLogada);
+                notificarAlteracaoDaSenha(pessoaLogada);
             }
         }
         return pessoaLogada;
@@ -60,7 +60,7 @@ public class PessoaRN {
             if (!DAO.alterar(pessoaLogada)) {
                 pessoaLogada = null;
             } else {
-//                notificarAlteracaoDoEmail(pessoaLogada, email);
+                notificarAlteracaoDoEmail(pessoaLogada, email);
             }
         }
         return pessoaLogada;

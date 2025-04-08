@@ -7,8 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter(value = "cpfCnpfConverter")
-public class CpfCnpfConverter implements Converter {
+@FacesConverter(value = "cpfCnpjConverter")
+public class CpfCnpjConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String string) {
         if (string == null || string.trim().equals("")) {
