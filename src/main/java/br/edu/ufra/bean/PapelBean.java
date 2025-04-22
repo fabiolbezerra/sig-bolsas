@@ -1,5 +1,6 @@
 package br.edu.ufra.bean;
 
+import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.rn.PapelRN;
@@ -18,6 +19,10 @@ public class PapelBean {
     private Papel papel = new Papel();
 
     private List<Papel> papeis;
+
+    public List<Papel> getlistarPerfil() {
+        return RN.listarPerfil();
+    }
 
     public PapelBean() {
         System.out.println("Criando PapelBean ...");
@@ -45,3 +50,4 @@ public class PapelBean {
         return UtilBean.obterUsuarioLogado();
     }
 }
+

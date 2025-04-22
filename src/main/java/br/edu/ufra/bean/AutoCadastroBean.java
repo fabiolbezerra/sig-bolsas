@@ -3,11 +3,15 @@ package br.edu.ufra.bean;
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.rn.PessoaRN;
 import br.edu.ufra.util.UtilBean;
-
-import javax.annotation.ManagedBean;
+import br.edu.ufra.entidade.Papel;
+import br.edu.ufra.entidade.PessoaPapel;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @ViewScoped
 @ManagedBean
@@ -21,6 +25,12 @@ public class AutoCadastroBean {
     private String email;
     private String codigoGerado;
     private String codigoDigitado;
+    private List<Papel> papeis;
+    private String senha;
+
+    public AutoCadastroBean() {
+        System.out.println("Criando AutoCadastroBean ...");
+    }
 
     @PostConstruct
     public void init() {
@@ -30,16 +40,28 @@ public class AutoCadastroBean {
         this.codigoGerado = codigoRequisicao;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public List<Papel> getPapeis() {
+        return papeis;
+    }
+
+    public void setPapeis(List<Papel> papeis) {
+        this.papeis = papeis;
+    }
+
     public PessoaRN getRN() {
         return RN;
     }
 
     public Pessoa getPessoa() {
         return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 
     public String getEmail() {
@@ -88,6 +110,32 @@ public class AutoCadastroBean {
             return null;
         }
     }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+        if (pessoa != null && pessoa.getPessoaPapels() != null) {
+            papeis = new ArrayList<>();
+            for (PessoaPapel p : pessoa.getPessoaPapels()) {
+                papeis.add(p.getPapel());
+            }
+        }
+    }
+
+    public void salvar() {
+        if (pessoa == null) {
+            UtilBean.criarMensagemDeErro("Pessoa não encontrada!");
+        }
+        if (RN.salvar(pessoa)) {
+            setPessoa(RN.alterarPermissoes(pessoa.getEmail(), senha, pessoa, papeis));
+            UtilBean.criarMensagemDeInformacao("Pessoa gravada com sucesso");
+        } else {
+            //Mensagem de erro: problemas ao salvar
+            UtilBean.criarMensagemDeErro("Problema ao gravar a pessoa");
+        }
+
+    }
+
 }
+
 
 

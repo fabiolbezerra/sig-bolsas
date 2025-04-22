@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Dados da Conta
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Dados da Conta</h1>
+        <h:form id="formPessoa">
+            <p:growl showDetail="true" showSummary="true"/>
+
+
+            <h:inputHidden value="#{autoCadastroBean.pessoa.id}"/>
+            <h:inputHidden value="#{autoCadastroBean.pessoa.senha}"/>
+            <h:panelGrid columns="4">
+                <p:selectManyCheckbox value="#{autoCadastroBean.papeis}"
+                                      required="true"
+                                      requiredMessage="Selecione um papel: Pesquisador ou Bolsista"
+                                      converter="papelConverter">
+                    <f:selectItems value="#{papelBean.getlistarPerfil()}"
+                                   var="papel"
+                                   itemLabel="#{papel.nome}"
+                                   itemValue="#{papel}"/>
+                </p:selectManyCheckbox>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+
+
+
+                <p:outputLabel value="Nome completo"/>
+                <p:inputText value="#{autoCadastroBean.pessoa.nomeCompleto}"
+                             validator="nomeCompletoValidator"/>
+
+                <p:outputLabel value="Telefone"/>
+                <p:inputMask mask="(99) 99999-9999"
+                             value="#{autoCadastroBean.pessoa.telefone}"
+                             converter="telefoneConverter"/>
+
+                <p:outputLabel value="E-mail"  rendered="#{autoCadastroBean.pessoa.id == null}"/>
+                <p:inputText value="#{autoCadastroBean.pessoa.email}"
+                             validator="emailValidator"
+                             rendered="#{autoCadastroBean.pessoa.id == null}"/>
+
+                <p:outputLabel value="Senha" rendered="#{autoCadastroBean.pessoa.id == null}"/>
+                <p:password id="senha1"
+                            value="#{autoCadastroBean.pessoa.senha}"
+                            match="senha2"
+                            rendered="#{autoCadastroBean.pessoa.id == null}"/>
+
+                <p:outputLabel value="Redigite a Senha" rendered="#{autoCadastroBean.pessoa.id == null}"/>
+                <p:password id="senha2"
+                            value="#{autoCadastroBean.senha}"
+                            rendered="#{autoCadastroBean.pessoa.id == null}"/>
+
+                <p:outputLabel value="Data de nascimento"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{autoCadastroBean.pessoa.nascimento}"/>
+
+            </h:panelGrid>
+
+            <p:button outcome="index.xhtml" value="Cancelar"/>
+            <p:commandButton value="Salvar"
+                             action="#{autoCadastroBean.salvar()}"
+                             update="@form"
+                             oncomplete="if (!args.validationFailed) { window.location='#{request.contextPath}/formulario-novo-04.xhtml'; }"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

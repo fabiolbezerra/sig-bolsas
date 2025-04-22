@@ -1,13 +1,10 @@
 package br.edu.ufra.rn;
-
-import br.edu.ufra.dao.GenericDAO;
+import br.edu.ufra.dao.PapelDAO;
 import br.edu.ufra.entidade.Papel;
-
 import java.util.List;
 
 public class PapelRN {
-    private final GenericDAO<Papel> DAO = new GenericDAO<>();
-
+    private final PapelDAO DAO = new PapelDAO();
     public boolean salvar(Papel Papel) {
         if (Papel == null) {
             return false;            
@@ -26,5 +23,9 @@ public class PapelRN {
     
     public Papel obter(Integer id) {
         return DAO.obter(Papel.class, id);
+    }
+
+    public List<Papel> listarPerfil() {
+        return DAO.listarPerfil();
     }
 }
