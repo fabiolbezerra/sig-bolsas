@@ -1,28 +1,92 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-<h:head>
-    <title>Detalhes</title>
-</h:head>
-<h:body>
-    <h1>#{papelBean.papel.nome}</h1>
-
-    <h:form id="formPessoa">
-
-        <h2>Pessoas com o papel</h2>
-
-        <p:dataList value="#{papelBean.papel.pessoaPapels}" var="p">
-            <h:outputText value="#{p.pessoa.nomeCompleto}" />
-        </p:dataList>
-
-        <br/>
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
-    </h:form>
-</h:body>
-</html>
+    <ui:define name="title">
+        Detalhes
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>#{inscricaoBean.inscricao.edital.titulo}</h1>
+
+        <h:form id="formInscricao">
+
+            <h2>Dados do Participante</h2>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Nome completo"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.nomeCompleto}"/>
+
+                <p:outputLabel value="Telefone"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.telefone}"/>
+
+                <p:outputLabel value="E-mail"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.email}"/>
+
+                <p:outputLabel value="Data de nascimento"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.nascimento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:panelGrid>
+
+            <h2>Dados do Edital</h2>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Ano/Número"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.ano} / #{inscricaoBean.inscricao.edital.numero}"/>
+
+                <p:outputLabel value="Situação"/>
+                <p:outputLabel value="#{inscricaoBean.obterSituacao(inscricaoBean.inscricao.edital.situacao)}"/>
+
+                <p:outputLabel value="Tipo"/>
+                <p:outputLabel value="#{inscricaoBean.obterTipo(inscricaoBean.inscricao.edital.tipo)}"/>
+
+                <p:outputLabel value="Início das inscrições"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataInicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+
+                <p:outputLabel value="Fim das inscrições"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+
+                <p:outputLabel value="Cadastrado"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:panelGrid>
+
+            <h2>Dados da Inscrição</h2>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Edital"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.titulo}"/>
+
+                <p:outputLabel value="Protocolo"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.protocolo}"/>
+
+                <p:outputLabel value="Data da Inscrição"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.dataInscricao}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:panelGrid>
+
+            <h2>Planos de Trabalho</h2>
+
+            <p:dataList value="#{pessoaBean.pessoa.pessoaPapels}" var="papel">
+                <h:outputText value="#{papel.papel.nome}"/>
+            </p:dataList>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

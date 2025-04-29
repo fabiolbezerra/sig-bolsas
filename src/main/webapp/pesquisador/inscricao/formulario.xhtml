@@ -11,35 +11,70 @@
 >
 
     <ui:define name="title">
-        Cadastro de Comitê
+        Formulário de Inscrição
     </ui:define>
 
     <ui:define name="content">
-        <h1>Comitê</h1>
+        <h1>Formulário</h1>
 
-        <h:form id="formComite">
-            <p:growl showDetail="true" showSummary="true"/>
+        <h:form id="formInscricao">
 
-            <h:inputHidden value="#{comiteBean.comite.id}"/>
+            <h2>Dados do Participante</h2>
+
             <h:panelGrid columns="2">
-                <p:outputLabel value="Portaria"/>
-                <p:inputText value="#{comiteBean.comite.portaria}"/>
+                <p:outputLabel value="Nome completo"/>
+                <p:outputLabel value="#{pessoaBean.pessoa.nomeCompleto}"/>
 
-                <p:outputLabel value="Início da vigência"/>
-                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.inicio}"/>
+                <p:outputLabel value="Telefone"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.telefone}"/>
 
-                <p:outputLabel value="Fim da vigência"/>
-                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.fim}"/>
+                <p:outputLabel value="E-mail"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.email}"/>
 
-                <p:outputLabel value="Coordenador"/>
-                <p:selectOneMenu converter="pessoaConverter" value="#{comiteBean.comite.coordenador}">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
-                    <f:selectItems value="#{pessoaBean.pessoas}" var="p" itemValue="#{p}"
-                                   itemLabel="#{p.nomeCompleto}"/>
-                </p:selectOneMenu>
+                <p:outputLabel value="Data de nascimento"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.nascimento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
             </h:panelGrid>
-            
-            <p:commandButton value="Salvar" action="#{comiteBean.salvar()}" update="@form"/>
+
+            <h2>Dados do Edital</h2>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Ano/Número"/>
+                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
+
+                <p:outputLabel value="Situação"/>
+                <p:outputLabel value="#{inscricaoBean.obterSituacao(inscricaoBean.inscricao.edital.situacao)}"/>
+
+                <p:outputLabel value="Tipo"/>
+                <p:outputLabel value="#{inscricaoBean.obterTipo(inscricaoBean.inscricao.edital.tipo)}"/>
+
+                <p:outputLabel value="Início das inscrições"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataInicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+
+                <p:outputLabel value="Fim das inscrições"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+
+                <p:outputLabel value="Cadastrado"/>
+                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:panelGrid>
+
+            <br/>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Digite sua senha"/>
+                <p:password id="senhaAtual"
+                            value="#{pessoaBean.senha}"/>
+            </h:panelGrid>
+
+            <p:commandButton value="Voltar" action="/pesquisador/edital/lista-abertos" update="@form"/>
+            <p:commandButton value="Confirmar" action="#{inscricaoBean.salvar()}" update="@form"/>
         </h:form>
     </ui:define>
 </ui:composition>

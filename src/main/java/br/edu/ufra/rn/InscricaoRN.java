@@ -4,12 +4,14 @@ import br.edu.ufra.dao.InscricaoDAO;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.entidade.Inscricao;
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.util.UtilTexto;
 
 import java.util.Date;
 import java.util.List;
 
 public class InscricaoRN {
     private final static InscricaoDAO DAO = new InscricaoDAO();
+    private PessoaRN pessoaRN;
 
     public boolean salvar(Inscricao inscricao) {
         if (inscricao == null) {
@@ -35,23 +37,27 @@ public class InscricaoRN {
         }
     }
 
-    public boolean novaInscricao(Edital edital, Pessoa pesquisador, String senha) {
+    public boolean novaInscricao(Edital edital, Pessoa pesquisador, String senha, String email) {
         if (edital == null || pesquisador == null) {
             return false;
         } else {
-            //TODO: validar o pesquisaor
-            List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
-            for (Inscricao inscricao : inscricoes) {
-                if (edital.equals(inscricao.getEdital())) {
-                    return false;
+            String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senha);
+            Pessoa pesquisadorLogado = pessoaRN.login(email, senhaAtualCriptografada);
+            if (pesquisadorLogado != null) {
+                List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
+                for (Inscricao inscricao : inscricoes) {
+                    if (edital.equals(inscricao.getEdital())) {
+                        return false;
+                    }
                 }
+                Inscricao novaInscricao = new Inscricao();
+                novaInscricao.setEdital(edital);
+                novaInscricao.setPessoa(pesquisador);
+                novaInscricao.setDataInscricao(new Date());
+                novaInscricao.setProtocolo("TODO");
+                return salvar(novaInscricao);
             }
-            Inscricao novaInscricao = new Inscricao();
-            novaInscricao.setEdital(edital);
-            novaInscricao.setPessoa(pesquisador);
-            novaInscricao.setDataInscricao(new Date());
-            novaInscricao.setProtocolo("TODO");
-            return salvar(novaInscricao);
+            return false;
         }
     }
 
@@ -77,10 +83,14 @@ public class InscricaoRN {
         } else {
             Inscricao resposta = null;
             List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
+
             for (Inscricao inscricao : inscricoes) {
                 if (edital.equals(inscricao.getEdital())) {
                     resposta = inscricao;
                     break;
+                } else {
+
+                    resposta = inscricao;
                 }
             }
             return resposta;
