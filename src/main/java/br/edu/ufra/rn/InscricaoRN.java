@@ -11,7 +11,8 @@ import java.util.List;
 
 public class InscricaoRN {
     private final static InscricaoDAO DAO = new InscricaoDAO();
-    private PessoaRN pessoaRN;
+
+    private PessoaRN pessoaRN = new PessoaRN();
 
     public boolean salvar(Inscricao inscricao) {
         if (inscricao == null) {
@@ -54,7 +55,7 @@ public class InscricaoRN {
                 novaInscricao.setEdital(edital);
                 novaInscricao.setPessoa(pesquisador);
                 novaInscricao.setDataInscricao(new Date());
-                novaInscricao.setProtocolo("TODO");
+                novaInscricao.setProtocolo(DAO.gerarProtocolo(edital.getId(), pesquisador.getId()));
                 return salvar(novaInscricao);
             }
             return false;
@@ -78,20 +79,13 @@ public class InscricaoRN {
     }
 
     public Inscricao obter(Pessoa pesquisador, Edital edital) {
-        if (pesquisador == null || pesquisador.getId() == null || edital == null || edital.getId() == 0) {
+        if (pesquisador == null || edital == null) {
             return null;
         } else {
             Inscricao resposta = null;
-            List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
-
-            for (Inscricao inscricao : inscricoes) {
-                if (edital.equals(inscricao.getEdital())) {
-                    resposta = inscricao;
-                    break;
-                } else {
-
-                    resposta = inscricao;
-                }
+            List<Inscricao> inscricoes = DAO.obterPorPesquisadorEEdital(pesquisador.getId(), edital.getId());
+            if (inscricoes != null && !inscricoes.isEmpty()) {
+                return inscricoes.get(0);
             }
             return resposta;
         }
@@ -101,7 +95,8 @@ public class InscricaoRN {
         if (edital == null || inicio == null || fim == null) {
             return null;
         } else {
-            return obterPorEdital(edital, inicio, fim);
+            // Correção: Chamada recursiva removida
+            return DAO.obter(edital, inicio, fim);
         }
     }
 }

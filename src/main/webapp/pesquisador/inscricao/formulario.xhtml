@@ -1,80 +1,82 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition
-        template="/template.xhtml"
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="title">
-        Formulário de Inscrição
-    </ui:define>
+<h:head>
+    <title>Nova Inscrição</title>
+</h:head>
 
-    <ui:define name="content">
-        <h1>Formulário</h1>
+<h:body>
+    <h:form>
 
-        <h:form id="formInscricao">
+        <h:inputHidden value="#{inscricaoBean.edital.id}"/>
+        <h:inputHidden value="#{inscricaoBean.pesquisador.id}"/>
 
-            <h2>Dados do Participante</h2>
+        <p:panel header="Nova Inscrição" style="width: 80%; margin: 20px auto;">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" />
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Nome completo"/>
-                <p:outputLabel value="#{pessoaBean.pessoa.nomeCompleto}"/>
+            <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Dados do Edital"/>
+                </f:facet>
 
-                <p:outputLabel value="Telefone"/>
-                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.telefone}"/>
+                <h:outputText value="Edital:" />
+                <h:outputText value="#{inscricaoBean.edital.titulo}" />
 
-                <p:outputLabel value="E-mail"/>
-                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.email}"/>
+                <h:outputText value="Ano/Número:" />
+                <h:outputText value="#{inscricaoBean.edital.ano} / #{inscricaoBean.edital.numero}"/>
 
-                <p:outputLabel value="Data de nascimento"/>
-                <p:outputLabel value="#{inscricaoBean.inscricao.pessoa.nascimento}">
+                <h:outputText value="Situação:" />
+                <h:outputText value="#{inscricaoBean.obterSituacao(inscricaoBean.edital.situacao)}" />
+
+                <h:outputText value="Tipo:" />
+                <h:outputText value="#{inscricaoBean.obterTipo(inscricaoBean.edital.tipo)}"/>
+
+                <h:outputText value="Início das inscrições:" />
+                <h:outputText value="#{inscricaoBean.edital.dataInicio}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </h:panelGrid>
+                </h:outputText>
 
-            <h2>Dados do Edital</h2>
-
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Ano/Número"/>
-                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
-
-                <p:outputLabel value="Situação"/>
-                <p:outputLabel value="#{inscricaoBean.obterSituacao(inscricaoBean.inscricao.edital.situacao)}"/>
-
-                <p:outputLabel value="Tipo"/>
-                <p:outputLabel value="#{inscricaoBean.obterTipo(inscricaoBean.inscricao.edital.tipo)}"/>
-
-                <p:outputLabel value="Início das inscrições"/>
-                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataInicio}">
+                <h:outputText value="Fim das inscrições:" />
+                <h:outputText value="#{inscricaoBean.edital.dataFinal}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
+                </h:outputText>
 
-                <p:outputLabel value="Fim das inscrições"/>
-                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
+            </p:panelGrid>
 
-                <p:outputLabel value="Cadastrado"/>
-                <p:outputLabel value="#{inscricaoBean.inscricao.edital.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </h:panelGrid>
+            <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Dados do Participante"/>
+                </f:facet>
 
-            <br/>
+                <h:outputText value="Nome Completo:" />
+                <h:outputText value="#{inscricaoBean.pesquisador.nomeCompleto}" />
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Digite sua senha"/>
-                <p:password id="senhaAtual"
-                            value="#{pessoaBean.senha}"/>
-            </h:panelGrid>
+                <h:outputText value="Telefone:" />
+                <h:outputText value="#{inscricaoBean.pesquisador.telefone}" />
 
-            <p:commandButton value="Voltar" action="/pesquisador/edital/lista-abertos" update="@form"/>
-            <p:commandButton value="Confirmar" action="#{inscricaoBean.salvar()}" update="@form"/>
-        </h:form>
-    </ui:define>
-</ui:composition>
+                <h:outputText value="Email:" />
+                <h:outputText value="#{inscricaoBean.pesquisador.email}" />
+
+                <h:outputText value="Senha:" />
+                <p:password id="senha" value="#{inscricaoBean.senha}" feedback="true"
+                            promptLabel="Digite a senha" weakLabel="Fraca" goodLabel="Boa"
+                            strongLabel="Forte" required="true" requiredMessage="Senha obrigatória"/>
+            </p:panelGrid>
+
+            <p:commandButton value="Confirmar Inscrição" action="#{inscricaoBean.novaInscricao()}"
+                             icon="pi pi-check" update="messages" style="margin-top: 20px;" >
+                 <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
+                 <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
+            </p:commandButton>
+
+            <p:commandButton value="Cancelar" action="/pesquisador/edital/lista-abertos.xhtml?faces-redirect=true"
+                             styleClass="ui-button-secondary" icon="pi pi-times" immediate="true"
+                             style="margin-top: 20px; margin-left: 10px;"/>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>
