@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "edital")
 @NamedQueries({
-        @NamedQuery(name = "Edital.findAll", query = "SELECT e FROM Edital e"),
+        @NamedQuery(name = "Edital.findAll", query = "SELECT e FROM Edital e ORDER BY e.dataFinal DESC"),
         @NamedQuery(name = "Edital.findById", query = "SELECT e FROM Edital e WHERE e.id = :id")})
 public class Edital {
     @Id
