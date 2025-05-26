@@ -11,12 +11,16 @@
 >
 
     <ui:define name="title">
-        Papéis
+        Formulários
     </ui:define>
 
     <ui:define name="content">
 
-        <h1>Papéis</h1>
+        <h1>Formulários de Inscrição</h1>
+
+        <br/>
+
+        <p:link value="Cadastrar Formulário" outcome="formulario.xhtml"/>
 
         <br/><br/>
 
@@ -24,18 +28,29 @@
 
             <p:growl showDetail="true" showSummary="true"/>
 
-            <p:dataTable value="#{papelBean.papeis}" var="papel">
+            <p:dataTable value="#{formularioBean.formularios}" var="formulario">
                 <p:column headerText="Nome">
-                    <h:outputText value="#{papel.nome}"/>
+                    <h:outputText value="#{formulario.nome}"/>
                 </p:column>
 
-                <p:column headerText="Código">
-                    <h:outputText value="#{papel.codigo}"/>
+                <p:column headerText="Data de Criação">
+                    <h:outputText value="#{formulario.dataCriacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
                 </p:column>
 
                 <p:column headerText="Operações">
                     <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
-                        <f:setPropertyActionListener value="#{papel}" target="#{papelBean.papel}"/>
+                        <f:setPropertyActionListener value="#{formulario}" target="#{formularioBean.formulario}"/>
+
+                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
+                            <f:setPropertyActionListener value="#{formulario}" target="#{formularioBean.formulario}"/>
+                        </p:menuitem>
+
+                        <p:menuitem value="Perguntas" action="formulario-perguntas.xhtml" icon="fa fa-pencil">
+                            <f:param name="formularioID" value="#{formulario.id}"/>
+                        </p:menuitem>
+
                     </p:splitButton>
                 </p:column>
             </p:dataTable>

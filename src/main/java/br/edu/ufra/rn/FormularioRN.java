@@ -3,6 +3,7 @@ package br.edu.ufra.rn;
 import br.edu.ufra.dao.GenericDAO;
 import br.edu.ufra.entidade.Formulario;
 
+import java.util.Date;
 import java.util.List;
 
 public class FormularioRN {
@@ -10,20 +11,21 @@ public class FormularioRN {
 
     public boolean salvar(Formulario formulario) {
         if (formulario == null) {
-            return false;            
+            return false;
         } else {
             if (formulario.getId() == null || formulario.getId() == 0) {
+                formulario.setDataCriacao(new Date());
                 return DAO.criar(formulario);
             } else {
                 return DAO.alterar(formulario);
             }
         }
     }
-    
+
     public List<Formulario> listarTodos() {
         return DAO.obterTodos(Formulario.class);
     }
-    
+
     public Formulario obter(Integer id) {
         return DAO.obter(Formulario.class, id);
     }

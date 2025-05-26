@@ -11,11 +11,11 @@
 >
 
     <ui:define name="title">
-        Cadastro de Unidades Administrativas
+        Cadastro de Unidade Administrativa
     </ui:define>
 
     <ui:define name="content">
-        <h1>Unidades Administrativas</h1>
+        <h1>Unidade Administrativa</h1>
 
         <h:form id="formUnidadeAdministrativa">
             <p:growl showDetail="true" showSummary="true"/>
@@ -31,7 +31,7 @@
                              required="true"
                              requiredMessage="A sigla da unidade é obrigatória"/>
 
-                <p:outputLabel value="Titulação"/>
+                <p:outputLabel value="Tipo"/>
                 <p:selectOneMenu value="#{unidadeAdministrativaBean.unidade.tipo}">
                     <f:selectItem noSelectionOption="true" itemLabel="Selecione o tipo"/>
                     <f:selectItem itemValue="I" itemLabel="Instituto"/>

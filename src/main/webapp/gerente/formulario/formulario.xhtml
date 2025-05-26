@@ -11,37 +11,29 @@
 >
 
     <ui:define name="title">
-        Cadastro de Unidades Administrativas
+        Cadastro de Formulário
     </ui:define>
 
     <ui:define name="content">
-        <h1>Unidades Administrativas</h1>
+        <h1>Formulário de Inscrição</h1>
 
-        <h:form id="formUnidadeAdministrativa">
+        <h:form id="formFormulario">
             <p:growl showDetail="true" showSummary="true"/>
 
-            <h:inputHidden value="#{unidadeAdministrativaBean.unidade.id}"/>
+            <h:inputHidden value="#{formularioBean.formulario.id}"/>
+            <h:inputHidden value="#{formularioBean.formulario.dataCriacao}">
+                <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+            </h:inputHidden>
+
             <h:panelGrid columns="2">
 
                 <p:outputLabel value="Nome"/>
-                <p:inputText value="#{unidadeAdministrativaBean.unidade.nome}"/>
-
-                <p:outputLabel value="Sigla"/>
-                <p:inputText value="#{unidadeAdministrativaBean.unidade.sigla}"
-                             required="true"
-                             requiredMessage="A sigla da unidade é obrigatória"/>
-
-                <p:outputLabel value="Titulação"/>
-                <p:selectOneMenu value="#{unidadeAdministrativaBean.unidade.tipo}">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione o tipo"/>
-                    <f:selectItem itemValue="I" itemLabel="Instituto"/>
-                    <f:selectItem itemValue="C" itemLabel="Campus"/>
-                </p:selectOneMenu>
+                <p:inputText value="#{formularioBean.formulario.nome}"/>
 
             </h:panelGrid>
 
             <p:button outcome="lista.xhtml" value="Cancelar"/>
-            <p:commandButton value="Salvar" action="#{unidadeAdministrativaBean.salvar()}" update="@form"/>
+            <p:commandButton value="Salvar" action="#{formularioBean.salvar()}" update="@form"/>
         </h:form>
     </ui:define>
 </ui:composition>
