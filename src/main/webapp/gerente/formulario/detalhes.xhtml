@@ -9,18 +9,22 @@
         xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
-        Detalhes de um papel
+        Detalhes de um formulário
     </ui:define>
 
     <ui:define name="content">
-        <h1>#{papelBean.papel.nome}</h1>
+        <h1>#{formularioBean.formulario.nome}</h1>
 
         <h:form id="formPessoa">
 
-            <h2>Pessoas com o papel</h2>
+            <h2>#{formularioBean.formulario.nome}</h2>
 
-            <p:dataList value="#{papelBean.papel.pessoaPapels}" var="p">
-                <h:outputText value="#{p.pessoa.nomeCompleto}" />
+            <h3>Perguntas</h3>
+            
+            <p:dataList value="#{formularioBean.formulario.perguntas}"
+                        var="pergunta"
+                        emptyMessage="Nenhuma pergunta adicionada">
+                <h:outputText value="#{pergunta.texto}" />
             </p:dataList>
 
             <br/>
