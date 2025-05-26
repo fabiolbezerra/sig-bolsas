@@ -53,6 +53,18 @@ public class Edital {
     @JoinColumn(name = "comite", nullable = false)
     private Comite comite;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "formulario")
+    private Formulario formulario;
+
+    public Formulario getFormulario() {
+        return formulario;
+    }
+
+    public void setFormulario(Formulario formulario) {
+        this.formulario = formulario;
+    }
+
     public Integer getId() {
         return id;
     }

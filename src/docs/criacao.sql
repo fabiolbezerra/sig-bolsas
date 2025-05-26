@@ -116,6 +116,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`formulario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`formulario` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`formulario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `data_criacao` DATE NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `sig_bolsas_bd`.`edital`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sig_bolsas_bd`.`edital` ;
@@ -133,9 +146,11 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`edital` (
   `tipo` CHAR NOT NULL DEFAULT 'P' COMMENT 'P - Pesquisa / E - Extensão / D - Desenvolvimento Tecnológico',
   `coordenador` INT NOT NULL COMMENT 'Pessoa no papel de coordenador, que cadastrou o edital',
   `comite` INT NOT NULL,
+  `formulario` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_edital_pessoa1_idx` (`coordenador` ASC),
   INDEX `fk_edital_comite1_idx` (`comite` ASC),
+  INDEX `fk_edital_formulario1_idx` (`formulario` ASC),
   CONSTRAINT `fk_edital_pessoa1`
     FOREIGN KEY (`coordenador`)
     REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
@@ -144,6 +159,11 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`edital` (
   CONSTRAINT `fk_edital_comite1`
     FOREIGN KEY (`comite`)
     REFERENCES `sig_bolsas_bd`.`comite` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_edital_formulario1`
+    FOREIGN KEY (`formulario`)
+    REFERENCES `sig_bolsas_bd`.`formulario` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -183,6 +203,9 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`inscricao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `data_inscricao` DATETIME NOT NULL,
   `protocolo` VARCHAR(15) NULL COMMENT 'Número de protocolo da inscrição. Formato:\n- Edital (ano + numero)\n- Sequencial (4 números)',
+  `pontuacaoPesquisador` DOUBLE NULL DEFAULT 0,
+  `pontuacaoComite` DOUBLE NULL DEFAULT 0,
+  `classificacao` INT NULL DEFAULT 0,
   `edital` INT NOT NULL,
   `pessoa` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -219,6 +242,73 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`plano_de_trabalho` (
     REFERENCES `sig_bolsas_bd`.`inscricao` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`pergunta`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`pergunta` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`pergunta` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `texto` VARCHAR(250) NOT NULL,
+  `pontuacao` DOUBLE NULL DEFAULT 0,
+  `tipo` VARCHAR(45) NOT NULL COMMENT 'data, inteiro, decimal, texto, sim/não, resposta fechada\n',
+  `ordem` INT NOT NULL DEFAULT 0,
+  `formulario` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_pergunta_formulario1_idx` (`formulario` ASC),
+  CONSTRAINT `fk_pergunta_formulario1`
+    FOREIGN KEY (`formulario`)
+    REFERENCES `sig_bolsas_bd`.`formulario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`opcao_pergunta`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`opcao_pergunta` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`opcao_pergunta` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `resposta` VARCHAR(100) NOT NULL,
+  `pergunta` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_opcao_pergunta_pergunta1_idx` (`pergunta` ASC),
+  CONSTRAINT `fk_opcao_pergunta_pergunta1`
+    FOREIGN KEY (`pergunta`)
+    REFERENCES `sig_bolsas_bd`.`pergunta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`resposta`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`resposta` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`resposta` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `valor` VARCHAR(100) NULL,
+  `inscricao` INT NOT NULL,
+  `pergunta` INT NOT NULL,
+  INDEX `fk_inscricao_has_pergunta_pergunta1_idx` (`pergunta` ASC),
+  INDEX `fk_inscricao_has_pergunta_inscricao1_idx` (`inscricao` ASC),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_inscricao_has_pergunta_inscricao1`
+    FOREIGN KEY (`inscricao`)
+    REFERENCES `sig_bolsas_bd`.`inscricao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inscricao_has_pergunta_pergunta1`
+    FOREIGN KEY (`pergunta`)
+    REFERENCES `sig_bolsas_bd`.`pergunta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
