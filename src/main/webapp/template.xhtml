@@ -31,6 +31,12 @@
                     </div>
                     <br/>
                 </p:outputPanel>
+                <p:outputPanel rendered="#{papelBean.usuarioLogado != null}">
+                    | 
+                    <ui:repeat value="#{papelBean.usuarioLogado.pessoaPapels}" var="permissao">
+                        #{permissao.papel.nome} |
+                    </ui:repeat>
+                </p:outputPanel>
             </ui:insert>
         </div>
 

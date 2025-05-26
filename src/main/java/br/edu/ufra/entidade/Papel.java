@@ -19,6 +19,13 @@ public class Papel {
     @Column(name = "nome", nullable = false, length = 45)
     private String nome;
 
+    /*
+        A - administrador
+        C - coordenador
+        G - gerente
+        P - Pesquisador
+        B - Bolsista
+     */
     @Column(name = "codigo", nullable = false)
     private Character codigo;
 

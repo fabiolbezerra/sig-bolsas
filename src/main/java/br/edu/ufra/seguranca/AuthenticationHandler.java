@@ -19,7 +19,6 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Fabio
@@ -34,8 +33,8 @@ public class AuthenticationHandler implements AuthenticationProvider {
         PessoaRN RN = new PessoaRN();
         Pessoa user = RN.login(login, senhaCripto);
         if (user != null) {
-            List<GrantedAuthority> auts = new ArrayList<GrantedAuthority>();
-            Set<PessoaPapel> papeis = user.getPessoaPapels();
+            List<GrantedAuthority> auts = new ArrayList<>();
+            List<PessoaPapel> papeis = user.getPessoaPapels();
             for (PessoaPapel pessoaPapel : papeis) {
                 GrantedAuthorityImpl ga = new GrantedAuthorityImpl("ROLE_" + pessoaPapel.getPapel().getCodigo());
                 auts.add(ga);

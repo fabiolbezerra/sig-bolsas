@@ -3,6 +3,7 @@ package br.edu.ufra.bean;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.entidade.PessoaPapel;
 import br.edu.ufra.rn.PapelRN;
 import br.edu.ufra.util.UtilBean;
 
@@ -48,6 +49,50 @@ public class PapelBean {
 
     public Pessoa getUsuarioLogado() {
         return UtilBean.obterUsuarioLogado();
+    }
+
+    public boolean isUsuarioLogadoAdministrador() {
+        boolean resposta = false;
+        for (PessoaPapel permissao : getUsuarioLogado().getPessoaPapels()) {
+            if (permissao.getPapel().getCodigo() == 'A') {
+                resposta = true;
+                break;
+            }
+        }
+        return resposta;
+    }
+
+    public boolean isUsuarioLogadoCoordenador() {
+        boolean resposta = false;
+        for (PessoaPapel permissao : getUsuarioLogado().getPessoaPapels()) {
+            if (permissao.getPapel().getCodigo() == 'C') {
+                resposta = true;
+                break;
+            }
+        }
+        return resposta;
+    }
+
+    public boolean isUsuarioLogadoGerente() {
+        boolean resposta = false;
+        for (PessoaPapel permissao : getUsuarioLogado().getPessoaPapels()) {
+            if (permissao.getPapel().getCodigo() == 'G') {
+                resposta = true;
+                break;
+            }
+        }
+        return resposta;
+    }
+
+    public boolean isUsuarioLogadoPesquisador() {
+        boolean resposta = false;
+        for (PessoaPapel permissao : getUsuarioLogado().getPessoaPapels()) {
+            if (permissao.getPapel().getCodigo() == 'P') {
+                resposta = true;
+                break;
+            }
+        }
+        return resposta;
     }
 }
 

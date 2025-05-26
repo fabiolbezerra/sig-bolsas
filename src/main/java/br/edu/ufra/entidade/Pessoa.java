@@ -1,9 +1,7 @@
 package br.edu.ufra.entidade;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "pessoa")
@@ -33,30 +31,30 @@ public class Pessoa {
     private String senha;
 
     @OneToMany(mappedBy = "coordenador")
-    private Set<Comite> comites = new LinkedHashSet<>();
+    private List<Comite> comites = new ArrayList<>();
 
     @OneToMany(mappedBy = "pessoa")
-    private Set<ComitePessoa> comitePessoas = new LinkedHashSet<>();
+    private List<ComitePessoa> comitePessoas = new ArrayList<>();
 
     @OneToMany(mappedBy = "coordenador")
-    private Set<Edital> editals = new LinkedHashSet<>();
+    private List<Edital> editals = new ArrayList<>();
 
     @OneToMany(mappedBy = "pessoa")
-    private Set<PessoaPapel> pessoaPapels = new LinkedHashSet<>();
+    private List<PessoaPapel> pessoaPapels = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "unidade_administrativa", nullable = false)
     private UnidadeAdministrativa unidadeAdministrativa;
 
     @OneToMany(mappedBy = "pessoa")
-    private Set<Inscricao> inscricaos = new LinkedHashSet<>();
+    private List<Inscricao> inscricoes = new ArrayList<>();
 
-    public Set<Inscricao> getInscricaos() {
-        return inscricaos;
+    public List<Inscricao> getInscricoes() {
+        return inscricoes;
     }
 
-    public void setInscricaos(Set<Inscricao> inscricaos) {
-        this.inscricaos = inscricaos;
+    public void setInscricoes(List<Inscricao> inscricaos) {
+        this.inscricoes = inscricaos;
     }
 
     public UnidadeAdministrativa getUnidadeAdministrativa() {
@@ -115,35 +113,35 @@ public class Pessoa {
         this.senha = senha;
     }
 
-    public Set<Comite> getComites() {
+    public List<Comite> getComites() {
         return comites;
     }
 
-    public void setComites(Set<Comite> comites) {
+    public void setComites(List<Comite> comites) {
         this.comites = comites;
     }
 
-    public Set<ComitePessoa> getComitePessoas() {
+    public List<ComitePessoa> getComitePessoas() {
         return comitePessoas;
     }
 
-    public void setComitePessoas(Set<ComitePessoa> comitePessoas) {
+    public void setComitePessoas(List<ComitePessoa> comitePessoas) {
         this.comitePessoas = comitePessoas;
     }
 
-    public Set<Edital> getEditals() {
+    public List<Edital> getEditals() {
         return editals;
     }
 
-    public void setEditals(Set<Edital> editals) {
+    public void setEditals(List<Edital> editals) {
         this.editals = editals;
     }
 
-    public Set<PessoaPapel> getPessoaPapels() {
+    public List<PessoaPapel> getPessoaPapels() {
         return pessoaPapels;
     }
 
-    public void setPessoaPapels(Set<PessoaPapel> pessoaPapels) {
+    public void setPessoaPapels(List<PessoaPapel> pessoaPapels) {
         this.pessoaPapels = pessoaPapels;
     }
 

@@ -124,7 +124,7 @@ public class UtilBean {
                 pessoaTemp.setTelefone(pessoa.getTelefone());
                 pessoaTemp.setEmail(pessoa.getEmail());
                 pessoaTemp.setNascimento(pessoa.getNascimento());
-                pessoaTemp.setPessoaPapels(pessoa.getPessoaPapels());
+                pessoaTemp.setPessoaPapels(pessoa.getPessoaPapels());;
             }
             UtilBean.naSessao(CHAVE_PESSOA, pessoaTemp);
 
