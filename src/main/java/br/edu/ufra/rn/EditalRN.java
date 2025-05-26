@@ -15,6 +15,7 @@ public class EditalRN {
             return false;
         } else {
             if (edital.getId() == null || edital.getId() == 0) {
+                edital.setDataCadastro(new Date());
                 return DAO.criar(edital);
             } else {
                 return DAO.alterar(edital);

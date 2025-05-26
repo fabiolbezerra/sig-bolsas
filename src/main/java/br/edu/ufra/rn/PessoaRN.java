@@ -5,6 +5,7 @@ import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.util.UtilEmail;
 import br.edu.ufra.util.UtilTexto;
+
 import java.util.List;
 
 public class PessoaRN {
@@ -31,6 +32,18 @@ public class PessoaRN {
         return DAO.obter(Pessoa.class, id);
     }
 
+    public List<Pessoa> obterCoordenadores() {
+        return DAO.obterPessoasComPerfil('C');
+    }
+
+    public List<Pessoa> obterGerentes() {
+        return DAO.obterPessoasComPerfil('G');
+    }
+
+    public List<Pessoa> obterPesquisadores() {
+        return DAO.obterPessoasComPerfil('P');
+    }
+
     public Pessoa obterPorEmail(String email) {
         return DAO.obterPorEmail(email);
     }
@@ -39,19 +52,19 @@ public class PessoaRN {
         return DAO.login(email, senhaCripto);
     }
 
-    public static List<Pessoa> obter(String pista, char criterio){
-        if (pista == null){
+    public static List<Pessoa> obter(String pista, char criterio) {
+        if (pista == null) {
             return null;
         } else {
-            switch (criterio){
+            switch (criterio) {
                 case 'N':
                     return DAO.obterPorNome(pista);
                 case 'E':
-                    return DAO.obterEmail(pista);
+                    return DAO.obterPessoasPorEmail(pista);
                 case 'D':
                     return DAO.obterPorDataDeNascimento(pista);
-                    default:
-                        return DAO.obterPorNome(pista);
+                default:
+                    return DAO.obterPorNome(pista);
             }
         }
     }
@@ -109,7 +122,7 @@ public class PessoaRN {
         return pessoaLogada;
     }
 
-    private void notificarAlteracaoDaSenha(Pessoa pessoa){
+    private void notificarAlteracaoDaSenha(Pessoa pessoa) {
         String destinatario = pessoa.getEmail();
         String titulo = "Confirmação da alteração da senha";
         StringBuilder mensagem = new StringBuilder();
@@ -136,7 +149,7 @@ public class PessoaRN {
         return pessoaLogada;
     }
 
-    private void notificarAlteracaoDoEmail(Pessoa pessoa, String emailAntigo){
+    private void notificarAlteracaoDoEmail(Pessoa pessoa, String emailAntigo) {
         String destinatario = pessoa.getEmail();
         String titulo = "Confirmação da alteração do email";
         StringBuilder mensagem = new StringBuilder();

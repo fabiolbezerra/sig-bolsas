@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "comite")
 @NamedQueries({
-        @NamedQuery(name = "Comite.findAll", query = "SELECT r FROM Comite r"),
+        @NamedQuery(name = "Comite.findAll", query = "SELECT c FROM Comite c ORDER BY c.fim DESC"),
         @NamedQuery(name = "Comite.findById", query = "SELECT r FROM Comite r WHERE r.id = :id")})
 public class Comite {
     @Id

@@ -19,19 +19,19 @@
         <h:form id="formTitulo">
 
             <h:panelGrid columns="2">
-                <p:outputLabel value="Portaria"/>
+                <p:outputLabel value="Portaria: "/>
                 <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
 
-                <p:outputLabel value="Ano/Número"/>
+                <p:outputLabel value="Ano/Número: "/>
                 <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
 
-                <p:outputLabel value="Situação"/>
+                <p:outputLabel value="Situação: "/>
                 <p:outputLabel value="#{editalBean.obterSituacao(editalBean.edital.situacao)}"/>
 
-                <p:outputLabel value="Tipo"/>
+                <p:outputLabel value="Tipo: "/>
                 <p:outputLabel value="#{editalBean.obterTipo(editalBean.edital.tipo)}"/>
 
-                <p:outputLabel value="Início das inscrições"/>
+                <p:outputLabel value="Início das inscrições: "/>
                 <p:outputLabel value="#{editalBean.edital.dataInicio}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                 </p:outputLabel>
@@ -45,6 +45,21 @@
                 <p:outputLabel value="#{editalBean.edital.dataFinal}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                 </p:outputLabel>
+            </h:panelGrid>
+
+            <h2>Formulário de inscrição</h2>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Nome: "/>
+                <h:outputText value="#{editalBean.edital.formulario.nome}"/>
+
+                <p:outputLabel value="Número de perguntas: "/>
+                <h:outputText value="#{editalBean.edital.formulario.perguntas.size()}"/>
+
+                <p:outputLabel value="Data de criação: "/>
+                <h:outputText value="#{editalBean.edital.formulario.dataCriacao}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
             </h:panelGrid>
 
             <h2>Quem cadastrou</h2>

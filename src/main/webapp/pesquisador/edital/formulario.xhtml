@@ -21,6 +21,10 @@
             <p:growl showDetail="true" showSummary="true"/>
 
             <h:inputHidden value="#{editalBean.edital.id}"/>
+            <h:inputHidden value="#{editalBean.edital.dataCadastro}">
+                <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+            </h:inputHidden>
+            
             <h:panelGrid columns="2">
                 <p:outputLabel value="Título"/>
                 <p:inputText value="#{editalBean.edital.titulo}"/>
@@ -53,16 +57,23 @@
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Comitê"/>
-                <p:selectOneMenu converter="comiteConverter" value="#{editalBean.edital.comite}">
+                <p:selectOneMenu converter="comiteConverter" value="#{editalBean.edital.comite}" required="true">
                     <f:selectItem noSelectionOption="true" itemLabel="Selecione o comitê"/>
                     <f:selectItems value="#{comiteBean.comites}" var="c" itemValue="#{c}" itemLabel="#{c.portaria}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Coordenador"/>
-                <p:selectOneMenu converter="pessoaConverter" value="#{editalBean.edital.coordenador}">
+                <p:selectOneMenu converter="pessoaConverter" value="#{editalBean.edital.coordenador}" required="true">
                     <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
-                    <f:selectItems value="#{pessoaBean.pessoas}" var="p" itemValue="#{p}"
-                                   itemLabel="#{p.nomeCompleto}"/>
+                    <f:selectItems value="#{pessoaBean.coordenadores}" var="coordenador"
+                                   itemValue="#{coordenador}" itemLabel="#{coordenador.nomeCompleto}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Formulário de inscrição"/>
+                <p:selectOneMenu converter="formularioConverter" value="#{editalBean.edital.formulario}">
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione um formulário"/>
+                    <f:selectItems value="#{formularioBean.formularios}" var="formulario"
+                                   itemValue="#{formulario}" itemLabel="#{formulario.nome}"/>
                 </p:selectOneMenu>
             </h:panelGrid>
 

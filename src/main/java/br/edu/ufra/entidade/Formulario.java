@@ -6,7 +6,7 @@ import java.util.*;
 @Entity
 @Table(name = "formulario")
 @NamedQueries({
-        @NamedQuery(name = "Formulario.findAll", query = "SELECT o FROM Formulario o"),
+        @NamedQuery(name = "Formulario.findAll", query = "SELECT o FROM Formulario o ORDER BY o.dataCriacao DESC"),
         @NamedQuery(name = "Formulario.findById", query = "SELECT o FROM Formulario o WHERE o.id = :id")})
 public class Formulario {
     @Id

@@ -118,6 +118,18 @@ public class PessoaBean {
         return pessoas;
     }
 
+    public List<Pessoa> getCoordenadores() {
+        return RN.obterCoordenadores();
+    }
+
+    public List<Pessoa> getGerentes() {
+        return RN.obterGerentes();
+    }
+
+    public List<Pessoa> getPesquisadores() {
+        return RN.obterPesquisadores();
+    }
+
     public Pessoa getPessoa() {
         return pessoa;
     }

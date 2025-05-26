@@ -3,10 +3,10 @@ package br.edu.ufra.bean;
 import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.rn.ComiteRN;
 import br.edu.ufra.util.UtilBean;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,9 +26,9 @@ public class ComiteBean implements Serializable {
     @PostConstruct
     public void init() {
         System.out.println("Inicializando ComiteBean ...");
-        FacesContext currentInstance = FacesContext.getCurrentInstance();
         comites = RN.listarTodos();
-        String comiteID = currentInstance.getExternalContext().getRequestParameterMap().get("comite");
+
+        String comiteID = UtilBean.obterValor("comite");
         if (comiteID != null) {
             try {
                 int id = Integer.parseInt(comiteID);
@@ -42,7 +42,6 @@ public class ComiteBean implements Serializable {
                 UtilBean.criarMensagemDeErro("Não foi possível recuperar o comite.");
             }
         }
-
     }
 
     public List<Comite> getComites() {
