@@ -5,10 +5,10 @@ insert into formulario
     (1, 'Inscrição PROICT', '2025-05-25');
 
 -- vinculando o formulário criado aos editais
--- update edital set formulario = 1 where id = 1;
--- update edital set formulario = 1 where id = 2;
--- update edital set formulario = 1 where id = 3;
--- update edital set formulario = 1 where id = 4;
+update edital set formulario = 1 where id = 1;
+update edital set formulario = 1 where id = 2;
+update edital set formulario = 1 where id = 3;
+update edital set formulario = 1 where id = 4;
 
 -- pergunta
 insert into pergunta

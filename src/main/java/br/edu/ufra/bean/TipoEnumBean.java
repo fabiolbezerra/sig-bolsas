@@ -6,10 +6,11 @@ import br.edu.ufra.entidade.tipo.EnumTipoPergunta;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import java.io.Serializable;
 
 @ManagedBean
 @RequestScoped
-public class TipoEnumBean {
+public class TipoEnumBean implements Serializable {
 
     public TipoEnumBean() {
         System.out.println("Criando TipoEnumBean ...");

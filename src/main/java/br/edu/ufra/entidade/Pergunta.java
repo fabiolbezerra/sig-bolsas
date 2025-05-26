@@ -3,9 +3,10 @@ package br.edu.ufra.entidade;
 import br.edu.ufra.entidade.tipo.EnumTipoPergunta;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "pergunta")
@@ -33,10 +34,10 @@ public class Pergunta {
     private Formulario formulario;
 
     @OneToMany(mappedBy = "pergunta")
-    private Set<OpcaoPergunta> opcaoPerguntas = new LinkedHashSet<>();
+    private List<OpcaoPergunta> opcaoPerguntas = new ArrayList<>();
 
     @OneToMany(mappedBy = "pergunta")
-    private Set<Resposta> respostas = new LinkedHashSet<>();
+    private List<Resposta> respostas = new ArrayList<>();
 
     @Column(name = "ordem", nullable = false)
     private Integer ordem;
@@ -89,19 +90,19 @@ public class Pergunta {
         this.formulario = formulario;
     }
 
-    public Set<OpcaoPergunta> getOpcaoPerguntas() {
+    public List<OpcaoPergunta> getOpcaoPerguntas() {
         return opcaoPerguntas;
     }
 
-    public void setOpcaoPerguntas(Set<OpcaoPergunta> opcaoPerguntas) {
+    public void setOpcaoPerguntas(List<OpcaoPergunta> opcaoPerguntas) {
         this.opcaoPerguntas = opcaoPerguntas;
     }
 
-    public Set<Resposta> getRespostas() {
+    public List<Resposta> getRespostas() {
         return respostas;
     }
 
-    public void setRespostas(Set<Resposta> respostas) {
+    public void setRespostas(List<Resposta> respostas) {
         this.respostas = respostas;
     }
 

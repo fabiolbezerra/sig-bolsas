@@ -3,15 +3,44 @@ package br.edu.ufra.dao;
 import br.edu.ufra.entidade.Formulario;
 import br.edu.ufra.entidade.OpcaoPergunta;
 import br.edu.ufra.entidade.Pergunta;
-import br.edu.ufra.entidade.Pergunta;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Set;
 
 public class PerguntaDAO extends GenericDAO<Pergunta> {
+
+    public boolean salvar(List<Pergunta> perguntas) {
+        EntityManager em = getEntityManager();
+
+        EntityTransaction transaction = null;
+        if (em != null) {
+            transaction = em.getTransaction();
+        } else {
+            return false;
+        }
+
+        try {
+            transaction.begin();
+
+            for (Pergunta pergunta : perguntas) {
+                em.merge(pergunta);
+            }
+            transaction.commit();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            if (transaction != null
+                    && transaction.isActive()) {
+                transaction.rollback();
+            }
+            return false;
+        } finally {
+            em.close();
+        }
+    }
 
     public boolean alterar(Pergunta pergunta, boolean excluirOpcoes) {
         if (excluirOpcoes) {
@@ -27,7 +56,7 @@ public class PerguntaDAO extends GenericDAO<Pergunta> {
             try {
                 transaction.begin();
                 //excluindo as opções da pergunta
-                Set<OpcaoPergunta> opcoes = pergunta.getOpcaoPerguntas();
+                List<OpcaoPergunta> opcoes = pergunta.getOpcaoPerguntas();
                 for (OpcaoPergunta opcaoPergunta : opcoes) {
                     em.remove(opcaoPergunta);
                 }

@@ -7,8 +7,7 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
->
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
         Perguntas do Formulário
@@ -44,17 +43,23 @@
 
                         <p:outputLabel value="Tipo de pergunta"/>
                         <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}" converter="tipoPerguntaConverter">
-                            <f:selectItem noSelectionOption="true" itemLabel="Selecione o tipo de pergunta"/>
+                            <f:selectItem noSelectionOption="true" itemValue="null"
+                                          itemLabel="Selecione o tipo de pergunta"/>
                             <f:selectItems value="#{tipoEnumBean.tiposDePergunta}" var="tp"
                                            itemValue="#{tp}" itemLabel="#{tp.toString()}"/>
                         </p:selectOneMenu>
 
                     </h:panelGrid>
 
+                    <!-- https://stackoverflow.com/questions/17587304/how-to-use-if-else-condition-in-jsf-to-display-image -->
+
                     <p:button outcome="lista.xhtml" value="Cancelar"/>
-                    <p:commandButton value="Salvar" action="#{perguntaBean.salvar()}" update="@all"/>
+                    <p:commandButton value="Limpar" action="#{perguntaBean.atualizar()}" update="formPergunta"/>
+                    <p:commandButton value="Salvar" action="#{perguntaBean.salvar()}"
+                                     update="formPergunta formListaDePerguntas"/>
                 </h:form>
             </div>
+
             <div class="ui-g-8">
                 <h2>#{perguntaBean.formulario.nome}</h2>
 
@@ -62,18 +67,46 @@
                     <p:growl showDetail="true" showSummary="true"/>
 
                     <ui:repeat value="#{perguntaBean.perguntas}" var="pergunta">
-                        <p:outputPanel>
+                        <p:panel>
                             <f:facet name="header">
                                 Pergunta #{pergunta.ordem}
+                                <div class="top_direita">
+                                    <p:commandButton icon="fa fa-pencil" update="formPergunta formListaDePerguntas">
+                                        <f:setPropertyActionListener target="#{perguntaBean.pergunta}"
+                                                                     value="#{pergunta}"/>
+                                    </p:commandButton>
+
+                                    <p:commandButton icon="fa fa-arrow-up"
+                                                     actionListener="#{perguntaBean.moverParaCima(pergunta)}"
+                                                     update="formPergunta formListaDePerguntas"/>
+
+                                    <p:commandButton icon="fa fa-arrow-down"
+                                                     actionListener="#{perguntaBean.moverParaBaixo(pergunta)}"
+                                                     update="formPergunta formListaDePerguntas"/>
+
+                                    <!-- TODO: Solicitar confirmação da exclusão -->
+                                    <p:commandButton icon="fa fa-trash"
+                                                     actionListener="#{perguntaBean.excluir(pergunta)}"
+                                                     update="formPergunta formListaDePerguntas" />
+                                </div>
+                            </f:facet>
+
+                            <f:facet name="footer">
+                                Pontuação #{pergunta.pontuacao}
                             </f:facet>
 
                             <p:outputLabel value="#{pergunta.texto}"/>
-                            <!-- https://stackoverflow.com/questions/17587304/how-to-use-if-else-condition-in-jsf-to-display-image -->
-                        </p:outputPanel>
+                            <p:dataList value="#{pergunta.opcaoPerguntas}" var="opcao" rendered="#{not empty pergunta.opcaoPerguntas}">
+                                <h:outputText value="#{opcao.resposta}" />
+                            </p:dataList>
+
+                        </p:panel>
                         <br/>
                     </ui:repeat>
                 </h:form>
             </div>
+
         </div>
+
     </ui:define>
 </ui:composition>

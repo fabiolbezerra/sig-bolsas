@@ -5,6 +5,8 @@ import br.edu.ufra.entidade.Formulario;
 import br.edu.ufra.entidade.Pergunta;
 import br.edu.ufra.entidade.tipo.EnumTipoPergunta;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,6 +33,15 @@ public class PerguntaRN {
         }
     }
 
+    public boolean excluir(Pergunta pergunta) {
+        if (pergunta == null) {
+            return false;
+        } else {
+            //TODO: caso a pergunta tenha resposta preenchida, não permitir a exclusão
+            return DAO.excluir(pergunta);
+        }
+    }
+
     public List<Pergunta> listarTodas() {
         return DAO.obterTodos(Pergunta.class);
     }
@@ -45,6 +56,17 @@ public class PerguntaRN {
         } else {
             return DAO.obter(formulario);
         }
+    }
+
+    public boolean trocarDeOrdem(Pergunta pergunta1, Pergunta pergunta2, boolean paraCima) {
+        if (paraCima) {
+            pergunta1.setOrdem(pergunta1.getOrdem() - 1);
+            pergunta2.setOrdem(pergunta2.getOrdem() + 1);
+        } else {
+            pergunta1.setOrdem(pergunta1.getOrdem() + 1);
+            pergunta2.setOrdem(pergunta2.getOrdem() - 1);
+        }
+        return DAO.salvar(Arrays.asList(pergunta1, pergunta2));
     }
 
 }

@@ -12,7 +12,7 @@ import javax.faces.convert.FacesConverter;
 public class TipoPerguntaConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String string) {
-        if (string == null || string.trim().equals("")) {
+        if (string == null || string.trim().equals("") || string.equals("null")) {
             return null;
         } else {
             return EnumTipoPergunta.valueOf(string);

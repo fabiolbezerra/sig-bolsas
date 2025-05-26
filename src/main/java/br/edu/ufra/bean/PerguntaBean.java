@@ -10,11 +10,12 @@ import br.edu.ufra.util.UtilBean;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
 import java.util.List;
 
 @ManagedBean
 @ViewScoped
-public class PerguntaBean {
+public class PerguntaBean implements Serializable {
     private final FormularioRN FORMULARIO_RN = new FormularioRN();
     private final PerguntaRN PERGUNTA_RN = new PerguntaRN();
 
@@ -40,6 +41,7 @@ public class PerguntaBean {
             if (formulario == null) {
                 formulario = new Formulario();
             }
+            pergunta.setFormulario(formulario);
             perguntas = PERGUNTA_RN.obter(formulario);
             if (perguntas != null) {
                 ordem = perguntas.size();
@@ -89,6 +91,38 @@ public class PerguntaBean {
         this.ordem = ordem;
     }
 
+    public void moverParaCima(Pergunta pergunta) {
+        int index = perguntas.indexOf(pergunta);
+        if (index == -1) {
+            //Não achou a pergunta
+        } else {
+            if (index == 0) {
+                UtilBean.criarMensagemDeAviso("Pergunta não pode ser movida para cima");
+            } else {
+                if (PERGUNTA_RN.trocarDeOrdem(perguntas.get(index), perguntas.get(index - 1), true)) {
+                    UtilBean.criarMensagemDeInformacao("Pergunta movida para cima");
+                }
+            }
+            atualizar();
+        }
+    }
+
+    public void moverParaBaixo(Pergunta pergunta) {
+        int index = perguntas.indexOf(pergunta);
+        if (index == -1) {
+            //Não achou a pergunta
+        } else {
+            if (index == perguntas.size() - 1) {
+                UtilBean.criarMensagemDeAviso("Pergunta não pode ser movida para baixo");
+            } else {
+                if (PERGUNTA_RN.trocarDeOrdem(perguntas.get(index), perguntas.get(index + 1), false)) {
+                    UtilBean.criarMensagemDeInformacao("Pergunta movida para baixo");
+                }
+            }
+            atualizar();
+        }
+    }
+
     public void salvar() {
         if (pergunta == null) {
             //Mensagem de erro: objeto nulo
@@ -104,8 +138,33 @@ public class PerguntaBean {
                 //Mensagem de erro: problemas ao salvar
                 UtilBean.criarMensagemDeErro("Problema ao gravar a pergunta");
             }
-            pergunta = new Pergunta();
-            opcaoPergunta = new OpcaoPergunta();
+
+            atualizar();
         }
+    }
+
+    public void excluir(Pergunta pergunta) {
+        if (pergunta == null) {
+            //Mensagem de erro: objeto nulo
+            UtilBean.criarMensagemDeErro("Objeto nulo");
+        } else {
+            if (PERGUNTA_RN.excluir(pergunta)) {
+                //Mensagem de sucesso
+                UtilBean.criarMensagemDeInformacao("Pergunta gravada com sucesso");
+            } else {
+                //Mensagem de erro: problemas ao salvar
+                UtilBean.criarMensagemDeErro("Problema ao gravar a pergunta");
+            }
+
+            atualizar();
+        }
+    }
+
+    public void atualizar() {
+        //Atualizando os objetos
+        pergunta = new Pergunta();
+        pergunta.setFormulario(formulario);
+        opcaoPergunta = new OpcaoPergunta();
+        perguntas = PERGUNTA_RN.obter(formulario);
     }
 }
