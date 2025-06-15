@@ -78,14 +78,16 @@ public class UnidadeAdministrativa {
 
     @Override
     public boolean equals(Object object) {
+        if (this == object) return  true;
         if (object == null || getClass() != object.getClass()) return false;
 
         UnidadeAdministrativa that = (UnidadeAdministrativa) object;
-        return id.equals(that.id);
+        if (this.id == null || that.id == null) return false;
+        return this.id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return (id != null)? id.hashCode() : 0;
     }
 }

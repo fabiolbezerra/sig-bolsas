@@ -17,9 +17,10 @@
     <ui:define name="content">
         <h1>Operação realizada com sucesso</h1>
 
-        <h:outputText value="Seu cadastro foi realizado com sucesso. Agora você pode acessar sua conta." />
-
-        <p:button outcome="index.xhtml" value="OK"/>
+        <div style="background-color: #e8f5e9; border-left: 6px solid #4CAF50; padding: 16px; font-size: 16px;">
+            Seu cadastro foi realizado com sucesso. Agora você pode acessar sua conta.
+        </div>
+        <p:button outcome="/index.xhtml" value="OK" style="margin-top: 20px;" />
 
     </ui:define>
 </ui:composition>
