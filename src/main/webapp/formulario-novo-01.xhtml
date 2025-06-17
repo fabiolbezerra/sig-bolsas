@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Novo Usuário
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Criar Conta</h1>
+        <h:form id="formAutoCastro">
+            <p:growl showDetail="true" showSummary="true"/>
+
+            <!--@elvariable id="autoCadastroBean" type="br.edu.ufra.bean.AutoCadastroBean"-->
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Digite o E-mail: "/>
+                <p:inputText id="email" value="#{autoCadastroBean.email}" required="true"/>
+            </h:panelGrid>
+
+            <p:button outcome="index.xhtml" value="Cancelar"/>
+            <p:commandButton value="Criar" action="#{autoCadastroBean.gerarCodigo()}" update="@form"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
