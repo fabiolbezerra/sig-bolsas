@@ -98,16 +98,14 @@ public class AutoCadastroBean {
         }
 
         try {
-            // Chama o método da RN que gera o código e envia por email
             String codigoRetornado = RN.iniciarValidacaoDoEmail(this.email);
 
             if (codigoRetornado != null && !codigoRetornado.trim().isEmpty()) {
-                // Armazena o código gerado para posterior validação
+
                 this.codigoGerado = codigoRetornado;
 
                 UtilBean.criarMensagemDeInformacao("Código gerado e enviado para o seu e-mail.");
 
-                // Redirecionamento programático
                 try {
                     FacesContext context = FacesContext.getCurrentInstance();
                     String url = context.getExternalContext().getRequestContextPath() +
