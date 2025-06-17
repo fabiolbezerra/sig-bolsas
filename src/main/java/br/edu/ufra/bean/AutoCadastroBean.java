@@ -152,30 +152,16 @@ public class AutoCadastroBean {
         }
     }
 
-    public String salvar() {
+    public void salvar() {
         if (pessoa == null) {
             UtilBean.criarMensagemDeErro("Pessoa não encontrada!");
-            return null;
-        }
-
-        if (papeis.size() > 1) {
-            UtilBean.criarMensagemDeErro("Você só pode escolher um papel.");
-            return null;
-        }
-
-        Pessoa pessoaExistente = RN.obterPorEmail(pessoa.getEmail());
-        if (pessoaExistente != null) {
-            UtilBean.criarMensagemDeErro("Essa pessoa já possui uma conta. Por favor, faça login.");
-            return null;
         }
         if (RN.salvar(pessoa)) {
             setPessoa(RN.alterarPermissoes(pessoa.getEmail(), senha, pessoa, papeis));
             UtilBean.criarMensagemDeInformacao("Pessoa gravada com sucesso");
-            return "/publico/usuario/formulario-novo-04.xhtml?faces-redirect=true&step=4";
         } else {
             //Mensagem de erro: problemas ao salvar
             UtilBean.criarMensagemDeErro("Problema ao gravar a pessoa");
-            return null;
         }
 
     }

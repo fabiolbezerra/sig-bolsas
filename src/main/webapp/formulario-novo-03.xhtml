@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition
-        template="../../template.xhtml"
+        template="/template.xhtml"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -16,6 +18,7 @@
         <h1>Dados da Conta</h1>
         <h:form id="formPessoa">
             <p:growl showDetail="true" showSummary="true"/>
+
 
             <h:inputHidden value="#{autoCadastroBean.pessoa.id}"/>
             <h:inputHidden value="#{autoCadastroBean.pessoa.senha}"/>
@@ -45,12 +48,12 @@
                              requiredMessage="Por favor, insira um número de telefone válido."
                              converter="telefoneConverter"/>
 
-                <p:outputLabel value="E-mail"/>
+                <p:outputLabel value="E-mail"  rendered="#{autoCadastroBean.pessoa.id == null}"/>
                 <p:inputText value="#{autoCadastroBean.pessoa.email}"
-                             required="true" label="E-mail"
+                             required="true"
                              requiredMessage="Insira um endereço de e-mail."
                              validator="emailValidator"
-                             />
+                             rendered="#{autoCadastroBean.pessoa.id == null}"/>
 
                 <p:outputLabel value="Senha" rendered="#{autoCadastroBean.pessoa.id == null}"/>
                 <p:password id="senha1"
@@ -73,21 +76,14 @@
                             required="true"
                             requiredMessage="Informe sua data de nascimento no formato dd/mm/aaaa."/>
 
-                <p:outputLabel value="Unidade Administrativa"/>
-                <p:selectOneMenu converter="unidadeAdministrativaConverter" value="#{autoCadastroBean.pessoa.unidadeAdministrativa}">
-                <f:selectItem noSelectionOption="true" itemLabel="Selecione uma Unidade Administrativa"/>
-                <f:selectItems value="#{unidadeAdministrativaBean.unidades}" var="u" itemValue="#{u}"
-                               itemLabel="#{u.nome}"/>
-                </p:selectOneMenu>
+            </h:panelGrid>
 
-            </h:panelGrid>
-            <h:panelGrid columns="2">
-                <p:button outcome="/index.xhtml" value="Cancelar" form = "none"/>
-                <p:commandButton value="Salvar"
-                                 action="#{autoCadastroBean.salvar}"
-                                 update="@form"
-                                 process="@form"/>
-            </h:panelGrid>
+            <p:button outcome="index.xhtml" value="Cancelar"/>
+            <p:commandButton value="Salvar"
+                             action="#{autoCadastroBean.salvar()}"
+                             update="@form"
+                             oncomplete="if (!args.validationFailed) { window.location='#{request.contextPath}/formulario-novo-04.xhtml'; }"/>
+
         </h:form>
     </ui:define>
 </ui:composition>
