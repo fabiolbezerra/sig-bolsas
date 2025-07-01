@@ -122,7 +122,7 @@ public class InscricaoBean {
         if (inscricao != null) {
             return "/pesquisador/inscricao/detalhes.xhtml?faces-redirect=true&inscricaoID=" + inscricao.getId();
         } else {
-            return "/pesquisador/inscricao/formulario-perguntas.xhtml?faces-redirect=true&editalID=" + edital.getId()+"&pesquisadorID=" + pesquisador.getId();
+            return "/pesquisador/inscricao/formulario.xhtml?faces-redirect=true&editalID=" + edital.getId()+"&pesquisadorID=" + pesquisador.getId();
         }
 
     }

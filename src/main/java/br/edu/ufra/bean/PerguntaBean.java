@@ -95,6 +95,7 @@ public class PerguntaBean implements Serializable {
         int index = perguntas.indexOf(pergunta);
         if (index == -1) {
             //Não achou a pergunta
+            UtilBean.criarMensagemDeAviso("Pergunta não encontrada"); //esse caso não deve ocorrer, mas ...
         } else {
             if (index == 0) {
                 UtilBean.criarMensagemDeAviso("Pergunta não pode ser movida para cima");
@@ -111,6 +112,7 @@ public class PerguntaBean implements Serializable {
         int index = perguntas.indexOf(pergunta);
         if (index == -1) {
             //Não achou a pergunta
+            UtilBean.criarMensagemDeAviso("Pergunta não encontrada"); //esse caso não deve ocorrer, mas ...
         } else {
             if (index == perguntas.size() - 1) {
                 UtilBean.criarMensagemDeAviso("Pergunta não pode ser movida para baixo");
