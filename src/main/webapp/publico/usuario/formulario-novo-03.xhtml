@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Dados da Conta
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Dados da Conta</h1>
+        <h:form id="formPessoa">
+            <p:growl showDetail="true" showSummary="true"/>
+
+            <h:inputHidden value="#{autoCadastroBean.pessoa.id}"/>
+            <h:inputHidden value="#{autoCadastroBean.pessoa.senha}"/>
+            <h:panelGrid columns="4">
+                <p:selectManyCheckbox value="#{autoCadastroBean.papeis}"
+                                      required="true"
+                                      requiredMessage="Por favor, escolha um papel: Pesquisador ou Bolsista."
+                                      converter="papelConverter">
+                    <f:selectItems value="#{papelBean.getlistarPerfil()}"
+                                   var="papel"
+                                   itemLabel="#{papel.nome}"
+                                   itemValue="#{papel}"/>
+                </p:selectManyCheckbox>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+
+                <p:outputLabel value="Nome completo"/>
+                <p:inputText value="#{autoCadastroBean.pessoa.nomeCompleto}"
+                             required="true"
+                             requiredMessage="Informe o seu nome completo para prosseguir."
+                             validator="nomeCompletoValidator"/>
+
+                <p:outputLabel value="Telefone"/>
+                <p:inputMask mask="(99) 99999-9999"
+                             value="#{autoCadastroBean.pessoa.telefone}"
+                             required="true"
+                             requiredMessage="Por favor, insira um número de telefone válido."
+                             converter="telefoneConverter"/>
+
+                <p:outputLabel value="E-mail"/>
+                <p:inputText value="#{autoCadastroBean.pessoa.email}"
+                             required="true" label="E-mail"
+                             requiredMessage="Insira um endereço de e-mail."
+                             validator="emailValidator"
+                             />
+
+                <p:outputLabel value="Senha" rendered="#{autoCadastroBean.pessoa.id == null}"/>
+                <p:password id="senha1"
+                            value="#{autoCadastroBean.pessoa.senha}"
+                            required="true"
+                            requiredMessage="Crie uma senha segura."
+                            match="senha2"
+                            rendered="#{autoCadastroBean.pessoa.id == null}"/>
+
+                <p:outputLabel value="Redigite a Senha" rendered="#{autoCadastroBean.pessoa.id == null}"/>
+                <p:password id="senha2"
+                            value="#{autoCadastroBean.senha}"
+                            required="true"
+                            requiredMessage="Digite novamente a senha para confirmação."
+                            rendered="#{autoCadastroBean.pessoa.id == null}"/>
+
+                <p:outputLabel value="Data de nascimento"/>
+                <p:calendar pattern="dd/MM/yyyy"
+                            value="#{autoCadastroBean.pessoa.nascimento}"
+                            required="true"
+                            requiredMessage="Informe sua data de nascimento no formato dd/mm/aaaa."/>
+
+                <p:outputLabel value="Unidade Administrativa"/>
+                <p:selectOneMenu converter="unidadeAdministrativaConverter" value="#{autoCadastroBean.pessoa.unidadeAdministrativa}">
+                <f:selectItem noSelectionOption="true" itemLabel="Selecione uma Unidade Administrativa"/>
+                <f:selectItems value="#{unidadeAdministrativaBean.unidades}" var="u" itemValue="#{u}"
+                               itemLabel="#{u.nome}"/>
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:button outcome="/index.xhtml" value="Cancelar" form = "none"/>
+                <p:commandButton value="Salvar"
+                                 action="#{autoCadastroBean.salvar}"
+                                 update="@form"
+                                 process="@form"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
