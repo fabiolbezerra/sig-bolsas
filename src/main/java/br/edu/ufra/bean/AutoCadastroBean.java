@@ -5,6 +5,7 @@ import br.edu.ufra.rn.PessoaRN;
 import br.edu.ufra.util.UtilBean;
 import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.PessoaPapel;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -37,7 +38,9 @@ public class AutoCadastroBean {
         System.out.println("Iniciando AutoCadastroBean");
         FacesContext currentInstance = FacesContext.getCurrentInstance();
         String codigoRequisicao = currentInstance.getExternalContext().getRequestParameterMap().get("CODIGO");
-        this.codigoGerado = codigoRequisicao;
+        if (codigoRequisicao != null && !codigoRequisicao.trim().isEmpty()) {
+            this.codigoGerado = codigoRequisicao;
+        }
     }
 
     public String getSenha() {
@@ -89,24 +92,52 @@ public class AutoCadastroBean {
     }
 
     public void gerarCodigo() {
-        if (this.pessoa.getEmail() == null || this.pessoa.getEmail().trim().isEmpty()) {
+        if (this.email == null || this.email.trim().isEmpty()) {
             UtilBean.criarMensagemDeAviso("Informe um e-mail");
-        } else {
-            String resultadoEnvio = RN.iniciarValidacaoDoEmail(this.pessoa.getEmail());
-            if (resultadoEnvio != null && resultadoEnvio.equals(this.codigoGerado)) {
+            return;
+        }
+
+        try {
+            String codigoRetornado = RN.iniciarValidacaoDoEmail(this.email);
+
+            if (codigoRetornado != null && !codigoRetornado.trim().isEmpty()) {
+
+                this.codigoGerado = codigoRetornado;
+
                 UtilBean.criarMensagemDeInformacao("Código gerado e enviado para o seu e-mail.");
+
+                try {
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    String url = context.getExternalContext().getRequestContextPath() +
+                            "/formulario-novo-02.xhtml?CODIGO=" + codigoRetornado;
+                    context.getExternalContext().redirect(url);
+                } catch (Exception ex) {
+                    UtilBean.criarMensagemDeErro("Erro ao redirecionar: " + ex.getMessage());
+                }
             } else {
-                UtilBean.criarMensagemDeErro("Erro ao enviar o código para o e-mail.");
+                UtilBean.criarMensagemDeErro("Erro ao gerar o código para o e-mail.");
             }
+        } catch (Exception e) {
+            UtilBean.criarMensagemDeErro("Erro ao enviar o código para o e-mail: " + e.getMessage());
         }
     }
 
     public String validarCodigo() {
-        if (this.codigoDigitado != null && this.codigoDigitado.equals(this.codigoGerado)) {
-            return ""; //<--- inserir o endereço da página de criaçao do usuário
+        if (this.codigoDigitado == null || this.codigoDigitado.trim().isEmpty()) {
+            UtilBean.criarMensagemDeErro("Informe o código recebido por e-mail.");
+            return null;
+        }
+
+        if (this.codigoGerado == null || this.codigoGerado.trim().isEmpty()) {
+            UtilBean.criarMensagemDeErro("O Código não foi gerado. Solicite um novo código.");
+            return null;
+        }
+
+        if (this.codigoDigitado.trim().equals(this.codigoGerado.trim())) {
+            UtilBean.criarMensagemDeInformacao("Código validado com Sucesso.");
+            return "/publico/usuario/formulario-novo-03.xhtml?faces-redirect=true";
         } else {
-            UtilBean.criarMensagemDeErro("Código Inválido");
-            pessoa = new Pessoa();
+            UtilBean.criarMensagemDeErro("Código inválido. Verifique o código recebido por e-mail.");
             return null;
         }
     }
@@ -121,35 +152,17 @@ public class AutoCadastroBean {
         }
     }
 
-    public String salvar() {
+    public void salvar() {
         if (pessoa == null) {
             UtilBean.criarMensagemDeErro("Pessoa não encontrada!");
-            return null;
-        }
-
-        if (papeis.size() > 1) {
-            UtilBean.criarMensagemDeErro("Você só pode escolher um papel.");
-            return null;
-        }
-
-        Pessoa pessoaExistente = RN.obterPorEmail(pessoa.getEmail());
-        if (pessoaExistente != null) {
-            UtilBean.criarMensagemDeErro("Essa pessoa já possui uma conta. Por favor, faça login.");
-            return null;
         }
         if (RN.salvar(pessoa)) {
             setPessoa(RN.alterarPermissoes(pessoa.getEmail(), senha, pessoa, papeis));
             UtilBean.criarMensagemDeInformacao("Pessoa gravada com sucesso");
-            return "/publico/usuario/formulario-novo-04.xhtml?faces-redirect=true&step=4";
         } else {
             //Mensagem de erro: problemas ao salvar
             UtilBean.criarMensagemDeErro("Problema ao gravar a pessoa");
-            return null;
         }
 
     }
-
 }
-
-
-
