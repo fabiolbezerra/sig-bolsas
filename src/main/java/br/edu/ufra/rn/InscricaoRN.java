@@ -6,6 +6,7 @@ import br.edu.ufra.entidade.Inscricao;
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.util.UtilTexto;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -26,10 +27,6 @@ public class InscricaoRN {
         }
     }
 
-    public List<Inscricao> listarTodos() {
-        return DAO.obterTodos(Inscricao.class);
-    }
-
     public Inscricao obter(Integer id) {
         if (id == null) {
             return null;
@@ -45,7 +42,7 @@ public class InscricaoRN {
             String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senha);
             Pessoa pesquisadorLogado = pessoaRN.login(email, senhaAtualCriptografada);
             if (pesquisadorLogado != null) {
-                List<Inscricao> inscricoes = obterPorPesquisador(pesquisador);
+                List<Inscricao> inscricoes = obter(pesquisador);
                 for (Inscricao inscricao : inscricoes) {
                     if (edital.equals(inscricao.getEdital())) {
                         return false;
@@ -55,14 +52,27 @@ public class InscricaoRN {
                 novaInscricao.setEdital(edital);
                 novaInscricao.setPessoa(pesquisador);
                 novaInscricao.setDataInscricao(new Date());
-                novaInscricao.setProtocolo(DAO.gerarProtocolo(edital.getId(), pesquisador.getId()));
+                novaInscricao.setProtocolo(gerarProtocolo(edital.getId(), pesquisador.getId()));
                 return salvar(novaInscricao);
             }
             return false;
         }
     }
 
-    public List<Inscricao> obterPorPesquisador(Pessoa pesquisador) {
+    public String gerarProtocolo(int editalId, int pessoaId) {
+        int ano = LocalDate.now().getYear();
+
+        // Formata editalId 3 dígitos, preenchendo com zeros
+        String editalFormatado = String.format("%03d", editalId);
+        // Formata pessoaId 5 dígitos, preenchendo com zeros
+        String pessoaFormatada = String.format("%05d", pessoaId);
+
+        // Concatena tudo no formato AAAAEEEEPPPP
+        String protocoloGerado = String.format("%d%s%s", ano, editalFormatado, pessoaFormatada);
+        return protocoloGerado;
+    }
+
+    public List<Inscricao> obter(Pessoa pesquisador) {
         if (pesquisador == null || pesquisador.getId() == null) {
             return null;
         } else {
@@ -70,7 +80,15 @@ public class InscricaoRN {
         }
     }
 
-    public List<Inscricao> obterPorEdital(Edital edital) {
+    public List<Inscricao> obter(Pessoa pesquisador, boolean vigentes) {
+        if (pesquisador == null || pesquisador.getId() == null) {
+            return null;
+        } else {
+            return DAO.obter(pesquisador, vigentes);
+        }
+    }
+
+    public List<Inscricao> obter(Edital edital) {
         if (edital == null || edital.getId() == null) {
             return null;
         } else {
@@ -82,20 +100,15 @@ public class InscricaoRN {
         if (pesquisador == null || edital == null) {
             return null;
         } else {
-            Inscricao resposta = null;
-            List<Inscricao> inscricoes = DAO.obterPorPesquisadorEEdital(pesquisador.getId(), edital.getId());
-            if (inscricoes != null && !inscricoes.isEmpty()) {
-                return inscricoes.get(0);
-            }
+            Inscricao resposta = DAO.obter(pesquisador, edital);
             return resposta;
         }
     }
 
-    public List<Inscricao> obterPorEdital(Edital edital, Date inicio, Date fim) {
+    public List<Inscricao> obter(Edital edital, Date inicio, Date fim) {
         if (edital == null || inicio == null || fim == null) {
             return null;
         } else {
-            // Correção: Chamada recursiva removida
             return DAO.obter(edital, inicio, fim);
         }
     }

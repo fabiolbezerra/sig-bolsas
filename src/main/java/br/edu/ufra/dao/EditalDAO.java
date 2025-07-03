@@ -29,14 +29,14 @@ public class EditalDAO extends GenericDAO<Edital> {
         return resposta;
     }
 
-    public List<Edital> obterNaoVigentes() {
+    public List<Edital> obterEncerrados() {
+        List<Edital> resposta = null;
 
         EntityManager em = getEntityManager();
-        String sql = "select e from Edital e where e.dataInicio > :hoje or e.dataFinal < :hoje ";
-        TypedQuery<Edital> query = em.createQuery(sql, Edital.class);
+        final String JPQL = "select e from Edital e where e.dataFinal < :hoje ";
+        TypedQuery<Edital> query = em.createQuery(JPQL, Edital.class);
 
         final Date HOJE = new Date();
-        List<Edital> resposta = null;
         try {
             resposta = query
                     .setParameter("hoje", HOJE)

@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 public class EditalRN {
-    //private final GenericDAO<Edital> DAO = new GenericDAO<>();
     private final EditalDAO DAO = new EditalDAO();
 
     public boolean salvar(Edital edital) {
