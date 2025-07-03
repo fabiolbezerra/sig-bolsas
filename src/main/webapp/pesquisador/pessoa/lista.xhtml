@@ -33,7 +33,7 @@
                 </f:facet>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Buscar" action="#{pessoaBean.pesquisar()}" update="@form"/>
+                    <p:commandButton value="Buscar" action="#{pessoaBean.pesquisar()}" update="@form" icon="fa fa-search"/>
                 </f:facet>
 
                 <p:selectOneMenu value="#{pessoaBean.criterio}">
@@ -72,10 +72,10 @@
 
                 <p:column headerText="Operações">
 
-                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-info-circle">
                         <f:param name="pessoa" value="#{pessoa.id}"/>
 
-                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
+                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil-square-o">
                             <f:param name="pessoa" value="#{pessoa.id}"/>
                         </p:menuitem>
 

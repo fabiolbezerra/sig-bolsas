@@ -26,7 +26,7 @@
                 <p:inputText id="email" value="#{autoCadastroBean.email}" required="true"/>
             </h:panelGrid>
 
-            <p:button outcome="index.xhtml" value="Cancelar"/>
+            <p:button outcome="index.xhtml" value="Cancelar" icon="fa fa-ban"/>
             <p:commandButton value="Criar" action="#{autoCadastroBean.gerarCodigo()}" update="@form"/>
         </h:form>
     </ui:define>

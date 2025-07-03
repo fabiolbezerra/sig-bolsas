@@ -42,10 +42,10 @@
             </p:column>
 
                 <p:column headerText="Operações">
-                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-info-circle">
                         <f:setPropertyActionListener value="#{unidade}" target="#{unidadeAdministrativaBean.unidade}"/>
 
-                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
+                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil-square-o">
                             <f:setPropertyActionListener value="#{unidade}" target="#{unidadeAdministrativaBean.unidade}"/>
                         </p:menuitem>
                     </p:splitButton>

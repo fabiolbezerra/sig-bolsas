@@ -26,7 +26,7 @@
                 <p:inputText id="codidoDigitado" value="#{autoCadastroBean.codigoDigitado}" required="true"/>
             </h:panelGrid>
 
-            <p:button outcome="index.xhtml" value="Cancelar"/>
+            <p:button outcome="index.xhtml" value="Cancelar" icon="fa fa-ban"/>
             <p:commandButton value="Validar" action="#{autoCadastroBean.validarCodigo()}" update="@form"/>
         </h:form>
     </ui:define>

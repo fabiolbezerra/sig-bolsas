@@ -53,10 +53,13 @@
 
                     <!-- https://stackoverflow.com/questions/17587304/how-to-use-if-else-condition-in-jsf-to-display-image -->
 
-                    <p:button outcome="/gerente/formulario/lista.xhtml" value="Cancelar"/>
-                    <p:commandButton value="Limpar" action="#{perguntaBean.atualizar()}" update="formPergunta"/>
+                    <p:button outcome="/gerente/formulario/lista.xhtml" value="Cancelar"
+                              icon="fa fa-ban"/>
+                    <p:commandButton value="Limpar" action="#{perguntaBean.atualizar()}" update="formPergunta"
+                                     icon="fa fa-trash-o"/>
                     <p:commandButton value="Salvar" action="#{perguntaBean.salvar()}"
-                                     update="formPergunta formListaDePerguntas"/>
+                                     update="formPergunta formListaDePerguntas"
+                                     icon="fa fa-floppy-o"/>
                 </h:form>
             </div>
 

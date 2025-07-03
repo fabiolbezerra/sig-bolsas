@@ -84,11 +84,12 @@
 
             </h:panelGrid>
             <h:panelGrid columns="2">
-                <p:button outcome="/index.xhtml" value="Cancelar" form = "none"/>
+                <p:button outcome="/index.xhtml" value="Cancelar" form = "none" icon="fa fa-ban"/>
                 <p:commandButton value="Salvar"
                                  action="#{autoCadastroBean.salvar}"
                                  update="@form"
-                                 process="@form"/>
+                                 process="@form"
+                                 icon="fa fa-floppy-o"/>
             </h:panelGrid>
         </h:form>
     </ui:define>
