@@ -90,25 +90,46 @@
                                                      actionListener="#{perguntaBean.moverParaBaixo(pergunta)}"
                                                      update="formPergunta formListaDePerguntas"/>
 
-                                    <!-- TODO: Solicitar confirmação da exclusão -->
                                     <p:commandButton icon="fa fa-trash"
                                                      actionListener="#{perguntaBean.excluir(pergunta)}"
-                                                     update="formPergunta formListaDePerguntas" />
+                                                     update="formPergunta formListaDePerguntas"/>
                                 </div>
                             </f:facet>
+
+                            <h:panelGrid columns="1" style="width: 100%">
+                                <p:outputLabel value="#{pergunta.texto}" style="font-weight: bold"/>
+
+                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'TEXTO'}">
+                                    <p:inputText value="Exemplo de texto" readonly="true"/>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'NUMERO'}">
+                                    <p:inputNumber value="123" readonly="true" disabled="true"/>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'DATA'}">
+                                    <p:calendar value="#{now}" disabled="true"/>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'BOOLEAN'}">
+                                    <p:inputSwitch value="true" disabled="true"/>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'RESPOSTA_FECHADA'}">
+                                    <p:selectOneRadio disabled="true">
+                                        <f:selectItems value="#{pergunta.opcaoPerguntas}" var="opcao"
+                                                       itemLabel="#{opcao.resposta}" itemValue="#{opcao.resposta}"/>
+                                    </p:selectOneRadio>
+                                </h:panelGroup>
+                            </h:panelGrid>
 
                             <f:facet name="footer">
                                 Pontuação #{pergunta.pontuacao}
                             </f:facet>
-
-                            <p:outputLabel value="#{pergunta.texto}"/>
-                            <p:dataList value="#{pergunta.opcaoPerguntas}" var="opcao" rendered="#{not empty pergunta.opcaoPerguntas}">
-                                <h:outputText value="#{opcao.resposta}" />
-                            </p:dataList>
-
                         </p:panel>
                         <br/>
                     </ui:repeat>
+
                 </h:form>
             </div>
 
