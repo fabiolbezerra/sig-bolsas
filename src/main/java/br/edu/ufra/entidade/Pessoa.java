@@ -49,6 +49,17 @@ public class Pessoa {
     @OneToMany(mappedBy = "pessoa")
     private List<Inscricao> inscricoes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "pessoa")
+    private Set<AvaliacaoInscricao> avaliacaoInscricaos = new LinkedHashSet<>();
+
+    public Set<AvaliacaoInscricao> getAvaliacaoInscricaos() {
+        return avaliacaoInscricaos;
+    }
+
+    public void setAvaliacaoInscricaos(Set<AvaliacaoInscricao> avaliacaoInscricaos) {
+        this.avaliacaoInscricaos = avaliacaoInscricaos;
+    }
+
     public List<Inscricao> getInscricoes() {
         return inscricoes;
     }

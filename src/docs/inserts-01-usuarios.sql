@@ -2,14 +2,13 @@
 insert into unidade_administrativa
     (id, nome, sigla, tipo)
     values
-    (1, 'Sem Unidade Administrativa','',''),
-    (2, 'Instituto Ciberespacial', 'ICIBE', 'I'),
-    (3, 'Instituto de Ciências Agrárias', 'ICA', 'I'),
-    (4, 'Instituto de Saúde e Proteção Animal', 'ISPA', 'I'),
-    (5, 'Instituto Sócio-Ambiental e Recursos Hídricos', 'ISARH', 'I'),
-    (6, 'Campus Capitão-Poço', 'CPP', 'C'),
-    (7, 'Campus Capanema', 'CAP', 'C'),
-    (8, 'Campus Paragominas', 'CAP', 'C');
+    (1, 'Instituto Ciberespacial', 'ICIBE', 'INSTITUTO'),
+    (2, 'Instituto de Ciências Agrárias', 'ICA', 'INSTITUTO'),
+    (3, 'Instituto de Saúde e Proteção Animal', 'ISPA', 'INSTITUTO'),
+    (4, 'Instituto Sócio-Ambiental e Recursos Hídricos', 'ISARH', 'INSTITUTO'),
+    (5, 'Campus Capitão-Poço', 'CPP', 'CAMPUS'),
+    (6, 'Campus Capanema', 'CAP', 'CAMPUS'),
+    (7, 'Campus Paragominas', 'CAP', 'CAMPUS');
 
 
 -- pessoas

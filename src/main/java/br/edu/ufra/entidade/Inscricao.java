@@ -36,6 +36,61 @@ public class Inscricao {
     @OneToMany(mappedBy = "inscricao")
     private Set<PlanoDeTrabalho> planoDeTrabalhos = new LinkedHashSet<>();
 
+    @Column(name = "pontuacaoPesquisador", nullable = false)
+    private double pontuacaoPesquisador;
+
+    @Column(name = "pontuacaoComite", nullable = false)
+    private double pontuacaoComite;
+
+    @Column(name = "classificacao", nullable = false)
+    private int classificacao;
+
+    @OneToMany(mappedBy = "inscricao")
+    private Set<AvaliacaoInscricao> avaliacaoInscricaos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "inscricao")
+    private Set<Resposta> respostas = new LinkedHashSet<>();
+
+    public Set<Resposta> getRespostas() {
+        return respostas;
+    }
+
+    public void setRespostas(Set<Resposta> respostas) {
+        this.respostas = respostas;
+    }
+
+    public Set<AvaliacaoInscricao> getAvaliacaoInscricaos() {
+        return avaliacaoInscricaos;
+    }
+
+    public void setAvaliacaoInscricaos(Set<AvaliacaoInscricao> avaliacaoInscricaos) {
+        this.avaliacaoInscricaos = avaliacaoInscricaos;
+    }
+
+    public int getClassificacao() {
+        return classificacao;
+    }
+
+    public void setClassificacao(int classificacao) {
+        this.classificacao = classificacao;
+    }
+
+    public double getPontuacaoComite() {
+        return pontuacaoComite;
+    }
+
+    public void setPontuacaoComite(double pontuacaoComite) {
+        this.pontuacaoComite = pontuacaoComite;
+    }
+
+    public double getPontuacaoPesquisador() {
+        return pontuacaoPesquisador;
+    }
+
+    public void setPontuacaoPesquisador(double pontuacaoPesquisador) {
+        this.pontuacaoPesquisador = pontuacaoPesquisador;
+    }
+
     public Integer getId() {
         return id;
     }

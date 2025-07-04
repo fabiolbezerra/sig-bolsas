@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`unidade_administrativa` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(50) NOT NULL,
   `sigla` VARCHAR(20) NOT NULL,
-  `tipo` CHAR NOT NULL DEFAULT 'I' COMMENT 'I - Instituto\nC - Campus',
+  `tipo` VARCHAR(45) NOT NULL DEFAULT 'I' COMMENT 'I - Instituto\nC - Campus',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -275,6 +275,7 @@ DROP TABLE IF EXISTS `sig_bolsas_bd`.`opcao_pergunta` ;
 CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`opcao_pergunta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `resposta` VARCHAR(100) NOT NULL,
+  `pontuacao_opcao` DOUBLE NULL,
   `pergunta` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_opcao_pergunta_pergunta1_idx` (`pergunta` ASC),
@@ -294,6 +295,7 @@ DROP TABLE IF EXISTS `sig_bolsas_bd`.`resposta` ;
 CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`resposta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `valor` VARCHAR(100) NULL,
+  `pontuacao_resposta` DOUBLE NULL,
   `inscricao` INT NOT NULL,
   `pergunta` INT NOT NULL,
   INDEX `fk_inscricao_has_pergunta_pergunta1_idx` (`pergunta` ASC),
@@ -310,6 +312,36 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`resposta` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`avaliacao_inscricao`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`avaliacao_inscricao` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`avaliacao_inscricao` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `data_avaliacao` DATE NULL,
+  `resumo_pesquisador` VARCHAR(250) NULL,
+  `resumo_comite` VARCHAR(500) NULL,
+  `pontuacao_avaliacao` DOUBLE NULL,
+  `pessoa` INT NOT NULL,
+  `inscricao` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_avaliacao_inscricao_pessoa1_idx` (`pessoa` ASC),
+  INDEX `fk_avaliacao_inscricao_inscricao1_idx` (`inscricao` ASC),
+  CONSTRAINT `fk_avaliacao_inscricao_pessoa1`
+    FOREIGN KEY (`pessoa`)
+    REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_avaliacao_inscricao_inscricao1`
+    FOREIGN KEY (`inscricao`)
+    REFERENCES `sig_bolsas_bd`.`inscricao` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+COMMENT = '																																																							';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

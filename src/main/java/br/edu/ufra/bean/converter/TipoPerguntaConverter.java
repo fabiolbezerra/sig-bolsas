@@ -21,7 +21,7 @@ public class TipoPerguntaConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object object) {
-        if (object == null || !(object instanceof String)) {
+        if (object == null || !(object instanceof EnumTipoPergunta)) {
             return null;
         } else {
             return object.toString();

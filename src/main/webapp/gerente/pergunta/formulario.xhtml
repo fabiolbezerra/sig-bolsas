@@ -43,10 +43,13 @@
 
                         <p:outputLabel value="Tipo de pergunta"/>
                         <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}" converter="tipoPerguntaConverter">
-                            <f:selectItem noSelectionOption="true" itemValue="null"
+                            <f:selectItem noSelectionOption="true"
+                                          itemValue="null"
                                           itemLabel="Selecione o tipo de pergunta"/>
-                            <f:selectItems value="#{tipoEnumBean.tiposDePergunta}" var="tp"
-                                           itemValue="#{tp}" itemLabel="#{tp.toString()}"/>
+                            <f:selectItems value="#{tipoEnumBean.tiposDePergunta}"
+                                           var="tp"
+                                           itemValue="#{tp}"
+                                           itemLabel="#{tp.descricao}"/>
                         </p:selectOneMenu>
 
                     </h:panelGrid>
@@ -55,11 +58,14 @@
 
                     <p:button outcome="/gerente/formulario/lista.xhtml" value="Cancelar"
                               icon="fa fa-ban"/>
-                    <p:commandButton value="Limpar" action="#{perguntaBean.atualizar()}" update="formPergunta"
-                                     icon="fa fa-trash-o"/>
-                    <p:commandButton value="Salvar" action="#{perguntaBean.salvar()}"
-                                     update="formPergunta formListaDePerguntas"
-                                     icon="fa fa-floppy-o"/>
+                    <p:commandButton value="Limpar"
+                                     icon="fa fa-trash-o"
+                                     action="#{perguntaBean.atualizar()}"
+                                     update="formPergunta"/>
+                    <p:commandButton value="Salvar"
+                                     icon="fa fa-floppy-o"
+                                     action="#{perguntaBean.salvar()}"
+                                     update="formPergunta formListaDePerguntas"/>
                 </h:form>
             </div>
 
@@ -99,26 +105,28 @@
                             <h:panelGrid columns="1" style="width: 100%">
                                 <p:outputLabel value="#{pergunta.texto}" style="font-weight: bold"/>
 
-                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'TEXTO'}">
+                                <h:panelGroup rendered="#{pergunta.tipo.tipoTexto}">
                                     <p:inputText value="Exemplo de texto" readonly="true"/>
                                 </h:panelGroup>
 
-                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'NUMERO'}">
+                                <h:panelGroup rendered="#{pergunta.tipo.tipoInteiro}">
                                     <p:inputNumber value="123" readonly="true" disabled="true"/>
                                 </h:panelGroup>
 
-                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'DATA'}">
+                                <h:panelGroup rendered="#{pergunta.tipo.tipoData}">
                                     <p:calendar value="#{now}" disabled="true"/>
                                 </h:panelGroup>
 
-                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'BOOLEAN'}">
+                                <h:panelGroup rendered="#{pergunta.tipo.tipoSimOuNao}">
                                     <p:inputSwitch value="true" disabled="true"/>
                                 </h:panelGroup>
 
                                 <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'RESPOSTA_FECHADA'}">
                                     <p:selectOneRadio disabled="true">
-                                        <f:selectItems value="#{pergunta.opcaoPerguntas}" var="opcao"
-                                                       itemLabel="#{opcao.resposta}" itemValue="#{opcao.resposta}"/>
+                                        <f:selectItems value="#{pergunta.opcaoPerguntas}"
+                                                       var="opcao"
+                                                       itemLabel="#{opcao.resposta}"
+                                                       itemValue="#{opcao.resposta}"/>
                                     </p:selectOneRadio>
                                 </h:panelGroup>
                             </h:panelGrid>

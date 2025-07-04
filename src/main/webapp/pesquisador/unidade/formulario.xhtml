@@ -32,16 +32,22 @@
                              requiredMessage="A sigla da unidade é obrigatória"/>
 
                 <p:outputLabel value="Tipo"/>
-                <p:selectOneMenu value="#{unidadeAdministrativaBean.unidade.tipo}">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione o tipo"/>
-                    <f:selectItem itemValue="I" itemLabel="Instituto"/>
-                    <f:selectItem itemValue="C" itemLabel="Campus"/>
+                <p:selectOneMenu value="#{unidadeAdministrativaBean.unidade.tipo}"
+                                 converter="tipoUnidadeAdministrativaConverter">
+                    <f:selectItem noSelectionOption="true"
+                                  itemValue="null"
+                                  itemLabel="Selecione o tipo"/>
+                    <f:selectItems value="#{tipoEnumBean.tiposDeUnidadeAdministrativa}"
+                                   var="ua"
+                                   itemLabel="#{ua.descricao}"
+                                   itemValue="#{ua}"/>
                 </p:selectOneMenu>
 
             </h:panelGrid>
 
             <p:button outcome="lista.xhtml" value="Cancelar" icon="fa fa-ban"/>
-            <p:commandButton value="Salvar" action="#{unidadeAdministrativaBean.salvar()}" update="@form" icon="fa fa-floppy-o"/>
+            <p:commandButton value="Salvar" action="#{unidadeAdministrativaBean.salvar()}" update="@form"
+                             icon="fa fa-floppy-o"/>
         </h:form>
     </ui:define>
 </ui:composition>
