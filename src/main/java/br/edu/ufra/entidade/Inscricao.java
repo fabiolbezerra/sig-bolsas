@@ -1,11 +1,7 @@
 package br.edu.ufra.entidade;
 
 import javax.persistence.*;
-import java.time.Instant;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "inscricao")
@@ -25,6 +21,21 @@ public class Inscricao {
     @Column(name = "protocolo", length = 15)
     private String protocolo;
 
+    @Column(name = "pontuacao_pesquisador", nullable = false)
+    private double pontuacaoPesquisador;
+
+    @Column(name = "pontuacao_comite", nullable = false)
+    private double pontuacaoComite;    
+    
+    @Column(name = "classificacao", nullable = false)
+    private int classificacao;
+
+    @OneToMany(mappedBy = "inscricao")
+    private List<AvaliacaoInscricao> avaliacoes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "inscricao")
+    private List<Resposta> respostas = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "edital", nullable = false)
     private Edital edital;
@@ -34,37 +45,22 @@ public class Inscricao {
     private Pessoa pessoa;
 
     @OneToMany(mappedBy = "inscricao")
-    private Set<PlanoDeTrabalho> planoDeTrabalhos = new LinkedHashSet<>();
-
-    @Column(name = "pontuacaoPesquisador", nullable = false)
-    private double pontuacaoPesquisador;
-
-    @Column(name = "pontuacaoComite", nullable = false)
-    private double pontuacaoComite;
-
-    @Column(name = "classificacao", nullable = false)
-    private int classificacao;
-
-    @OneToMany(mappedBy = "inscricao")
-    private Set<AvaliacaoInscricao> avaliacaoInscricaos = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "inscricao")
-    private Set<Resposta> respostas = new LinkedHashSet<>();
-
-    public Set<Resposta> getRespostas() {
+    private List<PlanoDeTrabalho> planoDeTrabalhos = new ArrayList<>();
+    
+    public List<Resposta> getRespostas() {
         return respostas;
     }
 
-    public void setRespostas(Set<Resposta> respostas) {
+    public void setRespostas(List<Resposta> respostas) {
         this.respostas = respostas;
     }
 
-    public Set<AvaliacaoInscricao> getAvaliacaoInscricaos() {
-        return avaliacaoInscricaos;
+    public List<AvaliacaoInscricao> getAvaliacoes() {
+        return avaliacoes;
     }
 
-    public void setAvaliacaoInscricaos(Set<AvaliacaoInscricao> avaliacaoInscricaos) {
-        this.avaliacaoInscricaos = avaliacaoInscricaos;
+    public void setAvaliacoes(List<AvaliacaoInscricao> avaliacaoInscricaos) {
+        this.avaliacoes = avaliacaoInscricaos;
     }
 
     public int getClassificacao() {
@@ -131,11 +127,11 @@ public class Inscricao {
         this.pessoa = pessoa;
     }
 
-    public Set<PlanoDeTrabalho> getPlanoDeTrabalhos() {
+    public List<PlanoDeTrabalho> getPlanoDeTrabalhos() {
         return planoDeTrabalhos;
     }
 
-    public void setPlanoDeTrabalhos(Set<PlanoDeTrabalho> planoDeTrabalhos) {
+    public void setPlanoDeTrabalhos(List<PlanoDeTrabalho> planoDeTrabalhos) {
         this.planoDeTrabalhos = planoDeTrabalhos;
     }
 
