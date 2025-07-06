@@ -19,7 +19,7 @@
 
         <br/>
 
-        <p:link value="Novo Plano de Trabalho" outcome="/pesquisador/plano/formulario-plano.xhtml">
+        <p:link value="Novo Plano de Trabalho" outcome="/pesquisador/plano/formulario.xhtml">
             <f:param name="inscricaoID" value="#{planoDeTrabalhoBean.inscricao.id}"/>
             <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
         </p:link>
@@ -101,7 +101,9 @@
                         </div>
 
                         <div style="border-top: 1px solid #333; padding-top: 15px; margin-top: 15px; text-align: center;">
-                            <p:button value="Editar" outcome="formulario-plano.xhtml" icon="pi pi-pencil"
+                            <p:button value="Editar"
+                                      outcome="formulario.xhtml"
+                                      icon="pi pi-pencil"
                                       style="width: 45%; font-size: 12px; margin-right: 5px;">
                                 <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
                             </p:button>

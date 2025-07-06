@@ -166,7 +166,7 @@ public class PlanoDeTrabalhoBean implements Serializable {
 
         if (RN.salvar(planoDeTrabalho)) {
             UtilBean.criarMensagemDeInformacao("Plano de trabalho gravado com sucesso");
-            return "formulario-plano.xhtml?faces-redirect=true";
+            return "formulario.xhtml?faces-redirect=true";
         } else {
             UtilBean.criarMensagemDeErro("Problema ao gravar o plano de trabalho");
             return null;
