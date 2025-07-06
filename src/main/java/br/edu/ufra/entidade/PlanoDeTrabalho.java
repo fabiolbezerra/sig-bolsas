@@ -2,6 +2,7 @@ package br.edu.ufra.entidade;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -16,7 +17,8 @@ public class PlanoDeTrabalho {
     private Integer id;
 
     @Column(name = "data_cadastro", nullable = false)
-    private Instant dataCadastro;
+    @Temporal(TemporalType.DATE)
+    private Date dataCadastro;
 
     @Column(name = "titulo", nullable = false, length = 100)
     private String titulo;
@@ -37,11 +39,11 @@ public class PlanoDeTrabalho {
         this.id = id;
     }
 
-    public Instant getDataCadastro() {
+    public Date getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(Instant dataCadastro) {
+    public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 

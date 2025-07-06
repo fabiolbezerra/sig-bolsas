@@ -124,6 +124,10 @@ public class InscricaoBean {
 
     }
 
+    public List<Inscricao> obterPorPesquisador() {
+        return INSCRICAO_RN.obter(UtilBean.obterUsuarioLogado()) ;
+    }
+
     public String obterSituacao(Character situacao) {
         if (situacao == null) {
             return null;
