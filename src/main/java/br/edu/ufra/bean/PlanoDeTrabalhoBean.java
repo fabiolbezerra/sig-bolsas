@@ -30,6 +30,8 @@ public class PlanoDeTrabalhoBean implements Serializable {
     private Inscricao inscricao;
     private Edital edital;
     private Pessoa pesquisador;
+    private String chaveDeBusca;
+    private char criterio;
 
     public PlanoDeTrabalhoBean() {
         System.out.println("Criando PlanoDeTrabalhoBean ...");
@@ -74,6 +76,22 @@ public class PlanoDeTrabalhoBean implements Serializable {
             UtilBean.criarMensagemDeErro("Erro ao carregar planoDeTrabalhoBean");
             planoDeTrabalho = new PlanoDeTrabalho();
         }
+    }
+
+    public String getChaveDeBusca() {
+        return chaveDeBusca;
+    }
+
+    public void setChaveDeBusca(String chaveDeBusca) {
+        this.chaveDeBusca = chaveDeBusca;
+    }
+
+    public char getCriterio() {
+        return criterio;
+    }
+
+    public void setCriterio(char criterio) {
+        this.criterio = criterio;
     }
 
     public List<PlanoDeTrabalho> getPlanosDeTrabalho() {
@@ -168,7 +186,19 @@ public class PlanoDeTrabalhoBean implements Serializable {
             }
         }
     }
-
+    public void pesquisar() {
+        if (chaveDeBusca == null || chaveDeBusca.trim().length() == 0) {
+            UtilBean.criarMensagemDeAviso("Nenhuma chave de busca ou pista informada");
+        } else {
+            planosDeTrabalho = PlanoDeTrabalhoRN.obter(chaveDeBusca, criterio);
+            if (planosDeTrabalho == null || planosDeTrabalho.isEmpty()) {
+                UtilBean.criarMensagemDeAviso("Nenhuma plano de trabalho encontrado.");
+                UtilBean.criarMensagemDeInformacao("Tente um outro criterio/pista de pesquisa");
+            } else {
+                UtilBean.criarMensagemDeInformacao("Plano de Trabalho encontrado com sucesso");
+            }
+        }
+    }
 
     public String obterSituacao(Character situacao) {
         if (situacao == null) {
@@ -204,3 +234,4 @@ public class PlanoDeTrabalhoBean implements Serializable {
         }
     }
 }
+
