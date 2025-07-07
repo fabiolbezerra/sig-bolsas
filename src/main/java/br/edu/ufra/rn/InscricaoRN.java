@@ -4,6 +4,7 @@ import br.edu.ufra.dao.InscricaoDAO;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.entidade.Inscricao;
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.util.UtilEmail;
 import br.edu.ufra.util.UtilTexto;
 
 import java.time.LocalDate;
@@ -53,10 +54,25 @@ public class InscricaoRN {
                 novaInscricao.setPessoa(pesquisador);
                 novaInscricao.setDataInscricao(new Date());
                 novaInscricao.setProtocolo(gerarProtocolo(edital.getId(), pesquisador.getId()));
-                return salvar(novaInscricao);
+                if (salvar(novaInscricao)){
+                    notificarNovaInscricao(pesquisadorLogado, novaInscricao);
+                }
             }
             return false;
         }
+    }
+
+    private void notificarNovaInscricao(Pessoa pessoa, Inscricao inscricao) {
+        String destinatario = pessoa.getEmail();
+        String titulo = "Confirmação da inscrição no edital";
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Prezado(a) ");
+        mensagem.append(pessoa.getNomeCompleto());
+        mensagem.append("\n\n");
+        mensagem.append("Confirmamos que a sua inscrição foi um sucesso no edital " + inscricao.getEdital().getTitulo() + ".\n\n");
+        mensagem.append("Atenciosamente \n");
+        mensagem.append("SIG-BOLSAS");
+        UtilEmail.enviarEmail(destinatario, titulo, mensagem.toString());
     }
 
     public String gerarProtocolo(int editalId, int pessoaId) {
