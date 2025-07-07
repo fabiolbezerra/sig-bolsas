@@ -121,7 +121,7 @@
                                     <p:inputSwitch value="true" disabled="true"/>
                                 </h:panelGroup>
 
-                                <h:panelGroup rendered="#{pergunta.tipo.toString() eq 'RESPOSTA_FECHADA'}">
+                                <h:panelGroup rendered="#{pergunta.tipo.tipoRespostaFechada}">
                                     <p:selectOneRadio disabled="true">
                                         <f:selectItems value="#{pergunta.opcaoPerguntas}"
                                                        var="opcao"

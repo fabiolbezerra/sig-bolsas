@@ -6,7 +6,6 @@ import br.edu.ufra.entidade.Pergunta;
 import br.edu.ufra.entidade.tipo.EnumTipoPergunta;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +22,7 @@ public class PerguntaRN {
             } else {
 
                 if (pergunta.getOpcaoPerguntas() != null
-                        && ! Objects.equals(EnumTipoPergunta.RESPOSTA_FECHADA, pergunta.getId())) {
+                        && ! Objects.equals(EnumTipoPergunta.UNICA_ESCOLHA, pergunta.getId())) {
                     //Excluir opções de resposta da pergunta
                     pergunta.setOpcaoPerguntas(null);
 

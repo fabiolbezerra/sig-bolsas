@@ -7,7 +7,7 @@ public enum EnumTipoPergunta {
     DECIMAL("Número decimal"),
     TEXTO("Texto curto"),
     SIM_NAO("Sim ou não"),
-    RESPOSTA_FECHADA("Resposta de única escolha");
+    UNICA_ESCOLHA("Resposta de única escolha");
 
     private String descricao;
 
@@ -42,4 +42,9 @@ public enum EnumTipoPergunta {
     public boolean isTipoSimOuNao() {
         return this == SIM_NAO;
     }
+
+    public boolean isTipoRespostaFechada() {
+        return this == UNICA_ESCOLHA;
+    }
+
 }
