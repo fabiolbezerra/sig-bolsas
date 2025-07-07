@@ -43,20 +43,20 @@ public class InscricaoRN {
             String senhaAtualCriptografada = UtilTexto.criptografarSHA256(senha);
             Pessoa pesquisadorLogado = pessoaRN.login(email, senhaAtualCriptografada);
             if (pesquisadorLogado != null) {
-                List<Inscricao> inscricoes = obter(pesquisador);
-                for (Inscricao inscricao : inscricoes) {
-                    if (edital.equals(inscricao.getEdital())) {
-                        return false;
-                    }
+                Inscricao inscricao = obter(pesquisador, edital);
+                if (inscricao != null) {
+                    return false;
                 }
                 Inscricao novaInscricao = new Inscricao();
                 novaInscricao.setEdital(edital);
                 novaInscricao.setPessoa(pesquisador);
                 novaInscricao.setDataInscricao(new Date());
                 novaInscricao.setProtocolo(gerarProtocolo(edital.getId(), pesquisador.getId()));
-                if (salvar(novaInscricao)){
+                boolean salvou = salvar(novaInscricao);
+                if (salvou){
                     notificarNovaInscricao(pesquisadorLogado, novaInscricao);
                 }
+                return salvou;
             }
             return false;
         }
