@@ -19,16 +19,13 @@
 
         <br/>
 
-        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> |
         <p:link value="Nova pessoa" outcome="formulario.xhtml"/>
-
-        <p:link value="Início" outcome="/pesquisador/principal.xhtml"/>
 
         <br/>
 
         <h:form id="formComite">
             <p:growl showDetail="true" showSummary="true"/>
-            <p:dataTable id="comitesDataTable"  value="#{comiteBean.listarEncerrados()}" var="comite"
+            <p:dataTable id="comitesDataTable" value="#{comiteBean.listarEncerrados()}" var="comite"
                          emptyMessage="Nenhuma informação a ser exibida"
                          paginator="true" rows="10" paginatorPosition="bottom">
                 <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">
@@ -63,8 +60,6 @@
             </p:dataTable>
 
             <br/>
-
-            <p:link value="Início" outcome="/pesquisador/principal.xhtml"/>
 
         </h:form>
     </ui:define>

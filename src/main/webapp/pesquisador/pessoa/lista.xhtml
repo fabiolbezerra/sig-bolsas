@@ -19,7 +19,6 @@
 
         <br/>
 
-        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/> |
         <p:link value="Nova pessoa" outcome="formulario.xhtml"/>
 
         <br/><br/>
@@ -33,7 +32,8 @@
                 </f:facet>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Buscar" action="#{pessoaBean.pesquisar()}" update="@form" icon="fa fa-search"/>
+                    <p:commandButton value="Buscar" action="#{pessoaBean.pesquisar()}" update="@form"
+                                     icon="fa fa-search"/>
                 </f:facet>
 
                 <p:selectOneMenu value="#{pessoaBean.criterio}">
@@ -47,7 +47,6 @@
             </p:panelGrid>
 
             <br/><br/>
-
 
             <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa"
                          emptyMessage="Nenhuma informação a ser exibida"
@@ -97,9 +96,6 @@
                 </p:column>
             </p:dataTable>
             <br/>
-
-            <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/>
-
         </h:form>
 
     </ui:define>

@@ -19,8 +19,7 @@
 
         <br/>
 
-        <p:link value="Início" outcome="/pesquisador/principal.xhtml"/> | <p:link value="Cadastrar Comitê"
-                                                                                  outcome="formulario.xhtml"/>
+        <p:link value="Cadastrar Comitê" outcome="formulario.xhtml"/>
 
         <br/> <br/>
 
@@ -29,25 +28,25 @@
             <f:param name="listaid" value="1"/>
 
             <p:dataTable value="#{comiteBean.listarTodos()}" var="comite"
-                emptyMessage="Nenhuma informação a ser exibida"
-                paginator="true" rows="10" paginatorPosition="bottom">
+                         emptyMessage="Nenhuma informação a ser exibida"
+                         paginator="true" rows="10" paginatorPosition="bottom">
                 <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">
                     <h:outputText value="#{comite.portaria}"/>
                 </p:column>
 
-                <p:column headerText="Início da vigência" >
+                <p:column headerText="Início da vigência">
                     <h:outputText value="#{comite.inicio}">
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Fim da vigência" >
+                <p:column headerText="Fim da vigência">
                     <h:outputText value="#{comite.fim}">
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Cadastrado por" >
+                <p:column headerText="Cadastrado por">
                     <h:outputText value="#{comite.coordenador.nomeCompleto}"/>
                 </p:column>
 
@@ -68,7 +67,6 @@
 
             <br/>
 
-            <p:link value="Início" outcome="/pesquisador/principal.xhtml"/>
         </h:form>
 
     </ui:define>

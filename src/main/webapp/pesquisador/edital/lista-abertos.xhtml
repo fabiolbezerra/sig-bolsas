@@ -19,8 +19,6 @@
 
         <br/>
 
-        <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/>
-
         <br/><br/>
 
         <h:form id="formEdital">
@@ -60,12 +58,14 @@
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-search" ajax="false">
+                    <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-search"
+                                   ajax="false">
                         <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
                         <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
 
                         <f:setPropertyActionListener target="#{inscricaoBean.edital}" value="#{edital}"/>
-                        <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}" value="#{papelBean.usuarioLogado}"/>
+                        <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}"
+                                                     value="#{papelBean.usuarioLogado}"/>
 
                         <p:menuitem value="Detalhes" action="lista-abertos-detalhes.xhtml" icon="fa fa-info-circle">
                             <f:setPropertyActionListener target="#{editalBean.edital}" value="#{edital}"/>
@@ -77,7 +77,6 @@
 
             <br/>
 
-            <p:link value="Inicio" outcome="/pesquisador/principal.xhtml"/>
         </h:form>
 
     </ui:define>

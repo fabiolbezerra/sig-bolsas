@@ -19,7 +19,6 @@
 
         <br/>
 
-        <p:link value="Início" outcome="/pesquisador/principal.xhtml"/> |
         <p:link value="Cadastrar unidade administrativa"
                 outcome="formulario.xhtml"/>
 
@@ -38,15 +37,16 @@
                 </p:column>
 
                 <p:column headerText="Tipo">
-                <h:outputText value="#{unidade.tipo.descricao}"/>
-            </p:column>
+                    <h:outputText value="#{unidade.tipo.descricao}"/>
+                </p:column>
 
                 <p:column headerText="Operações">
                     <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-info-circle">
                         <f:setPropertyActionListener value="#{unidade}" target="#{unidadeAdministrativaBean.unidade}"/>
 
                         <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil-square-o">
-                            <f:setPropertyActionListener value="#{unidade}" target="#{unidadeAdministrativaBean.unidade}"/>
+                            <f:setPropertyActionListener value="#{unidade}"
+                                                         target="#{unidadeAdministrativaBean.unidade}"/>
                         </p:menuitem>
                     </p:splitButton>
                 </p:column>
@@ -54,7 +54,6 @@
 
             <br/>
 
-            <p:link value="Início" outcome="/pesquisador/principal.xhtml"/>
         </h:form>
 
     </ui:define>

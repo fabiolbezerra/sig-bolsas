@@ -9,71 +9,67 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-   <ui:define name="title">
-      Minhas Inscrições
-   </ui:define>
+    <ui:define name="title">
+        Minhas Inscrições
+    </ui:define>
 
-   <ui:define name="content">
-      <h1>Minhas Inscrições</h1>
+    <ui:define name="content">
+        <h1>Minhas Inscrições</h1>
 
-      <br/>
+        <br/>
 
-      <p:link value="Início" outcome="/pesquisador/principal.xhtml"/>
+        <p:panel header="Dados do Pesquisador" style="margin-bottom: 20px;">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputText value="Nome:"/>
+                <h:outputText value="#{papelBean.usuarioLogado.nomeCompleto}"/>
 
-      <br/><br/>
+                <h:outputText value="E-mail:"/>
+                <h:outputText value="#{papelBean.usuarioLogado.email}"/>
 
-      <p:panel header="Dados do Pesquisador" style="margin-bottom: 20px;">
-         <h:panelGrid columns="2" cellpadding="5">
-            <h:outputText value="Nome:" />
-            <h:outputText value="#{papelBean.usuarioLogado.nomeCompleto}" />
+                <h:outputText value="Telefone:"/>
+                <h:outputText value="#{papelBean.usuarioLogado.telefone}"/>
+            </h:panelGrid>
+        </p:panel>
 
-            <h:outputText value="E-mail:" />
-            <h:outputText value="#{papelBean.usuarioLogado.email}" />
+        <h:form id="formInscricao">
+            <p:growl showDetail="true" showSummary="true"/>
+            <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
 
-            <h:outputText value="Telefone:" />
-            <h:outputText value="#{papelBean.usuarioLogado.telefone}" />
-         </h:panelGrid>
-      </p:panel>
+            <p:dataTable value="#{inscricaoBean.obterPorPesquisador()}" var="inscricao"
+                         emptyMessage="Nenhuma inscrição encontrada"
+                         paginator="true" rows="10" paginatorPosition="bottom">
+                <p:column headerText="Edital">
+                    <h:outputText value="#{inscricao.edital.titulo}"/>
+                </p:column>
 
-      <h:form id="formInscricao">
-         <p:growl showDetail="true" showSummary="true"/>
-         <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
+                <p:column headerText="Ano/Número">
+                    <h:outputText value="#{inscricao.edital.ano} / #{inscricao.edital.numero}"/>
+                </p:column>
 
-         <p:dataTable value="#{inscricaoBean.obterPorPesquisador()}" var="inscricao"
-                      emptyMessage="Nenhuma inscrição encontrada"
-                      paginator="true" rows="10" paginatorPosition="bottom">
-            <p:column headerText="Edital">
-               <h:outputText value="#{inscricao.edital.titulo}" />
-            </p:column>
+                <p:column headerText="Período">
+                    <h:outputText value="#{inscricao.edital.dataInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                    a
+                    <h:outputText value="#{inscricao.edital.dataFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
 
-            <p:column headerText="Ano/Número">
-               <h:outputText value="#{inscricao.edital.ano} / #{inscricao.edital.numero}" />
-            </p:column>
+                <p:column headerText=" ">
+                    <p:commandButton value="Anexar Planos de Trabalho"
+                                     action="/pesquisador/plano/lista.xhtml" icon="fa fa-search"
+                                     styleClass="ui-button-danger"
+                                     update="@form"
+                                     ajax="true">
+                        <f:param name="editalID" value="#{inscricao.edital.id}"/>
+                        <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
+                        <f:param name="inscricaoID" value="#{inscricao.id}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
 
-            <p:column headerText="Período">
-               <h:outputText value="#{inscricao.edital.dataInicio}">
-                  <f:convertDateTime pattern="dd/MM/yyyy"/>
-               </h:outputText>
-               a
-               <h:outputText value="#{inscricao.edital.dataFinal}">
-                  <f:convertDateTime pattern="dd/MM/yyyy"/>
-               </h:outputText>
-            </p:column>
-
-            <p:column headerText=" ">
-               <p:commandButton value="Anexar Planos de Trabalho"
-                                action="/pesquisador/plano/lista.xhtml" icon="fa fa-search"
-                                styleClass="ui-button-danger"
-                                update="@form"
-                                ajax="true">
-                  <f:param name="editalID" value="#{inscricao.edital.id}"/>
-                  <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
-                  <f:param name="inscricaoID" value="#{inscricao.id}"/>
-               </p:commandButton>
-            </p:column>
-         </p:dataTable>
-      </h:form>
-
-   </ui:define>
+    </ui:define>
 
 </ui:composition>
