@@ -1,6 +1,7 @@
 package br.edu.ufra.bean;
 
 import br.edu.ufra.entidade.Comite;
+import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.rn.ComiteRN;
 import br.edu.ufra.util.UtilBean;
 
@@ -19,6 +20,7 @@ public class ComiteBean implements Serializable {
 
     private List<Comite> comites;
     private String todos;
+    private static String formulario;
     public ComiteBean() {
         System.out.println("Criando ComiteBean ...");
     }
@@ -42,6 +44,13 @@ public class ComiteBean implements Serializable {
                 UtilBean.criarMensagemDeErro("Não foi possível recuperar o comite.");
             }
         }
+    }
+
+    public static String getFormulario() {
+        return formulario;
+    }
+    public static void setFormulario(String formulario) {
+        ComiteBean.formulario = formulario;
     }
 
     public List<Comite> getComites() {
@@ -82,7 +91,36 @@ public class ComiteBean implements Serializable {
             }
         }
     }
-
+    public List<Comite> obterComites(Character tipo) {
+        switch (tipo) {
+            case 'V': {
+                setFormulario("lista-vigentes.xhtml");
+                return comites = RN.listarVigentes();
+            }
+            case 'E': {
+                setFormulario("lista-encerrados.xhtml");
+                return comites = RN.listarEncerrados();
+            }
+            default: {
+                setFormulario("lista.xhtml");
+                return comites = RN.listarTodos();
+            }
+        }
+    }
+    public String voltar() {
+        if (formulario.equals("lista-vigentes.xhtml")) {
+            return "/pesquisador/comite/lista-vigentes.xhtml?faces-redirect=true";
+        }
+        else if (formulario.equals("lista-encerrados.xhtml")) {
+            return "/pesquisador/comite/lista-encerrados.xhtml?faces-redirect=true";
+        }
+        else if (formulario.equals("lista.xhtml")) {
+            return "/pesquisador/comite/lista.xhtml?faces-redirect=true";
+        }
+        else {
+            return null;
+        }
+    }
     public List<Comite> listarVigentes() {
         return comites = RN.listarVigentes();
 

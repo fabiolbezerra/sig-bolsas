@@ -27,7 +27,7 @@
             <p:growl showDetail="true" showSummary="true"/>
             <f:param name="listaid" value="1"/>
 
-            <p:dataTable value="#{comiteBean.listarTodos()}" var="comite"
+            <p:dataTable value="#{comiteBean.obterComites('')}" var="comite"
                          emptyMessage="Nenhuma informação a ser exibida"
                          paginator="true" rows="10" paginatorPosition="bottom">
                 <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">

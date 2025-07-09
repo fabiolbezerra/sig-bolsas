@@ -25,7 +25,7 @@
 
         <h:form id="formComite">
             <p:growl showDetail="true" showSummary="true"/>
-            <p:dataTable id="comitesDataTable" value="#{comiteBean.listarEncerrados()}" var="comite"
+            <p:dataTable id="comitesDataTable" value="#{comiteBean.obterComites('E')}" var="comite"
                          emptyMessage="Nenhuma informação a ser exibida"
                          paginator="true" rows="10" paginatorPosition="bottom">
                 <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">
@@ -50,7 +50,7 @@
 
                 <p:column headerText="Operações">
 
-                    <p:splitButton value="Detalhes" action="detalhes-encerrados.xhtml" icon="fa fa-info-circle">
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-info-circle">
                         <f:param name="comite" value="#{comite.id}"/>
                         <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
 
