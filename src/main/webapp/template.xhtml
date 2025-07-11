@@ -24,7 +24,7 @@
                     Olá #{papelBean.usuarioLogado.nomeCompleto}!
 
                     <div class="top_direita">
-                        <p:link value="Início" outcome="/pesquisador/principal.xhtml"/> |
+                        <p:link value="Início" outcome="#{papelBean.irParaPaginaPrincipal()}"/> |
                         <p:link value="Alterar senha" outcome="/pesquisador/principal.xhtml"/> |
                         <p:link value="Alterar e-mail" outcome="/pesquisador/principal.xhtml"/> |
                         <p:link href="#{request.contextPath}/j_spring_security_logout" value="Sair"/>

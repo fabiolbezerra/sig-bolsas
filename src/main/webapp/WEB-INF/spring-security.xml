@@ -7,13 +7,15 @@
 	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
     <http auto-config="true">
-        <intercept-url pattern="/bolsista/**"
-                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
-        <intercept-url pattern="/pesquisador/**"
-                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
+        <intercept-url pattern="/administrador/**"
+                       access="ROLE_A" />
         <intercept-url pattern="/coordenador/**"
-                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
+                       access="ROLE_C,ROLE_A" />
         <intercept-url pattern="/gerente/**"
+                       access="ROLE_C,ROLE_G,ROLE_A" />
+        <intercept-url pattern="/pesquisador/**"
+        access="ROLE_C,ROLE_P,ROLE_G,ROLE_A" />
+        <intercept-url pattern="/bolsista/**"
                        access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
         <form-login
                 login-page="/index.xhtml"

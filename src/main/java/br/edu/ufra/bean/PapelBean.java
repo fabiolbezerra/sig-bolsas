@@ -94,5 +94,23 @@ public class PapelBean {
         }
         return resposta;
     }
+    
+    public boolean isUsuarioLogadoBolsista() {
+        boolean resposta = false;
+        for (PessoaPapel permissao : getUsuarioLogado().getPessoaPapels()) {
+            if (permissao.getPapel().getCodigo() == 'B') {
+                resposta = true;
+                break;
+            }
+        }
+        return resposta;
+    }
+
+    public String irParaPaginaPrincipal() {
+        Pessoa usuario = UtilBean.obterUsuarioLogado();
+        return UtilBean.irParaPaginaPrincipal(usuario);
+    }
+
 }
+
 

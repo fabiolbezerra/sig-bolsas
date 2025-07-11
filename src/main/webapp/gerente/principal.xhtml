@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Página Inicial do Gerente
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h1> Página Inicial do Gerente </h1>
+        <ul>
+            <li><h:link value="Calcular Pontuação dos Pesquisadores" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Classificar Pesquisadores" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Formulários" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Avaliar Seleções" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Gerar Relatório de Pagamento" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Histórico de Orientação de Pesquisadores" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Histórico de Orientação de Bolsistas" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Pessoas" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Editais" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Planos de Trabalho" outcome="/acesso-negado.xhtml"/></li>
+        </ul>
+    </ui:define>
+
+</ui:composition>
