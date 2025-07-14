@@ -28,9 +28,7 @@ public class LoginHandler extends SimpleUrlAuthenticationSuccessHandler {
         String username = a.getName();
         Pessoa usuario = RN.obterPorEmail(username);
         String pagina = UtilBean.irParaPaginaPrincipal(usuario);
-
-        request.getSession().setAttribute("pessoa", usuario);
-
+//        request.getSession().setAttribute("pessoa", usuario);
         setDefaultTargetUrl(pagina);
         super.onAuthenticationSuccess(request, response, a);
     }
