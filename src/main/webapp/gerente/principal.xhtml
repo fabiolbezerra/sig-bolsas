@@ -26,7 +26,8 @@
             <li><h:link value="Histórico de Orientação de Bolsistas" outcome="/acesso-negado.xhtml"/></li>
             <li><h:link value="Pessoas" outcome="/acesso-negado.xhtml"/></li>
             <li><h:link value="Editais" outcome="/acesso-negado.xhtml"/></li>
-            <li><h:link value="Planos de Trabalho" outcome="/acesso-negado.xhtml"/></li>
+            <!-- Listagem de TODOS os planos de trabalho é limitado ao perfil de gerente/coordenador -->
+            <li><h:link value="Planos de Trabalho" outcome="/gerente/plano/lista.xhtml"/></li>
         </ul>
     </ui:define>
 

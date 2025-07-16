@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="Editais">
+        Editais Abertos
+    </ui:define>
+
+    <ui:define name="content">
+        <h1> Editais com Inscrição Aberta </h1>
+
+        <br/>
+
+        <br/><br/>
+
+        <h:form id="formEdital">
+            <p:growl showDetail="true" showSummary="true"/>
+
+            <p:dataTable value="#{editalBean.editaisAbertos}" var="edital">
+                <p:column headerText="Título" filterBy="#{edital.titulo}" filterMatchMode="contains">
+                    <h:outputText value="#{edital.titulo}"/>
+                </p:column>
+
+                <p:column headerText="Ano e Número">
+                    <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
+                </p:column>
+
+                <p:column headerText="Cadastro">
+                    <h:outputText value="#{edital.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Inscrições">
+                    <h:outputText value="#{edital.dataInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                    a
+                    <h:outputText value="#{edital.dataFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Situação">
+                    <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}"/>
+                </p:column>
+
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{editalBean.obterTipo(edital.tipo)}"/>
+                </p:column>
+
+                <p:column headerText="Operações">
+                    <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-search"
+                                   ajax="false">
+                        <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
+                        <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
+
+                        <f:setPropertyActionListener target="#{inscricaoBean.edital}" value="#{edital}"/>
+                        <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}"
+                                                     value="#{papelBean.usuarioLogado}"/>
+
+                        <p:menuitem value="Detalhes" action="lista-abertos-detalhes.xhtml" icon="fa fa-info-circle">
+                            <f:setPropertyActionListener target="#{editalBean.edital}" value="#{edital}"/>
+                        </p:menuitem>
+                    </p:splitButton>
+                </p:column>
+
+            </p:dataTable>
+
+            <br/>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

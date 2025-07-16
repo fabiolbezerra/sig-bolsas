@@ -15,20 +15,11 @@
 
 
     <ui:define name="content">
-        <h1> Página Inicial </h1>
+        <h1> Página Inicial do Pesquisador </h1>
         <ul>
-            <li><h:link value="Formulários" outcome="/gerente/formulario/lista.xhtml"/></li>
-            <li><h:link value="Pessoas" outcome="/pesquisador/pessoa/lista.xhtml"/></li>
-            <li><h:link value="Editais" outcome="/pesquisador/edital/lista.xhtml"/></li>
             <li><h:link value="Editais Abertos" outcome="/pesquisador/edital/lista-abertos.xhtml"/></li>
-            <li><h:link value="Comitês" outcome="/pesquisador/comite/lista.xhtml"/></li>
-            <li><h:link value="Comitês Vigêntes" outcome="/pesquisador/comite/lista-vigentes.xhtml"/></li>
-            <li><h:link value="Comitês Encerrados" outcome="/pesquisador/comite/lista-encerrados.xhtml"/></li>
-            <li><h:link value="Papéis" outcome="/pesquisador/papel/lista.xhtml"/></li>
-            <li><h:link value="Unidades Administrativas" outcome="/pesquisador/unidade/lista.xhtml"/></li>
             <li><h:link value="Minhas Inscrições" outcome="/pesquisador/inscricao/lista.xhtml"/></li>
-            <!-- Listagem de TODOS os planos de trabalho é limitado ao perfil de gerente/coordenador -->
-            <li><h:link value="Planos de Trabalho" outcome="/gerente/plano/lista.xhtml"/></li>
+            <li><h:link value="Meus Planos Cadastrados" outcome="/acesso-negado.xhtml"/></li>
         </ul>
     </ui:define>
 
