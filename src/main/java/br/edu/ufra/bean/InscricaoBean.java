@@ -110,6 +110,10 @@ public class InscricaoBean {
 
 
     public String iniciarInscricao() {
+        if (!UtilBean.possuiPapel(UtilBean.obterUsuarioLogado(), 'P')) {
+            UtilBean.criarMensagemDeErro("Apenas pesquisadores podem se inscrever.");
+            return null;
+        }
         if (pesquisador == null || edital == null) {
             UtilBean.criarMensagemDeErro("Dados incompletos para iniciar inscrição");
             return null;
