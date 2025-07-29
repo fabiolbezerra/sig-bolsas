@@ -19,7 +19,7 @@
 
         <br/>
 
-<!--       //<p:link value="Nova pessoa" outcome="formulario.xhtml"/>-->
+        <p:link value="Nova pessoa" outcome="formulario.xhtml"/>
 
         <br/><br/>
 
@@ -71,7 +71,8 @@
 
                 <p:column headerText="Operações">
 
-                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-info-circle">
+                    <p:splitButton value="Detalhes" action="/pesquisador/pessoa/detalhes.xhtml"
+                                   icon="fa fa-info-circle">
                         <f:param name="pessoa" value="#{pessoa.id}"/>
 
                         <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil-square-o">

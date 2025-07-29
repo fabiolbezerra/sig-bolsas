@@ -79,7 +79,7 @@
 
             <br/>
 
-            <p:commandLink value="Voltar" action="lista.xhtml"/>
+            <p:commandLink value="Voltar" action="/gerente/pessoa/lista.xhtml" rendered="#{papelBean.usuarioLogadoGerente or papelBean.usuarioLogadoCoordenador}"/>
         </h:form>
     </ui:define>
 </ui:composition>

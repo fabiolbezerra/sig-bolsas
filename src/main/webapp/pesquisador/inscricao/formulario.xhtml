@@ -67,15 +67,16 @@
                             strongLabel="Forte" required="true" requiredMessage="Senha obrigatória"/>
             </p:panelGrid>
 
+            <p:commandButton value="Cancelar" action="/pesquisador/edital/lista-abertos.xhtml?faces-redirect=true"
+                             styleClass="ui-button-secondary" icon="fa fa-ban" immediate="true"
+                             style="margin-top: 20px; margin-left: 10px;"/>
+
             <p:commandButton value="Confirmar Inscrição" action="#{inscricaoBean.novaInscricao()}"
                              icon="pi pi-check" update="messages" style="margin-top: 20px;" >
                  <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
                  <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
             </p:commandButton>
 
-            <p:commandButton value="Cancelar" action="/pesquisador/edital/lista-abertos.xhtml?faces-redirect=true"
-                             styleClass="ui-button-secondary" icon="fa fa-ban" immediate="true"
-                             style="margin-top: 20px; margin-left: 10px;"/>
         </p:panel>
     </h:form>
 </h:body>
