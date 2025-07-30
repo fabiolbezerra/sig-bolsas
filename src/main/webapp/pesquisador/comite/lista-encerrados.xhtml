@@ -17,12 +17,6 @@
     <ui:define name="content">
         <h1> Listagem de Comitês Encerrados</h1>
 
-        <br/>
-
-        <p:link value="Nova pessoa" outcome="formulario.xhtml"/>
-
-        <br/>
-
         <h:form id="formComite">
             <p:growl showDetail="true" showSummary="true"/>
             <p:dataTable id="comitesDataTable" value="#{comiteBean.obterComites('E')}" var="comite"
@@ -53,7 +47,6 @@
                     <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-info-circle">
                         <f:param name="comite" value="#{comite.id}"/>
                         <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-
                     </p:splitButton>
                 </p:column>
 

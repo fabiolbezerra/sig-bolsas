@@ -17,13 +17,18 @@
     <ui:define name="content">
         <h1> Página Inicial do Administrador </h1>
         <ul>
-            <li><h:link value="Formulários" outcome="/acesso-negado.xhtml"/></li>
-            <li><h:link value="Pessoas" outcome="/acesso-negado.xhtml"/></li>
-            <li><h:link value="Editais" outcome="/acesso-negado.xhtml"/></li>
-            <li><h:link value="Comitês" outcome="/acesso-negado.xhtml"/></li>
-            <li><h:link value="Papéis" outcome="/acesso-negado.xhtml"/></li>
-            <li><h:link value="Unidades Administrativas" outcome="/acesso-negado.xhtml"/></li>
-            <li><h:link value="Planos de Trabalho" outcome="/acesso-negado.xhtml"/></li>
+            <li><h:link value="Comitês" outcome="/pesquisador/comite/lista"/></li>
+            <li><h:link value="Comitês Vigentes" outcome="/pesquisador/comite/lista-vigentes"/></li>
+            <li><h:link value="Comitês Encerrados" outcome="/pesquisador/comite/lista-encerrados"/></li>
+            <li><h:link value="Editais" outcome="/gerente/edital/lista"/></li>
+            <li><h:link value="Editais Abertos" outcome="/bolsista/edital/lista-abertos.xhtml"/></li>
+            <!--            <li><h:link value="Gerenciar Cotas" outcome="/acesso-negado.xhtml"/></li>-->
+            <!--            <li><h:link value="Acompanhar Avaliações" outcome="/acesso-negado.xhtml"/></li>-->
+            <!--            <li><h:link value="Formulários" outcome="/acesso-negado.xhtml"/></li>-->
+            <li><h:link value="Papéis" outcome="/administrador/papel/lista"/></li>
+            <li><h:link value="Pessoas" outcome="/gerente/pessoa/lista"/></li>
+            <li><h:link value="Planos de Trabalho" outcome="/gerente/plano/lista.xhtml"/></li>
+            <li><h:link value="Unidades Administrativas" outcome="/gerente/unidade/lista.xhtml"/></li>
         </ul>
     </ui:define>
 
