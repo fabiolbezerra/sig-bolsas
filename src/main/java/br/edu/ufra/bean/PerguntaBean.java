@@ -3,6 +3,7 @@ package br.edu.ufra.bean;
 import br.edu.ufra.entidade.Formulario;
 import br.edu.ufra.entidade.OpcaoPergunta;
 import br.edu.ufra.entidade.Pergunta;
+import br.edu.ufra.entidade.tipo.EnumTipoPergunta;
 import br.edu.ufra.rn.FormularioRN;
 import br.edu.ufra.rn.PerguntaRN;
 import br.edu.ufra.util.UtilBean;
@@ -176,4 +177,9 @@ public class PerguntaBean implements Serializable {
             pergunta.setOpcaoPerguntas(new ArrayList<>());
         }
     }
+
+    public boolean isUnicaEscolha(){
+        return pergunta.getTipo() == EnumTipoPergunta.UNICA_ESCOLHA;
+    }
+
 }

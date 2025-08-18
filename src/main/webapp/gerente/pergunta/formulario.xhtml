@@ -7,7 +7,8 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core">
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="title">
         Perguntas do Formulário
@@ -43,8 +44,9 @@
 
                         <p:outputLabel value="Tipo de pergunta"/>
                         <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}"
-                                         converter="tipoPerguntaConverter"
-                                         onchange="#{perguntaBean.selecionarTipo}">
+                                         converter="tipoPerguntaConverter">
+                            <p:ajax event="change" listener="#{perguntaBean.selecionarTipo()}" update="@form"/>
+
                             <f:selectItem noSelectionOption="true"
                                           itemValue="null"
                                           itemLabel="Selecione o tipo de pergunta"/>
@@ -57,6 +59,17 @@
                     </h:panelGrid>
 
                     <!-- https://stackoverflow.com/questions/17587304/how-to-use-if-else-condition-in-jsf-to-display-image -->
+                    <c:if test="#{perguntaBean.unicaEscolha}">
+                        Opção: 
+                        <p:dataTable value="#{perguntaBean.pergunta.opcaoPerguntas}" var="op">
+                            <p:column>
+                                #{op.resposta}
+                            </p:column>
+                            <p:column>
+                                Excluir
+                            </p:column>
+                        </p:dataTable>
+                    </c:if>
 
                     <p:button outcome="/gerente/formulario/lista.xhtml" value="Cancelar"
                               icon="fa fa-ban"/>
