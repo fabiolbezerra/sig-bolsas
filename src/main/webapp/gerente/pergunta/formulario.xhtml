@@ -42,7 +42,9 @@
                                        value="#{perguntaBean.pergunta.pontuacao}"/>
 
                         <p:outputLabel value="Tipo de pergunta"/>
-                        <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}" converter="tipoPerguntaConverter">
+                        <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}"
+                                         converter="tipoPerguntaConverter"
+                                         onchange="#{perguntaBean.selecionarTipo}">
                             <f:selectItem noSelectionOption="true"
                                           itemValue="null"
                                           itemLabel="Selecione o tipo de pergunta"/>

@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
@@ -168,5 +169,11 @@ public class PerguntaBean implements Serializable {
         pergunta.setFormulario(formulario);
         opcaoPergunta = new OpcaoPergunta();
         perguntas = PERGUNTA_RN.obter(formulario);
+    }
+
+    public void selecionarTipo(){
+        if (pergunta.getOpcaoPerguntas() == null) {
+            pergunta.setOpcaoPerguntas(new ArrayList<>());
+        }
     }
 }
