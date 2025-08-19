@@ -58,9 +58,15 @@
 
                     </h:panelGrid>
 
+
                     <!-- https://stackoverflow.com/questions/17587304/how-to-use-if-else-condition-in-jsf-to-display-image -->
                     <c:if test="#{perguntaBean.unicaEscolha}">
-                        Opção: 
+                        <p:outputLabel value="Opção:" for="itaTexto" style="font-size: 18px; margin-bottom:2px"/>
+                        <p:inputTextarea id="itaTexto"
+                                         required="true"
+                                         value="#{perguntaBean.pergunta.texto}"
+                                         rows="1"
+                                         maxlength="250"/>
                         <p:dataTable value="#{perguntaBean.pergunta.opcaoPerguntas}" var="op">
                             <p:column>
                                 #{op.resposta}
