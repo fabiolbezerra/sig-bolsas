@@ -155,7 +155,7 @@ public class PerguntaBean implements Serializable {
         } else {
             if (PERGUNTA_RN.excluir(pergunta)) {
                 //Mensagem de sucesso
-                UtilBean.criarMensagemDeInformacao("Pergunta gravada com sucesso");
+                UtilBean.criarMensagemDeInformacao("Pergunta excluída com sucesso");
             } else {
                 //Mensagem de erro: problemas ao salvar
                 UtilBean.criarMensagemDeErro("Problema ao gravar a pergunta");

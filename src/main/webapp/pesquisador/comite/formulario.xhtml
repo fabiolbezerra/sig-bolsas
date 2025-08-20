@@ -34,13 +34,23 @@
                 <p:outputLabel value="Coordenador"/>
                 <p:selectOneMenu converter="pessoaConverter" value="#{comiteBean.comite.coordenador}">
                     <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
-                    <f:selectItems value="#{pessoaBean.pessoas}" var="p" itemValue="#{p}"
+                    <f:selectItems value="#{pessoaBean.coordenadores}"
+                                   var="p"
+                                   itemValue="#{p}"
                                    itemLabel="#{p.nomeCompleto}"/>
                 </p:selectOneMenu>
             </h:panelGrid>
 
+            <p:panel rendered="#{comiteBean.comite.id != null or comiteBean.comite.id > 0}">
+                Aqui Romão
+            </p:panel>
+
+            <br/>
             <p:button outcome="lista.xhtml" value="Cancelar" icon="fa fa-ban"/>
-            <p:commandButton value="Salvar" action="#{comiteBean.salvar()}" update="@form" icon="fa fa-floppy-o"/>
+            <p:commandButton value="Salvar"
+                             action="#{comiteBean.salvar()}"
+                             update="@form"
+                             icon="fa fa-floppy-o"/>
         </h:form>
     </ui:define>
 </ui:composition>

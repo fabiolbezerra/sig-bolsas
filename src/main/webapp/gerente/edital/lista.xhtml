@@ -65,6 +65,10 @@
                         <p:menuitem value="Editar" rendered="#{papelBean.usuarioLogadoCoordenador}" action="/coordenador/edital/formulario.xhtml" icon="fa fa-pencil-square-o">
                             <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
                         </p:menuitem>
+
+                        <p:menuitem value="Inscrições" action="/gerente/inscricao/lista.xhtml" >
+                            <f:param value="#{edital.id}" name="editalID" />
+                        </p:menuitem>
                     </p:splitButton>
                 </p:column>
             </p:dataTable>

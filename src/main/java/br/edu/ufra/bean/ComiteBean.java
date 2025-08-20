@@ -2,6 +2,7 @@ package br.edu.ufra.bean;
 
 import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.entidade.Edital;
+import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.rn.ComiteRN;
 import br.edu.ufra.util.UtilBean;
 
@@ -43,6 +44,10 @@ public class ComiteBean implements Serializable {
                 comite = new Comite();
                 UtilBean.criarMensagemDeErro("Não foi possível recuperar o comite.");
             }
+        }
+        Pessoa usuarioLogado = UtilBean.obterUsuarioLogado();
+        if (comite.getId() == null && UtilBean.possuiPapel(usuarioLogado, 'C')) {
+            comite.setCoordenador(usuarioLogado);
         }
     }
 
