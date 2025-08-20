@@ -176,11 +176,17 @@ public class PerguntaBean implements Serializable {
     public void selecionarTipo(){
         if (pergunta.getOpcaoPerguntas() == null) {
             pergunta.setOpcaoPerguntas(new ArrayList<>());
+        } else {
+            pergunta.getOpcaoPerguntas().add(pergunta.getOpcaoPerguntas().get(0));
         }
     }
 
     public boolean isUnicaEscolha(){
         return pergunta.getTipo() == EnumTipoPergunta.UNICA_ESCOLHA;
+    }
+
+    public void isAdicionarOpcaoPergunta(){
+
     }
 
 }
