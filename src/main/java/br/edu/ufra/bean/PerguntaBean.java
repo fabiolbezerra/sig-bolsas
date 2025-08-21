@@ -177,16 +177,30 @@ public class PerguntaBean implements Serializable {
         if (pergunta.getOpcaoPerguntas() == null) {
             pergunta.setOpcaoPerguntas(new ArrayList<>());
         } else {
-            pergunta.getOpcaoPerguntas().add(pergunta.getOpcaoPerguntas().get(0));
+            pergunta.getOpcaoPerguntas().add(new OpcaoPergunta());
         }
     }
 
     public boolean isUnicaEscolha(){
         return pergunta.getTipo() == EnumTipoPergunta.UNICA_ESCOLHA;
     }
+    public void adicionarOpcao() {
+        if (opcaoPergunta != null && opcaoPergunta.getResposta() != null && !opcaoPergunta.getResposta().trim().isEmpty()) {
+            if (pergunta.getOpcaoPerguntas() == null) {
+                pergunta.setOpcaoPerguntas(new ArrayList<>());
+            }
+            pergunta.getOpcaoPerguntas().add(opcaoPergunta);
+            opcaoPergunta = new OpcaoPergunta();
+            UtilBean.criarMensagemDeInformacao("Opção adicionada com sucesso!");
+        } else {
+            UtilBean.criarMensagemDeAviso("Por favor, insira o texto da opção.");
+        }
+    }
 
-    public void isAdicionarOpcaoPergunta(){
-
+    public void removerOpcao(OpcaoPergunta opcao) {
+        if (pergunta.getOpcaoPerguntas() != null) {
+            pergunta.getOpcaoPerguntas().remove(opcao);
+        }
     }
 
 }
