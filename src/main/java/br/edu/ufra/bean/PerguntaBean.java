@@ -45,6 +45,7 @@ public class PerguntaBean implements Serializable {
                 formulario = new Formulario();
             }
             pergunta.setFormulario(formulario);
+            pergunta.setOpcaoPerguntas(new ArrayList<>());
             perguntas = PERGUNTA_RN.obter(formulario);
             if (perguntas != null) {
                 ordem = perguntas.size();
@@ -169,23 +170,24 @@ public class PerguntaBean implements Serializable {
         //Atualizando os objetos
         pergunta = new Pergunta();
         pergunta.setFormulario(formulario);
+        pergunta.setOpcaoPerguntas(new ArrayList<>());
         opcaoPergunta = new OpcaoPergunta();
         perguntas = PERGUNTA_RN.obter(formulario);
     }
 
     public void selecionarTipo(){
+        System.out.println("Tipo de pergunta: " + pergunta.getTipo());
         if (pergunta.getOpcaoPerguntas() == null) {
             pergunta.setOpcaoPerguntas(new ArrayList<>());
-        } else {
-            pergunta.getOpcaoPerguntas().add(new OpcaoPergunta());
         }
     }
 
     public boolean isUnicaEscolha(){
         return pergunta.getTipo() == EnumTipoPergunta.UNICA_ESCOLHA;
     }
+
     public void adicionarOpcao() {
-        if (opcaoPergunta != null && opcaoPergunta.getResposta() != null && !opcaoPergunta.getResposta().trim().isEmpty()) {
+        if (opcaoPergunta != null && opcaoPergunta.getResposta() != null && !opcaoPergunta.getResposta().isEmpty()) {
             if (pergunta.getOpcaoPerguntas() == null) {
                 pergunta.setOpcaoPerguntas(new ArrayList<>());
             }

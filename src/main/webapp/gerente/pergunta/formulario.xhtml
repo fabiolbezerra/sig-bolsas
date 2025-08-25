@@ -43,9 +43,9 @@
                                        value="#{perguntaBean.pergunta.pontuacao}"/>
 
                         <p:outputLabel value="Tipo de pergunta"/>
-
-                        <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}" converter="tipoPerguntaConverter">
-                            <p:ajax event="change" listener="#{perguntaBean.selecionarTipo()}" update="@form opcoesPanelWrapper"/>
+                        <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}"
+                                         converter="tipoPerguntaConverter">
+                            <p:ajax event="change" listener="#{perguntaBean.selecionarTipo()}" update="@form"/>
 
                             <f:selectItem noSelectionOption="true"
                                           itemValue="null"
@@ -60,7 +60,7 @@
 
 
                     <!-- https://stackoverflow.com/questions/17587304/how-to-use-if-else-condition-in-jsf-to-display-image -->
-                    <h:panelGroup id="opcoesPanelWrapper" rendered="#{perguntaBean.unicaEscolha}">
+                    <c:if test="#{perguntaBean.unicaEscolha}">
                         <p:panelGrid id="opcoesPanel" columns="1">
 
                             <h:panelGroup layout="inline" style="font-size: 18px; margin-bottom: 10px;">
@@ -76,28 +76,27 @@
 
                                 <p:commandButton value="Adicionar"
                                                  action="#{perguntaBean.adicionarOpcao()}"
-                                                 update="formPergunta:opcoesPanel formPergunta:inTexto"
+                                                 update="dtOpcoesDeResposta"
+                                                 immediate="true"
                                                  icon="fa fa-plus-circle"
                                                  style="vertical-align: middle; margin-left: 10px;" />
 
                             </h:panelGroup>
 
-                            <p:dataTable value="#{perguntaBean.pergunta.opcaoPerguntas}" var="op">
+                            <p:dataTable id="dtOpcoesDeResposta" value="#{perguntaBean.pergunta.opcaoPerguntas}" var="op" emptyMessage="Nenhuma opção">
                                 <p:column headerText="Resposta">
                                     <h:outputText value=" #{op.resposta}"/>
-                                    teste
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton icon="fa fa-trash"
+                                    <p:commandButton value="Excluir"
+                                                     icon="fa fa-trash"
                                                      action="#{perguntaBean.removerOpcao(op)}"
-                                                     update="opcoesPanel"
-                                                     title="Excluir Opção" />
+                                                     update="formPergunta:opcoesPanel"/>
                                 </p:column>
                             </p:dataTable>
 
                         </p:panelGrid>
-                    </h:panelGroup>
-
+                    </c:if>
 
                     <p:button outcome="/gerente/formulario/lista.xhtml" value="Cancelar"
                               icon="fa fa-ban"/>
