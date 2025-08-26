@@ -37,7 +37,21 @@
 
             <h2>Comitê cadastrado por</h2>
 
-            <h:outputText value="#{comiteBean.comite.coordenador.nomeCompleto}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Nome completo:"/>
+                <p:outputLabel value="#{comiteBean.comite.coordenador.nomeCompleto}"/>
+
+                <p:outputLabel value="Telefone:"/>
+                <p:outputLabel value="#{comiteBean.comite.coordenador.telefone}" converter="telefoneConverter"/>
+
+                <p:outputLabel value="E-mail:"/>
+                <p:outputLabel value="#{comiteBean.comite.coordenador.email}"/>
+
+                <p:outputLabel value="Data de nascimento:"/>
+                <p:outputLabel value="#{comiteBean.comite.coordenador.nascimento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:panelGrid>
 
             <h2>Editais que o comitê atua</h2>
 
