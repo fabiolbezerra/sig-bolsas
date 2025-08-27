@@ -1,6 +1,7 @@
 package br.edu.ufra.bean;
 
 import br.edu.ufra.entidade.Comite;
+import br.edu.ufra.entidade.ComitePessoa;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.rn.ComiteRN;
@@ -22,6 +23,8 @@ public class ComiteBean implements Serializable {
     private List<Comite> comites;
     private String todos;
     private static String formulario;
+    private static String voltarFormulario;
+
     public ComiteBean() {
         System.out.println("Criando ComiteBean ...");
     }
@@ -54,8 +57,17 @@ public class ComiteBean implements Serializable {
     public static String getFormulario() {
         return formulario;
     }
+
     public static void setFormulario(String formulario) {
         ComiteBean.formulario = formulario;
+    }
+
+    public String getVoltarFormulario() {
+        return voltarFormulario;
+    }
+
+    public void setVoltarFormulario(String voltarFormulario) {
+        this.voltarFormulario = voltarFormulario;
     }
 
     public List<Comite> getComites() {
@@ -96,10 +108,12 @@ public class ComiteBean implements Serializable {
             }
         }
     }
+
     public List<Comite> obterComites(Character tipo) {
         switch (tipo) {
             case 'V': {
                 setFormulario("lista-vigentes.xhtml");
+                setVoltarFormulario("lista-vigentes.xhtml");
                 return comites = RN.listarVigentes();
             }
             case 'E': {
@@ -108,24 +122,24 @@ public class ComiteBean implements Serializable {
             }
             default: {
                 setFormulario("lista.xhtml");
+                setVoltarFormulario("lista.xhtml");
                 return comites = RN.listarTodos();
             }
         }
     }
+
     public String voltar() {
         if (formulario.equals("lista-vigentes.xhtml")) {
             return "/pesquisador/comite/lista-vigentes.xhtml?faces-redirect=true";
-        }
-        else if (formulario.equals("lista-encerrados.xhtml")) {
+        } else if (formulario.equals("lista-encerrados.xhtml")) {
             return "/pesquisador/comite/lista-encerrados.xhtml?faces-redirect=true";
-        }
-        else if (formulario.equals("lista.xhtml")) {
+        } else if (formulario.equals("lista.xhtml")) {
             return "/pesquisador/comite/lista.xhtml?faces-redirect=true";
-        }
-        else {
+        } else {
             return null;
         }
     }
+
     public List<Comite> listarVigentes() {
         return comites = RN.listarVigentes();
 
@@ -138,7 +152,13 @@ public class ComiteBean implements Serializable {
 
     public List<Comite> listarEncerrados() {
         return comites = RN.listarEncerrados();
-
     }
 
+    public String voltarFormulario() {
+        if (voltarFormulario.equals("lista-vigentes.xhtml")) {
+            return "/pesquisador/comite/lista-vigentes.xhtml?faces-redirect=true";
+        } else {
+            return "/pesquisador/comite/lista.xhtml?faces-redirect=true";
+        }
+    }
 }
