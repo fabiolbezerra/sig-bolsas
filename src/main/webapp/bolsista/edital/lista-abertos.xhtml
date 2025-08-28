@@ -10,7 +10,7 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="Editais">
+    <ui:define name="title">
         Editais Abertos
     </ui:define>
 
@@ -58,7 +58,7 @@
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-search"
+                    <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-pencil"
                                    ajax="false">
                         <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
                         <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>

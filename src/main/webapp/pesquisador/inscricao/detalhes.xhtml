@@ -1,86 +1,93 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:define name="title">
+        Detalhes da Inscrição
+    </ui:define>
 
-<h:head>
-    <title>Detalhes da Inscrição</title>
-</h:head>
+    <ui:define name="content">
 
-<h:body>
-    <h:form>
-        <p:panel header="Detalhes da Inscrição" style="width: 80%; margin: 20px auto;">
-            <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
-                <f:facet name="header">
-                    <p:outputLabel value="Dados do Participante"/>
-                </f:facet>
-                <h:outputText value="Nome Completo:" />
-                <h:outputText value="#{inscricaoBean.inscricao.pessoa.nomeCompleto}" />
+        <h:form>
+            <p:panel header="Detalhes da Inscrição" style="width: 95%; margin: 20px auto; font-size: large">
+                <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
+                    <f:facet name="header">
+                        <p:outputLabel value="Dados do Participante"/>
+                    </f:facet>
+                    <h:outputText value="Nome Completo:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.nomeCompleto}" />
 
-                <h:outputText value="Telefone:" />
-                <h:outputText value="#{inscricaoBean.inscricao.pessoa.telefone}" />
+                    <h:outputText value="Telefone:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.telefone}" />
 
-                <h:outputText value="Email:" />
-                <h:outputText value="#{inscricaoBean.inscricao.pessoa.email}" />
+                    <h:outputText value="Email:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.email}" />
 
-                <h:outputText value="Data de Nascimento:" />
-                <h:outputText value="#{inscricaoBean.inscricao.pessoa.nascimento}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:outputText>
-            </p:panelGrid>
-
-            <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
-                <f:facet name="header">
-                    <p:outputLabel value="Dados do Edital"/>
-                </f:facet>
-
-                <h:outputText value="Edital:" />
-                <h:outputText value="#{inscricaoBean.inscricao.edital.titulo}" />
-
-                <h:outputText value="Ano/Número:" />
-                <h:outputText value="#{inscricaoBean.inscricao.edital.ano} / #{inscricaoBean.inscricao.edital.numero}"/>
-
-                <h:outputText value="Situação:" />
-                <h:outputText value="#{inscricaoBean.obterSituacao(inscricaoBean.inscricao.edital.situacao)}" />
-
-                <h:outputText value="Tipo:" />
-                <h:outputText value="#{inscricaoBean.obterTipo(inscricaoBean.inscricao.edital.tipo)}"/>
-
-                <h:outputText value="Início das inscrições:" />
-                <h:outputText value="#{inscricaoBean.inscricao.edital.dataInicio}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-
-                <h:outputText value="Fim das inscrições:" />
-                <h:outputText value="#{inscricaoBean.inscricao.edital.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-
-                <h:outputText value="Cadastrado:" />
-                <h:outputText value="#{inscricaoBean.inscricao.edital.dataCadastro}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:panelGrid>
+                    <h:outputText value="Data de Nascimento:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.nascimento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:panelGrid>
 
 
-            <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
-                <f:facet name="header">
-                    <p:outputLabel value="Dados da Inscrição"/>
-                </f:facet>
-                <h:outputText value="Protocolo:" />
-                <h:outputText value="#{inscricaoBean.inscricao.protocolo}" />
+                <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+                    <f:facet name="header">
+                        <p:outputLabel value="Dados do Edital"/>
+                    </f:facet>
 
-                <h:outputText value="Data de Inscrição:" />
-                <h:outputText value="#{inscricaoBean.inscricao.dataInscricao}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:outputText>
-            </p:panelGrid>
+                    <h:outputText value="Edital:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.edital.titulo}" />
 
-            <p:commandButton value="Voltar" action="/bolsista/edital/lista-abertos.xhtml?faces-redirect=true"
-                             styleClass="ui-button-secondary" icon="pi pi-arrow-left"/>
-        </p:panel>
-    </h:form>
-</h:body>
-</html>
+                    <h:outputText value="Ano/Número:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.edital.ano} / #{inscricaoBean.inscricao.edital.numero}"/>
+
+                    <h:outputText value="Situação:" />
+                    <h:outputText value="#{inscricaoBean.obterSituacao(inscricaoBean.inscricao.edital.situacao)}" />
+
+                    <h:outputText value="Tipo:" />
+                    <h:outputText value="#{inscricaoBean.obterTipo(inscricaoBean.inscricao.edital.tipo)}"/>
+
+                    <h:outputText value="Início das inscrições:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.edital.dataInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+
+                    <h:outputText value="Fim das inscrições:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.edital.dataFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+
+                    <h:outputText value="Cadastrado:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.edital.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:panelGrid>
+
+
+                <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
+                    <f:facet name="header">
+                        <p:outputLabel value="Dados da Inscrição"/>
+                    </f:facet>
+                    <h:outputText value="Protocolo:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.protocolo}" />
+
+                    <h:outputText value="Data de Inscrição:" />
+                    <h:outputText value="#{inscricaoBean.inscricao.dataInscricao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:panelGrid>
+
+                <p:commandButton value="Voltar" action="/bolsista/edital/lista-abertos.xhtml?faces-redirect=true"
+                                 styleClass="ui-button-secondary" icon="fa fa-arrow-circle-left"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
