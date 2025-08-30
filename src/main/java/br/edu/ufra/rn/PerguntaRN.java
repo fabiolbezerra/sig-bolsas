@@ -32,12 +32,20 @@ public class PerguntaRN {
         }
     }
 
-    public boolean excluir(Pergunta pergunta) {
+    public boolean excluir(Pergunta pergunta, List<Pergunta> perguntas) {
         if (pergunta == null) {
             return false;
         } else {
             //TODO: caso a pergunta tenha resposta preenchida, não permitir a exclusão
-            return DAO.excluir(pergunta);
+            //if (pergunta.getRespostas() == null) {
+                if (perguntas.indexOf(pergunta) == perguntas.size() -1){
+                    return DAO.excluir(pergunta);
+                }else{
+                    return DAO.excluir(pergunta, perguntas);
+                }
+            //} else {
+            //    return false;
+            //}
         }
     }
 

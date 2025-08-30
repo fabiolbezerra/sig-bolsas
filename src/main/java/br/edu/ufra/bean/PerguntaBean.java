@@ -154,8 +154,11 @@ public class PerguntaBean implements Serializable {
             //Mensagem de erro: objeto nulo
             UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
-            if (PERGUNTA_RN.excluir(pergunta)) {
+            List<Pergunta> perguntas = new ArrayList<>();
+            perguntas = PERGUNTA_RN.obter(pergunta.getFormulario());
+            if (PERGUNTA_RN.excluir(pergunta, perguntas)) {
                 //Mensagem de sucesso
+                pergunta.setOrdem(--ordem);
                 UtilBean.criarMensagemDeInformacao("Pergunta excluída com sucesso");
             } else {
                 //Mensagem de erro: problemas ao salvar

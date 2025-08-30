@@ -101,4 +101,39 @@ public class PerguntaDAO extends GenericDAO<Pergunta> {
         return resposta;
     }
 
+    public boolean excluir(Pergunta pergunta, List<Pergunta> perguntas) {
+        EntityManager em = getEntityManager();
+
+        EntityTransaction transaction = null;
+        if (em != null) {
+            transaction = em.getTransaction();
+        }else{
+            return false;
+        }
+
+        try {
+            int ordem = pergunta.getOrdem();
+            transaction.begin();
+            for (Pergunta value : perguntas) {
+                if (value.getOrdem() == ordem + 1) {
+                    value.setOrdem(ordem);
+                    ordem++;
+                    em.merge(value);
+                }
+            }
+            em.remove(em.merge(pergunta));
+            transaction.commit();
+            return true;
+        }catch (Exception e) {
+            e.printStackTrace(System.err);
+            if (transaction != null
+                    && transaction.isActive()) {
+                transaction.rollback();
+            }
+            return false;
+        }finally {
+            em.close();
+        }
+    }
+
 }
