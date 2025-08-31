@@ -19,7 +19,7 @@
 
         <h:form id="formComite">
             <p:growl showDetail="true" showSummary="true"/>
-            <p:dataTable id="comitesDataTable" value="#{comiteBean.obterComites('E')}" var="comite"
+            <p:dataTable id="comitesDataTable" value="#{comiteBean.listarEncerrados()}" var="comite"
                          emptyMessage="Nenhuma informação a ser exibida"
                          paginator="true" rows="10" paginatorPosition="bottom">
                 <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">

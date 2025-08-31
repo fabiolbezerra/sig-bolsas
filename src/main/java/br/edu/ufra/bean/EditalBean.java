@@ -1,5 +1,6 @@
 package br.edu.ufra.bean;
 
+import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.rn.EditalRN;
 import br.edu.ufra.util.UtilBean;
@@ -19,6 +20,7 @@ public class EditalBean implements Serializable {
 
     private List<Edital> editais;
 
+    private static String formulario;
 
     public EditalBean() {
         System.out.println("Criando EditalBean ...");
@@ -27,15 +29,42 @@ public class EditalBean implements Serializable {
     @PostConstruct
     public void init() {
         System.out.println("Inicializando EditalBean ...");
-        editais = EDITAL_RN.listarTodos();
+
+        String editalID = UtilBean.obterValor("editalID");
+        if (editalID != null) {
+            try {
+                int id = Integer.parseInt(editalID);
+                edital = EDITAL_RN.obter(id);
+                if (edital == null) {
+                    edital = new Edital();
+                    UtilBean.criarMensagemDeAviso("Não foi possivel recuperar o edital. Código inválido.");
+                }
+            } catch (Exception e) {
+                edital = new Edital();
+                UtilBean.criarMensagemDeErro("Não foi possível recuperar o edital.");
+            }
+        }
+    }
+
+    public static String getFormulario() {
+        return formulario;
+    }
+
+    public static void setFormulario(String formulario) {
+        EditalBean.formulario = formulario;
     }
 
     public List<Edital> getEditais() {
-        return editais;
+        setFormulario("lista.xhtml");
+        return editais = EDITAL_RN.listarTodos();
     }
-
     public List<Edital> getEditaisAbertos() {
-        return EDITAL_RN.obterVigentes();
+        setFormulario("lista-abertos.xhtml");
+        return editais = EDITAL_RN.obterVigentes();
+    }
+    public List<Edital> getEditaisEncerrados() {
+        setFormulario("lista-encerrados.xhtml");
+        return editais = EDITAL_RN.obterEncerrados();
     }
 
     public Edital getEdital() {
@@ -44,6 +73,19 @@ public class EditalBean implements Serializable {
 
     public void setEdital(Edital edital) {
         this.edital = edital;
+    }
+
+
+    public String voltar() {
+        if (formulario.equals("lista-abertos.xhtml")) {
+            return "/bolsista/edital/lista-abertos.xhtml?faces-redirect=true";
+        } else if (formulario.equals("lista-encerrados.xhtml")) {
+            return "/gerente/edital/lista-encerrados.xhtml?faces-redirect=true";
+        } else if (formulario.equals("lista.xhtml")) {
+            return "/gerente/edital/lista.xhtml?faces-redirect=true";
+        } else {
+            return null;
+        }
     }
 
     public String obterSituacao(Character situacao) {
