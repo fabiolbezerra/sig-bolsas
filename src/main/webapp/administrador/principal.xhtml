@@ -22,10 +22,13 @@
             <li><h:link value="Comitês Encerrados" outcome="/pesquisador/comite/lista-encerrados"/></li>
             <li><h:link value="Editais" outcome="/gerente/edital/lista"/></li>
             <li><h:link value="Editais Abertos" outcome="/bolsista/edital/lista-abertos.xhtml"/></li>
+            <li><h:link value="Editais Encerrados" outcome="/gerente/edital/lista-encerrados.xhtml"/></li>
             <!--            <li><h:link value="Gerenciar Cotas" outcome="/acesso-negado.xhtml"/></li>-->
             <!--            <li><h:link value="Acompanhar Avaliações" outcome="/acesso-negado.xhtml"/></li>-->
             <!--            <li><h:link value="Formulários" outcome="/acesso-negado.xhtml"/></li>-->
-            <li><h:link value="Minhas Incrições" outcome="/pesquisador/inscricao/lista.xhtml" rendered="#{papelBean.usuarioLogadoPesquisador}"/></li>
+            <h:panelGroup rendered="#{papelBean.usuarioLogadoPesquisador}">
+                <li><h:link value="Minhas Incrições" outcome="/pesquisador/inscricao/lista.xhtml"/></li>
+            </h:panelGroup>
             <li><h:link value="Papéis" outcome="/administrador/papel/lista"/></li>
             <li><h:link value="Pessoas" outcome="/gerente/pessoa/lista"/></li>
             <li><h:link value="Planos de Trabalho" outcome="/gerente/plano/lista.xhtml"/></li>
