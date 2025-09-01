@@ -60,6 +60,7 @@
                 <p:column headerText="Operações">
                     <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-pencil"
                                    ajax="false">
+<!--                    rendered="#{papelBean.usuarioLogadoPesquisador}">-->
                         <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
                         <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
 
@@ -67,7 +68,7 @@
                         <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}"
                                                      value="#{papelBean.usuarioLogado}"/>
 
-                        <p:menuitem value="Detalhes" action="lista-abertos-detalhes.xhtml" icon="fa fa-info-circle">
+                        <p:menuitem value="Detalhes" action="/bolsista/edital/detalhes.xhtml"  icon="fa fa-info-circle">
                             <f:setPropertyActionListener target="#{editalBean.edital}" value="#{edital}"/>
                         </p:menuitem>
                     </p:splitButton>
