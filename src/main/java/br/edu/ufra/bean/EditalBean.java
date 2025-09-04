@@ -4,11 +4,14 @@ import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.rn.EditalRN;
 import br.edu.ufra.util.UtilBean;
+import org.primefaces.component.calendar.Calendar;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import java.io.Serializable;
+import java.time.Year;
+import java.util.Date;
 import java.util.List;
 
 @ManagedBean
@@ -111,8 +114,13 @@ public class EditalBean implements Serializable {
         if (edital == null) {
             //Mensagem de erro: objeto nulo
             UtilBean.criarMensagemDeErro("Objeto nulo");
+        } else if (edital.getDataInicio().after(edital.getDataFinal())) {
+            UtilBean.criarMensagemDeErro("Data inicial não pode ser maior que a data final.");
         } else {
-            if (EDITAL_RN.salvar(edital)) {
+            int anoAtual = Year.now().getValue();
+            if (edital.getAno() < anoAtual) {
+                UtilBean.criarMensagemDeErro("Informe o ano atual.");
+            } else if (EDITAL_RN.salvar(edital)) {
                 //Mensagem de sucesso
                 UtilBean.criarMensagemDeInformacao("Edital gravado com sucesso");
             } else {
