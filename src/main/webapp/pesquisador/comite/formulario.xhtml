@@ -23,13 +23,21 @@
             <h:inputHidden value="#{comiteBean.comite.id}"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="Portaria"/>
-                <p:inputText value="#{comiteBean.comite.portaria}"/>
+                <p:inputText value="#{comiteBean.comite.portaria}"
+                required="true"
+                requiredMessage="A portaria é obrigatória"/>
 
                 <p:outputLabel value="Início da vigência"/>
-                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.inicio}"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.inicio}"
+                required="true"
+                requiredMessage="Data inicial é obrigatória"/>
 
                 <p:outputLabel value="Fim da vigência"/>
-                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.fim}"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.fim}"
+                required="true"
+                requiredMessage="Data final é obrigatória"/>
+
+
 
                 <p:outputLabel value="Coordenador"/>
                 <p:selectOneMenu converter="pessoaConverter" value="#{comiteBean.comite.coordenador}">

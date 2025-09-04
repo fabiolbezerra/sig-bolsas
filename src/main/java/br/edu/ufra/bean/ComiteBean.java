@@ -23,7 +23,6 @@ public class ComiteBean implements Serializable {
     private List<Comite> comites;
     private String todos;
     private static String formulario;
-    private static String voltarFormulario;
 
     public ComiteBean() {
         System.out.println("Criando ComiteBean ...");
@@ -59,14 +58,6 @@ public class ComiteBean implements Serializable {
 
     public static void setFormulario(String formulario) {
         ComiteBean.formulario = formulario;
-    }
-
-    public String getVoltarFormulario() {
-        return voltarFormulario;
-    }
-
-    public void setVoltarFormulario(String voltarFormulario) {
-        this.voltarFormulario = voltarFormulario;
     }
 
     public List<Comite> getComites() {
@@ -111,6 +102,8 @@ public class ComiteBean implements Serializable {
         if (comite == null) {
             //Mensagem de erro: objeto nulo
             UtilBean.criarMensagemDeErro("Objeto nulo");
+        } else if (comite.getInicio().after(comite.getFim())) {
+            UtilBean.criarMensagemDeErro("Data inicial não pode ser maior que a data final.");
         } else {
             if (RN.salvar(comite)) {
                 //Mensagem de sucesso
