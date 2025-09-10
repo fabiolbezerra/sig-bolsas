@@ -9,7 +9,6 @@ import br.edu.ufra.util.UtilBean;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -152,10 +151,10 @@ public class PlanoDeTrabalhoBean implements Serializable {
     public List<PlanoDeTrabalho> obterInscricaoPlanos() {
         return RN.obter(inscricao);
     }
-    public String salvar() {
+
+    public void salvar() {
         if (planoDeTrabalho == null) {
             UtilBean.criarMensagemDeErro("Plano de trabalho não encontrado!");
-            return null;
         }
         if (planoDeTrabalho.getInscricao() == null) {
             planoDeTrabalho.setInscricao(this.inscricao);
@@ -166,26 +165,25 @@ public class PlanoDeTrabalhoBean implements Serializable {
 
         if (RN.salvar(planoDeTrabalho)) {
             UtilBean.criarMensagemDeInformacao("Plano de trabalho gravado com sucesso");
-            return "formulario.xhtml?faces-redirect=true";
+            planoDeTrabalho = new PlanoDeTrabalho();
         } else {
             UtilBean.criarMensagemDeErro("Problema ao gravar o plano de trabalho");
-            return null;
         }
     }
+
     public void excluir(PlanoDeTrabalho planoDeTrabalho) {
         if (planoDeTrabalho == null) {
-            //Mensagem de erro: objeto nulo
             UtilBean.criarMensagemDeErro("Objeto nulo");
         } else {
             if (RN.excluir(planoDeTrabalho)) {
-                //Mensagem de sucesso
                 UtilBean.criarMensagemDeInformacao("Plano excluído com sucesso");
+                planosDeTrabalho.remove(planoDeTrabalho);
             } else {
-                //Mensagem de erro: problemas ao salvar
                 UtilBean.criarMensagemDeErro("Problema ao excluir Plano de Trabalho");
             }
         }
     }
+
     public void pesquisar() {
         if (chaveDeBusca == null || chaveDeBusca.trim().length() == 0) {
             UtilBean.criarMensagemDeAviso("Nenhuma chave de busca ou pista informada");

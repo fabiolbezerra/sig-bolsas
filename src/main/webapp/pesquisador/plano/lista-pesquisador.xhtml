@@ -111,7 +111,8 @@
                             <p:commandButton value="Excluir"
                                              action="#{planoDeTrabalhoBean.excluir(planoDeTrabalho)}"
                                              icon="fa fa-trash-o"
-                                             update="@form"
+                                             update="@form messages"
+                                             process="@this"
                                              ajax="true">
                                 <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
                                 <p:confirm header="Confirmação" message="Tem certeza que deseja excluir este plano de trabalho?"
