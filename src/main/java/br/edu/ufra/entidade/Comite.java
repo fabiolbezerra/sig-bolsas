@@ -1,9 +1,7 @@
 package br.edu.ufra.entidade;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "comite")
@@ -31,11 +29,11 @@ public class Comite {
     @JoinColumn(name = "coordenador", nullable = false)
     private Pessoa coordenador;
 
-    @OneToMany(mappedBy = "comite")
-    private Set<ComitePessoa> comitePessoas = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "comite", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComitePessoa> comitePessoas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comite")
-    private Set<Edital> editals = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "comite", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Edital> editals  = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -77,19 +75,18 @@ public class Comite {
         this.coordenador = coordenador;
     }
 
-    public Set<ComitePessoa> getComitePessoas() {
+    public List<ComitePessoa> getComitePessoas() {
         return comitePessoas;
     }
-
-    public void setComitePessoas(Set<ComitePessoa> comitePessoas) {
+    public void setComitePessoas(List<ComitePessoa> comitePessoas) {
         this.comitePessoas = comitePessoas;
     }
 
-    public Set<Edital> getEditals() {
+    public List<Edital> getEditals() {
         return editals;
     }
 
-    public void setEditals(Set<Edital> editals) {
+    public void setEditals(List<Edital> editals) {
         this.editals = editals;
     }
 
