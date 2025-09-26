@@ -1,9 +1,6 @@
 package br.edu.ufra.bean;
 
-import br.edu.ufra.entidade.Edital;
-import br.edu.ufra.entidade.Papel;
-import br.edu.ufra.entidade.Pessoa;
-import br.edu.ufra.entidade.PessoaPapel;
+import br.edu.ufra.entidade.*;
 import br.edu.ufra.rn.PapelRN;
 import br.edu.ufra.util.UtilBean;
 
@@ -111,6 +108,22 @@ public class PapelBean {
         return UtilBean.irParaPaginaPrincipal(usuario);
     }
 
+    public boolean isMembroDoComite(Edital edital) {
+        Pessoa usuario = UtilBean.obterUsuarioLogado();
+        if (usuario == null
+                || !UtilBean.possuiPapel(usuario, 'P')
+                || edital == null
+                || edital.getComite() == null
+                || edital.getComite().getComitePessoas() == null) {
+            return false;
+        }
+        for (ComitePessoa membro : edital.getComite().getComitePessoas()) {
+            if (usuario.equals(membro.getPessoa())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
