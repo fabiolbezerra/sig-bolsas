@@ -21,8 +21,8 @@ public class PlanoDeTrabalhoBean implements Serializable {
     private EditalRN editalRN = new EditalRN();
     private PessoaRN pessoaRN = new PessoaRN();
     private InscricaoRN inscricaoRN = new InscricaoRN();
-    private PlanoDeTrabalho planoDeTrabalho = new PlanoDeTrabalho();
 
+    private PlanoDeTrabalho planoDeTrabalho = new PlanoDeTrabalho();
     private List<PlanoDeTrabalho> planosDeTrabalho;
     private String titulo;
     private String resumo;
@@ -31,6 +31,7 @@ public class PlanoDeTrabalhoBean implements Serializable {
     private Pessoa pesquisador;
     private String chaveDeBusca;
     private char criterio;
+    private static String formulario;
 
     public PlanoDeTrabalhoBean() {
         System.out.println("Criando PlanoDeTrabalhoBean ...");
@@ -56,6 +57,14 @@ public class PlanoDeTrabalhoBean implements Serializable {
                 System.out.println("Carregando edital ID: " + editalID);
             }
 
+            // Carrega o edital se tiver ID na URL
+            String idEdital = UtilBean.obterValor("editalID");
+            if (idEdital != null && !idEdital.isEmpty()) {
+                int editalID = Integer.parseInt(idEdital);
+                System.out.println("Carregando edital ID: " + editalID);
+                edital = editalRN.obter(editalID);
+            }
+
             String pesquisadorIdParam = UtilBean.obterValor("pesquisadorID");
             if (pesquisadorIdParam != null && !pesquisadorIdParam.isEmpty()) {
                 int pesquisadorID = Integer.parseInt(pesquisadorIdParam);
@@ -77,6 +86,7 @@ public class PlanoDeTrabalhoBean implements Serializable {
         }
     }
 
+
     public String getChaveDeBusca() {
         return chaveDeBusca;
     }
@@ -93,7 +103,16 @@ public class PlanoDeTrabalhoBean implements Serializable {
         this.criterio = criterio;
     }
 
+    public static String getFormulario() {
+        return formulario;
+    }
+
+    public static void setFormulario(String formulario) {
+        PlanoDeTrabalhoBean.formulario = formulario;
+    }
+
     public List<PlanoDeTrabalho> getPlanosDeTrabalho() {
+        setFormulario("lista.xhtml");
         return planosDeTrabalho;
     }
 
@@ -148,10 +167,23 @@ public class PlanoDeTrabalhoBean implements Serializable {
     public void setPesquisador(Pessoa pesquisador) {
         this.pesquisador = pesquisador;
     }
+
+    public List<PlanoDeTrabalho> obterPlanoDeTrabalhoVigentes() {
+        setFormulario("lista-vigentes.xhtml");
+        return planosDeTrabalho = RN.obterVigentes();
+    }
+
     public List<PlanoDeTrabalho> obterInscricaoPlanos() {
         return RN.obter(inscricao);
     }
 
+    public String voltar() {
+        if (formulario.equals("lista-vigentes.xhtml")) {
+            return "/bolsista/plano/lista.xhtml?faces-redirect=true";
+        } else {
+            return "/gerente/plano/lista.xhtml?faces-redirect=true";
+        }
+    }
     public void salvar() {
         if (planoDeTrabalho == null) {
             UtilBean.criarMensagemDeErro("Plano de trabalho não encontrado!");

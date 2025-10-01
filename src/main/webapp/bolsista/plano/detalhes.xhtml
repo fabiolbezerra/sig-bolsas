@@ -20,11 +20,8 @@
       <h:form id="formPlanoDeTrabalho">
 
          <h:panelGrid columns="2">
-            <p:outputLabel value="Título"/>
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.titulo}"/>
-
             <p:outputLabel value="Resumo"/>
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.titulo}"/>
+            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.resumo}"/>
 
             <p:outputLabel value="Pesquisador"/>
             <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.pessoa.nomeCompleto}"/>
@@ -72,8 +69,11 @@
             </p:outputLabel>
          </h:panelGrid>
 
-         <h2>Dados da Inscrição</h2>
-         <h:panelGrid columns="2">
+
+         <h:panelGroup rendered="#{!papelBean.usuarioLogadoBolsista}">
+            <h2>Dados da Inscrição</h2>
+         </h:panelGroup>
+         <h:panelGrid columns="2" rendered="#{!papelBean.usuarioLogadoBolsista}">
             <p:outputLabel value="Protocolo:" />
             <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.protocolo}" />
 
@@ -84,8 +84,7 @@
          </h:panelGrid>
 
          <br/>
-
-         <p:commandLink value="Voltar" action="/gerente/plano/lista.xhtml" icon = "fa fa-arrow-left"/>
+         <p:commandLink value="Voltar" action="#{planoDeTrabalhoBean.voltar()}" icon="fa fa-arrow-circle-left"/>
       </h:form>
    </ui:define>
 </ui:composition>

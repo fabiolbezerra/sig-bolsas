@@ -27,10 +27,15 @@ public class PlanoDeTrabalhoRN {
     public static List<PlanoDeTrabalho> listarTodos(){
         return DAO.obterTodos(PlanoDeTrabalho.class);
     }
-    public static PlanoDeTrabalho obter(Integer id){
-        return DAO.obter(PlanoDeTrabalho.class, id);
+    public static List<PlanoDeTrabalho> obterVigentes(){
+        return DAO.obterVigentes();
     }
-
+    public static PlanoDeTrabalho obter(Integer id){
+        return DAO.obterPlanoDeTrabalho(PlanoDeTrabalho.class, id);
+    }
+    public static List<PlanoDeTrabalho> obter(Inscricao inscriao){
+        return DAO.obter(inscriao);
+    }
     public boolean salvar(PlanoDeTrabalho planoDeTrabalho) {
         if (planoDeTrabalho == null) {
             return false;
@@ -49,7 +54,5 @@ public class PlanoDeTrabalhoRN {
             return DAO.excluir(planoDeTrabalho);
         }
     }
-    public static List<PlanoDeTrabalho> obter(Inscricao inscriao){
-        return DAO.obter(inscriao);
-    }
+
 }
