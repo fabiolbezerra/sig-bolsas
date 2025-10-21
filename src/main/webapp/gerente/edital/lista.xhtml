@@ -19,7 +19,9 @@
 
         <br/>
 
-        <p:link value="Cadastrar Edital" outcome="/coordenador/edital/formulario.xhtml" rendered="#{papelBean.usuarioLogadoCoordenador}"/>
+        <p:link value="Cadastrar Edital"
+                outcome="/coordenador/edital/formulario.xhtml"
+                rendered="#{papelBean.usuarioLogadoCoordenador or papelBean.usuarioLogadoAdministrador}"/>
 
         <br/><br/>
 
@@ -62,12 +64,15 @@
                     <p:splitButton value="Detalhes" action="/bolsista/edital/detalhes.xhtml" icon="fa fa-info-circle">
                         <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
 
-                        <p:menuitem value="Editar" rendered="#{papelBean.usuarioLogadoCoordenador}" action="/coordenador/edital/formulario.xhtml" icon="fa fa-pencil-square-o">
+                        <p:menuitem value="Editar"
+                                    rendered="#{papelBean.usuarioLogadoCoordenador or papelBean.usuarioLogadoAdministrador}"
+                                    action="/coordenador/edital/formulario.xhtml"
+                                    icon="fa fa-pencil-square-o">
                             <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
                         </p:menuitem>
 
-                        <p:menuitem value="Inscrições" action="/gerente/inscricao/lista.xhtml" >
-                            <f:param value="#{edital.id}" name="editalID" />
+                        <p:menuitem value="Inscrições" action="/gerente/inscricao/lista.xhtml">
+                            <f:param value="#{edital.id}" name="editalID"/>
                         </p:menuitem>
                     </p:splitButton>
                 </p:column>

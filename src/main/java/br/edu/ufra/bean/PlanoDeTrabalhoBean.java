@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Collections;
 
 @ViewScoped
 @ManagedBean
@@ -173,6 +174,21 @@ public class PlanoDeTrabalhoBean implements Serializable {
         return planosDeTrabalho = RN.obterVigentes();
     }
 
+    public List<PlanoDeTrabalho> obterPorBolsista(Long bolsistaId) {
+        if (bolsistaId == null) {
+            return Collections.emptyList();
+        }
+
+
+        try {
+            List<PlanoDeTrabalho> planos = RN.obterPorBolsista(bolsistaId);
+            return planos;
+
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
     public List<PlanoDeTrabalho> obterInscricaoPlanos() {
         return RN.obter(inscricao);
     }
@@ -184,6 +200,7 @@ public class PlanoDeTrabalhoBean implements Serializable {
             return "/gerente/plano/lista.xhtml?faces-redirect=true";
         }
     }
+
     public void salvar() {
         if (planoDeTrabalho == null) {
             UtilBean.criarMensagemDeErro("Plano de trabalho não encontrado!");
@@ -197,7 +214,6 @@ public class PlanoDeTrabalhoBean implements Serializable {
 
         if (RN.salvar(planoDeTrabalho)) {
             UtilBean.criarMensagemDeInformacao("Plano de trabalho gravado com sucesso");
-            planoDeTrabalho = new PlanoDeTrabalho();
         } else {
             UtilBean.criarMensagemDeErro("Problema ao gravar o plano de trabalho");
         }
@@ -211,7 +227,7 @@ public class PlanoDeTrabalhoBean implements Serializable {
                 UtilBean.criarMensagemDeInformacao("Plano excluído com sucesso");
                 planosDeTrabalho.remove(planoDeTrabalho);
             } else {
-                UtilBean.criarMensagemDeErro("Problema ao excluir Plano de Trabalho");
+                UtilBean.criarMensagemDeErro("Não se pode excluir o plano de trabalho, pois ele está vinculado a outros registros.");
             }
         }
     }
@@ -264,4 +280,3 @@ public class PlanoDeTrabalhoBean implements Serializable {
         }
     }
 }
-

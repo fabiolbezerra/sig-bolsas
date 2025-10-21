@@ -89,6 +89,7 @@
                             <f:param name="pessoa" value="#{pessoa.id}"/>
                         </p:menuitem>
                         <p:menuitem title="Alterar os papéis (permissões)"
+                                    rendered="#{papelBean.usuarioLogadoAdministrador}"
                                     value="Permissão"
                                     action="formulario-papel.xhtml" icon="fa fa-check-circle" aria-hidden="true">
                             <f:param name="pessoa" value="#{pessoa.id}"/>

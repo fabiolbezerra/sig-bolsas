@@ -58,18 +58,20 @@
                 </p:column>
 
                 <p:column headerText="Operações">
-                    <p:splitButton value="Inscrever-se" action="#{inscricaoBean.iniciarInscricao()}" icon="fa fa-pencil"
+                    <p:splitButton value="Detalhes" action="/bolsista/edital/detalhes.xhtml" icon="fa fa-info-circle"
                                    ajax="false">
-<!--                    rendered="#{papelBean.usuarioLogadoPesquisador}">-->
-                        <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
-                        <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
+                        <f:setPropertyActionListener target="#{editalBean.edital}" value="#{edital}"/>
 
-                        <f:setPropertyActionListener target="#{inscricaoBean.edital}" value="#{edital}"/>
-                        <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}"
-                                                     value="#{papelBean.usuarioLogado}"/>
+                        <p:menuitem value="Inscrever-se"
+                                    action="#{inscricaoBean.iniciarInscricao()}"
+                                    icon="fa fa-pencil"
+                                    rendered="#{papelBean.usuarioLogadoPesquisador}">
+                            <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
+                            <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
 
-                        <p:menuitem value="Detalhes" action="/bolsista/edital/detalhes.xhtml"  icon="fa fa-info-circle">
-                            <f:setPropertyActionListener target="#{editalBean.edital}" value="#{edital}"/>
+                            <f:setPropertyActionListener target="#{inscricaoBean.edital}" value="#{edital}"/>
+                            <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}"
+                                                         value="#{papelBean.usuarioLogado}"/>
                         </p:menuitem>
                     </p:splitButton>
                 </p:column>

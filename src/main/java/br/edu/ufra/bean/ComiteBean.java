@@ -214,15 +214,15 @@ public class ComiteBean implements Serializable {
 
     public String voltar() {
         if (formulario.equals("detalhe/lista-vigentes.xhtml")) {
-            return "/pesquisador/comite/lista-vigentes.xhtml?faces-redirect=true";
+            return "/coordenador/comite/lista-vigentes.xhtml?faces-redirect=true";
         } else if (formulario.equals("editar/lista-vigentes.xhtml")) {
-            return "/pesquisador/comite/lista-vigentes.xhtml?faces-redirect=true";
+            return "/coordenador/comite/lista-vigentes.xhtml?faces-redirect=true";
         } else if (formulario.equals("detalhe/lista-encerrados.xhtml")) {
-            return "/pesquisador/comite/lista-encerrados.xhtml?faces-redirect=true";
+            return "/coordenador/comite/lista-encerrados.xhtml?faces-redirect=true";
         } else if (formulario.equals("detalhe/lista.xhtml")) {
-            return "/pesquisador/comite/lista.xhtml?faces-redirect=true";
+            return "/gerente/comite/lista.xhtml?faces-redirect=true";
         } else if (formulario.equals("editar/lista.xhtml")) {
-            return "/pesquisador/comite/lista.xhtml?faces-redirect=true";
+            return "/gerente/comite/lista.xhtml?faces-redirect=true";
         } else {
             return null;
         }

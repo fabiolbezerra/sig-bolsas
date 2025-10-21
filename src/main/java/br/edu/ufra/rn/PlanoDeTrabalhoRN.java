@@ -4,6 +4,7 @@ import br.edu.ufra.dao.PlanoDeTrabalhoDAO;
 import br.edu.ufra.entidade.Inscricao;
 import br.edu.ufra.entidade.PlanoDeTrabalho;
 import java.util.List;
+
 public class PlanoDeTrabalhoRN {
 
     public static final PlanoDeTrabalhoDAO DAO = new PlanoDeTrabalhoDAO();
@@ -24,18 +25,30 @@ public class PlanoDeTrabalhoRN {
             }
         }
     }
+
     public static List<PlanoDeTrabalho> listarTodos(){
         return DAO.obterTodos(PlanoDeTrabalho.class);
     }
+
     public static List<PlanoDeTrabalho> obterVigentes(){
         return DAO.obterVigentes();
     }
+
     public static PlanoDeTrabalho obter(Integer id){
         return DAO.obterPlanoDeTrabalho(PlanoDeTrabalho.class, id);
     }
+
     public static List<PlanoDeTrabalho> obter(Inscricao inscriao){
         return DAO.obter(inscriao);
     }
+
+    public List<PlanoDeTrabalho> obterPorBolsista(Long bolsistaId) {
+        if (bolsistaId == null) {
+            return null;
+        }
+        return DAO.obterPorBolsista(bolsistaId);
+    }
+
     public boolean salvar(PlanoDeTrabalho planoDeTrabalho) {
         if (planoDeTrabalho == null) {
             return false;
@@ -47,6 +60,7 @@ public class PlanoDeTrabalhoRN {
             }
         }
     }
+
     public boolean excluir(PlanoDeTrabalho planoDeTrabalho) {
         if (planoDeTrabalho == null) {
             return false;

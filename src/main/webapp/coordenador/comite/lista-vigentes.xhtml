@@ -47,13 +47,16 @@
 
                 <p:column headerText="Operações">
 
-                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-info-circle">
+                    <p:splitButton value="Detalhes" action="/gerente/comite/detalhes.xhtml" icon="fa fa-info-circle">
                         <f:param name="comite" value="#{comite.id}"/>
                         <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
 
-                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil-square-o">
-                        <f:param name="comite" value="#{comite.id}"/>
-                        <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+                        <p:menuitem value="Editar"
+                                    action="/coordenador/comite/formulario.xhtml"
+                                    icon="fa fa-pencil-square-o"
+                                    rendered="#{papelBean.usuarioLogadoAdministrador or papelBean.usuarioLogadoCoordenador}">
+                            <f:param name="comite" value="#{comite.id}"/>
+                            <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
 
                         </p:menuitem>
                     </p:splitButton>

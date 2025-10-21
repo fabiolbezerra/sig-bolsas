@@ -11,23 +11,15 @@
 >
 
     <ui:define name="title">
-        Comitês
+        Comitês Encerrados
     </ui:define>
 
     <ui:define name="content">
-        <h1> Listagem de Comitês </h1>
-
-        <br/>
-
-        <p:link value="Cadastrar Comitê" outcome="formulario.xhtml"/>
-
-        <br/> <br/>
+        <h1> Listagem de Comitês Encerrados</h1>
 
         <h:form id="formComite">
             <p:growl showDetail="true" showSummary="true"/>
-            <f:param name="listaid" value="1"/>
-
-            <p:dataTable value="#{comiteBean.comites}" var="comite"
+            <p:dataTable id="comitesDataTable" value="#{comiteBean.listarEncerrados()}" var="comite"
                          emptyMessage="Nenhuma informação a ser exibida"
                          paginator="true" rows="10" paginatorPosition="bottom">
                 <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">
@@ -52,23 +44,17 @@
 
                 <p:column headerText="Operações">
 
-                    <p:splitButton value="Detalhes" action="/pesquisador/comite/detalhes.xhtml" icon="fa fa-info-circle">
+                    <p:commandButton value="Detalhes" action="/gerente/comite/detalhes.xhtml" icon="fa fa-info-circle">
                         <f:param name="comite" value="#{comite.id}"/>
                         <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-
-                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil-square-o">
-                            <f:param name="comite" value="#{comite.id}"/>
-                            <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-
-                        </p:menuitem>
-                    </p:splitButton>
+                    </p:commandButton >
                 </p:column>
+
             </p:dataTable>
 
             <br/>
 
         </h:form>
-
     </ui:define>
 
 </ui:composition>
