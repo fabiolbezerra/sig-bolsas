@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`unidade_administrativa` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(50) NOT NULL,
   `sigla` VARCHAR(20) NOT NULL,
-  `tipo` CHAR NOT NULL DEFAULT 'I' COMMENT 'I - Instituto\nC - Campus',
+  `tipo` VARCHAR(45) NOT NULL DEFAULT 'I' COMMENT 'I - Instituto\nC - Campus',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`pessoa` (
   `senha` VARCHAR(100) NOT NULL DEFAULT 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb',
   `unidade_administrativa` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
-  INDEX `fk_pessoa_unidade_administrativa1_idx` (`unidade_administrativa` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  INDEX `fk_pessoa_unidade_administrativa1_idx` (`unidade_administrativa` ASC) VISIBLE,
   CONSTRAINT `fk_pessoa_unidade_administrativa1`
     FOREIGN KEY (`unidade_administrativa`)
     REFERENCES `sig_bolsas_bd`.`unidade_administrativa` (`id`)
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`pessoa_papel` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `pessoa` INT NOT NULL,
   `papel` INT NOT NULL,
-  INDEX `fk_pessoa_has_papel_papel1_idx` (`papel` ASC),
-  INDEX `fk_pessoa_has_papel_pessoa_idx` (`pessoa` ASC),
+  INDEX `fk_pessoa_has_papel_papel1_idx` (`papel` ASC) VISIBLE,
+  INDEX `fk_pessoa_has_papel_pessoa_idx` (`pessoa` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_pessoa_has_papel_pessoa`
     FOREIGN KEY (`pessoa`)
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`comite` (
   `fim` DATE NOT NULL,
   `coordenador` INT NOT NULL COMMENT 'Pessoa no papel de coordenador, que cadastrou o comitê',
   PRIMARY KEY (`id`),
-  INDEX `fk_comite_pessoa1_idx` (`coordenador` ASC),
+  INDEX `fk_comite_pessoa1_idx` (`coordenador` ASC) VISIBLE,
   CONSTRAINT `fk_comite_pessoa1`
     FOREIGN KEY (`coordenador`)
     REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
@@ -148,9 +148,9 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`edital` (
   `comite` INT NOT NULL,
   `formulario` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_edital_pessoa1_idx` (`coordenador` ASC),
-  INDEX `fk_edital_comite1_idx` (`comite` ASC),
-  INDEX `fk_edital_formulario1_idx` (`formulario` ASC),
+  INDEX `fk_edital_pessoa1_idx` (`coordenador` ASC) VISIBLE,
+  INDEX `fk_edital_comite1_idx` (`comite` ASC) VISIBLE,
+  INDEX `fk_edital_formulario1_idx` (`formulario` ASC) VISIBLE,
   CONSTRAINT `fk_edital_pessoa1`
     FOREIGN KEY (`coordenador`)
     REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
@@ -178,8 +178,8 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`comite_pessoa` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `comite` INT NOT NULL,
   `pessoa` INT NOT NULL COMMENT 'Pessoa deve ser um pesquisador\n',
-  INDEX `fk_comite_has_pessoa_pessoa1_idx` (`pessoa` ASC),
-  INDEX `fk_comite_has_pessoa_comite1_idx` (`comite` ASC),
+  INDEX `fk_comite_has_pessoa_pessoa1_idx` (`pessoa` ASC) VISIBLE,
+  INDEX `fk_comite_has_pessoa_comite1_idx` (`comite` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_comite_has_pessoa_comite1`
     FOREIGN KEY (`comite`)
@@ -203,14 +203,14 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`inscricao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `data_inscricao` DATETIME NOT NULL,
   `protocolo` VARCHAR(15) NULL COMMENT 'Número de protocolo da inscrição. Formato:\n- Edital (ano + numero)\n- Sequencial (4 números)',
-  `pontuacaoPesquisador` DOUBLE NULL DEFAULT 0,
-  `pontuacaoComite` DOUBLE NULL DEFAULT 0,
+  `pontuacao_pesquisador` DOUBLE NULL DEFAULT 0,
+  `pontuacao_comite` DOUBLE NULL DEFAULT 0,
   `classificacao` INT NULL DEFAULT 0,
   `edital` INT NOT NULL,
   `pessoa` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_inscricao_edital1_idx` (`edital` ASC),
-  INDEX `fk_inscricao_pessoa1_idx` (`pessoa` ASC),
+  INDEX `fk_inscricao_edital1_idx` (`edital` ASC) VISIBLE,
+  INDEX `fk_inscricao_pessoa1_idx` (`pessoa` ASC) VISIBLE,
   CONSTRAINT `fk_inscricao_edital1`
     FOREIGN KEY (`edital`)
     REFERENCES `sig_bolsas_bd`.`edital` (`id`)
@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`plano_de_trabalho` (
   `resumo` TEXT NULL,
   `inscricao` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_plano_de_trabalho_inscricao1_idx` (`inscricao` ASC),
+  INDEX `fk_plano_de_trabalho_inscricao1_idx` (`inscricao` ASC) VISIBLE,
   CONSTRAINT `fk_plano_de_trabalho_inscricao1`
     FOREIGN KEY (`inscricao`)
     REFERENCES `sig_bolsas_bd`.`inscricao` (`id`)
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`pergunta` (
   `ordem` INT NOT NULL DEFAULT 0,
   `formulario` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_pergunta_formulario1_idx` (`formulario` ASC),
+  INDEX `fk_pergunta_formulario1_idx` (`formulario` ASC) VISIBLE,
   CONSTRAINT `fk_pergunta_formulario1`
     FOREIGN KEY (`formulario`)
     REFERENCES `sig_bolsas_bd`.`formulario` (`id`)
@@ -275,9 +275,10 @@ DROP TABLE IF EXISTS `sig_bolsas_bd`.`opcao_pergunta` ;
 CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`opcao_pergunta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `resposta` VARCHAR(100) NOT NULL,
+  `pontuacao_opcao` DOUBLE NULL,
   `pergunta` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_opcao_pergunta_pergunta1_idx` (`pergunta` ASC),
+  INDEX `fk_opcao_pergunta_pergunta1_idx` (`pergunta` ASC) VISIBLE,
   CONSTRAINT `fk_opcao_pergunta_pergunta1`
     FOREIGN KEY (`pergunta`)
     REFERENCES `sig_bolsas_bd`.`pergunta` (`id`)
@@ -294,10 +295,11 @@ DROP TABLE IF EXISTS `sig_bolsas_bd`.`resposta` ;
 CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`resposta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `valor` VARCHAR(100) NULL,
+  `pontuacao_resposta` DOUBLE NULL,
   `inscricao` INT NOT NULL,
   `pergunta` INT NOT NULL,
-  INDEX `fk_inscricao_has_pergunta_pergunta1_idx` (`pergunta` ASC),
-  INDEX `fk_inscricao_has_pergunta_inscricao1_idx` (`inscricao` ASC),
+  INDEX `fk_inscricao_has_pergunta_pergunta1_idx` (`pergunta` ASC) VISIBLE,
+  INDEX `fk_inscricao_has_pergunta_inscricao1_idx` (`inscricao` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_inscricao_has_pergunta_inscricao1`
     FOREIGN KEY (`inscricao`)
@@ -307,6 +309,65 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`resposta` (
   CONSTRAINT `fk_inscricao_has_pergunta_pergunta1`
     FOREIGN KEY (`pergunta`)
     REFERENCES `sig_bolsas_bd`.`pergunta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`avaliacao_inscricao`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`avaliacao_inscricao` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`avaliacao_inscricao` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `data_avaliacao` DATE NULL,
+  `resumo_pesquisador` VARCHAR(250) NULL,
+  `resumo_comite` VARCHAR(500) NULL,
+  `pontuacao_avaliacao` DOUBLE NULL,
+  `pessoa` INT NOT NULL,
+  `inscricao` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_avaliacao_inscricao_pessoa1_idx` (`pessoa` ASC) VISIBLE,
+  INDEX `fk_avaliacao_inscricao_inscricao1_idx` (`inscricao` ASC) VISIBLE,
+  CONSTRAINT `fk_avaliacao_inscricao_pessoa1`
+    FOREIGN KEY (`pessoa`)
+    REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_avaliacao_inscricao_inscricao1`
+    FOREIGN KEY (`inscricao`)
+    REFERENCES `sig_bolsas_bd`.`inscricao` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+COMMENT = '																																																							';
+
+
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`inscricao_bolsista`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sig_bolsas_bd`.`inscricao_bolsista` ;
+
+CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`inscricao_bolsista` (
+  `id` INT NOT NULL,
+  `data_inscricao` DATETIME NOT NULL,
+  `protocolo` VARCHAR(15) NULL,
+  `classificacao` INT NULL,
+  `situacao` CHAR NULL,
+  `pessoa` INT NOT NULL,
+  `plano_de_trabalho` INT NOT NULL,
+  INDEX `fk_pessoa_has_plano_de_trabalho_plano_de_trabalho1_idx` (`plano_de_trabalho` ASC) VISIBLE,
+  INDEX `fk_pessoa_has_plano_de_trabalho_pessoa1_idx` (`pessoa` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_pessoa_has_plano_de_trabalho_pessoa1`
+    FOREIGN KEY (`pessoa`)
+    REFERENCES `sig_bolsas_bd`.`pessoa` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pessoa_has_plano_de_trabalho_plano_de_trabalho1`
+    FOREIGN KEY (`plano_de_trabalho`)
+    REFERENCES `sig_bolsas_bd`.`plano_de_trabalho` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

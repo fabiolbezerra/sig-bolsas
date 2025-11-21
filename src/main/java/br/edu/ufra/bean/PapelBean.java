@@ -1,18 +1,15 @@
 package br.edu.ufra.bean;
 
-import br.edu.ufra.entidade.Edital;
-import br.edu.ufra.entidade.Papel;
-import br.edu.ufra.entidade.Pessoa;
-import br.edu.ufra.entidade.PessoaPapel;
+import br.edu.ufra.entidade.*;
 import br.edu.ufra.rn.PapelRN;
 import br.edu.ufra.util.UtilBean;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
 import java.util.List;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class PapelBean {
     private final PapelRN RN = new PapelRN();
@@ -94,5 +91,39 @@ public class PapelBean {
         }
         return resposta;
     }
+    
+    public boolean isUsuarioLogadoBolsista() {
+        boolean resposta = false;
+        for (PessoaPapel permissao : getUsuarioLogado().getPessoaPapels()) {
+            if (permissao.getPapel().getCodigo() == 'B') {
+                resposta = true;
+                break;
+            }
+        }
+        return resposta;
+    }
+
+    public String irParaPaginaPrincipal() {
+        Pessoa usuario = UtilBean.obterUsuarioLogado();
+        return UtilBean.irParaPaginaPrincipal(usuario);
+    }
+
+    public boolean isMembroDoComite(Edital edital) {
+        Pessoa usuario = UtilBean.obterUsuarioLogado();
+        if (usuario == null
+                || !UtilBean.possuiPapel(usuario, 'P')
+                || edital == null
+                || edital.getComite() == null
+                || edital.getComite().getComitePessoas() == null) {
+            return false;
+        }
+        for (ComitePessoa membro : edital.getComite().getComitePessoas()) {
+            if (usuario.equals(membro.getPessoa())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
 

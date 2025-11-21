@@ -6,19 +6,17 @@ import br.edu.ufra.entidade.PessoaPapel;
 import br.edu.ufra.rn.PessoaRN;
 import br.edu.ufra.util.UtilBean;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Named
 @ViewScoped
-@ManagedBean
-
-public class PessoaBean {
+public class PessoaBean implements Serializable {
     private final PessoaRN RN = new PessoaRN();
 
     private Pessoa pessoa = new Pessoa();

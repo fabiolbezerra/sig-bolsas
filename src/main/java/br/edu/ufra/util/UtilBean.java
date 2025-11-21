@@ -1,12 +1,13 @@
 package br.edu.ufra.util;
 
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.entidade.PessoaPapel;
 import br.edu.ufra.rn.PessoaRN;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 
 public class UtilBean {
@@ -16,7 +17,7 @@ public class UtilBean {
      * informado.
      *
      * @param parametro nome do parâmetro que guarda o valor que se deseja
-     * recuperar
+     *                  recuperar
      * @return
      */
     public static String obterValor(String parametro) {
@@ -124,7 +125,8 @@ public class UtilBean {
                 pessoaTemp.setTelefone(pessoa.getTelefone());
                 pessoaTemp.setEmail(pessoa.getEmail());
                 pessoaTemp.setNascimento(pessoa.getNascimento());
-                pessoaTemp.setPessoaPapels(pessoa.getPessoaPapels());;
+                pessoaTemp.setPessoaPapels(pessoa.getPessoaPapels());
+                ;
             }
             UtilBean.naSessao(CHAVE_PESSOA, pessoaTemp);
 
@@ -132,6 +134,33 @@ public class UtilBean {
         } else {
             return (Pessoa) objUsuario;
         }
+    }
+
+    public static boolean possuiPapel(Pessoa usuario, char codigo) {
+        if (usuario == null || usuario.getPessoaPapels() == null)
+            return false;
+        for (PessoaPapel pp : usuario.getPessoaPapels()) {
+            if (pp.getPapel().getCodigo() == codigo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String irParaPaginaPrincipal(Pessoa usuario) {
+        if (usuario != null) {
+            if (possuiPapel(usuario, 'A'))
+                return "/administrador/principal.xhtml?faces-redirect=true";
+            if (possuiPapel(usuario, 'C'))
+                return "/coordenador/principal.xhtml?faces-redirect=true";
+            if (possuiPapel(usuario, 'G'))
+                return "/gerente/principal.xhtml?faces-redirect=true";
+            if (possuiPapel(usuario, 'P'))
+                return "/pesquisador/principal.xhtml?faces-redirect=true";
+            if (possuiPapel(usuario, 'B'))
+                return "/bolsista/principal.xhtml?faces-redirect=true";
+        }
+        return "/index.xhtml?faces-redirect=true";
     }
 
     public static void atualizarUsuarioLogado(Pessoa pessoa) {

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Planos de Trabalho
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+
+            <p:link value="Adicionar plano de trabalho" outcome="/pesquisador/plano/formulario.xhtml">
+                <f:param name="inscricaoID" value="#{planoDeTrabalhoBean.inscricao.id}"/>
+                <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
+            </p:link>
+
+            <br/>
+            <br/>
+
+            <p:panelGrid columns="2" style="width: 100%;margin-bottom: 20px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Dados do Edital"/>
+                </f:facet>
+
+                <h:outputText value="Edital:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.titulo}"/>
+
+                <h:outputText value="Ano/Número:"/>
+                <h:outputText
+                        value="#{planoDeTrabalhoBean.inscricao.edital.ano} / #{planoDeTrabalhoBean.inscricao.edital.numero}"/>
+
+                <h:outputText value="Situação:"/>
+                <h:outputText
+                        value="#{planoDeTrabalhoBean.obterSituacao(planoDeTrabalhoBean.inscricao.edital.situacao)}"/>
+
+                <h:outputText value="Tipo:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.obterTipo(planoDeTrabalhoBean.inscricao.edital.tipo)}"/>
+
+                <h:outputText value="Início das inscrições:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.dataInicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+
+                <h:outputText value="Fim das inscrições:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+
+                <h:outputText value="Cadastrado:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.dataCadastro}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:panelGrid>
+
+            <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Dados da Inscrição"/>
+                </f:facet>
+
+                <h:outputText value="Protocolo:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.protocolo}"/>
+
+                <h:outputText value="Data de Inscrição:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.dataInscricao}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+
+            </p:panelGrid>
+
+            <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Dados do Pesquisador"/>
+                </f:facet>
+                <h:outputText value="Nome Completo:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.nomeCompleto}"/>
+
+                <h:outputText value="Telefone:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.telefone}"/>
+
+                <h:outputText value="Email:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.email}"/>
+
+                <h:outputText value="Data de Nascimento:"/>
+                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.nascimento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:panelGrid>
+
+            <p:panel header="Planos de Trabalho" style="width: 95%; margin: 20px auto;font-size: large">
+                <p:dataGrid columns="4" value="#{planoDeTrabalhoBean.planosDeTrabalho}" var="planoDeTrabalho"
+                            emptyMessage="Nenhum plano de trabalho encontrado">
+                    <div style="border: 2px solid #333; border-radius: 15px; padding: 15px; width: 200px; min-height: 180px; display: flex; flex-direction: column; margin: 10px;">
+                        <div style="border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 10px; font-weight: bold; width: 100%;">
+                            <h:outputText value="#{planoDeTrabalho.titulo}"/>
+                        </div>
+                        <div style="font-size: 12px; flex-grow: 1; overflow: hidden; text-overflow: ellipsis;">
+                            <h:outputText value="#{planoDeTrabalho.resumo}"/>
+                        </div>
+
+                    </div>
+                    <div style="display: flex; justify-content: flex-start; gap: 10px; margin-top: 10px; margin-left: 20px;">
+                        <p:button value="Editar"
+                                  outcome="formulario.xhtml"
+                                  icon="fa fa-pencil-square-o">
+                            <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
+                        </p:button>
+
+                        <p:commandButton value="Excluir"
+                                         action="#{planoDeTrabalhoBean.excluir(planoDeTrabalho)}"
+                                         icon="fa fa-trash-o"
+                                         update="@form messages"
+                                         process="@this"
+                                         ajax="true">
+                            <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
+                            <p:confirm header="Confirmação"
+                                       message="Tem certeza que deseja excluir este plano de trabalho?"
+                                       icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                    </div>
+
+                </p:dataGrid>
+                <p:commandButton value="Voltar"
+                                 action="/pesquisador/inscricao/lista.xhtml?faces-redirect=true"
+                                 icon="fa fa-arrow-circle-left"/>
+            </p:panel>
+        </h:form>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+            <p:commandButton value="Sim"
+                             type="button"
+                             styleClass="ui-confirmdialog-yes"
+                             icon="fa fa-check-square-o"/>
+            <p:commandButton value="Não"
+                             type="button"
+                             styleClass="ui-confirmdialog-no ui-button-secondary"
+                             icon="fa fa-times"/>
+        </p:confirmDialog>
+
+        <p:growl id="messages" showDetail="true" life="3000"/>
+    </ui:define>
+
+</ui:composition>

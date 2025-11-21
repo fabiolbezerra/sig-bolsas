@@ -2,8 +2,8 @@ package br.edu.ufra.dao;
 
 import br.edu.ufra.entidade.Papel;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class PapelDAO extends GenericDAO<Papel> {

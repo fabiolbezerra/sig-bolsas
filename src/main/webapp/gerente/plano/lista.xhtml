@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Plano de Trabalho
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Listagem de Planos de Trabalho</h1>
+
+        <br/>
+
+        <br/><br/>
+
+        <h:form id="formPlanoDeTrabalho">
+            <p:growl showDetail="true" showSummary="true"/>
+
+            <p:panelGrid columns="2">
+                <f:facet name="header">
+                    Critério de Pesquisa
+                </f:facet>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Buscar" action="#{planoDeTrabalhoBean.pesquisar()}" update="@form"
+                                     icon="fa fa-search"/>
+                </f:facet>
+
+                <p:selectOneMenu value="#{planoDeTrabalhoBean.criterio}">
+                    <f:selectItem itemValue="T" itemLabel="Título"/>
+                    <f:selectItem itemValue="R" itemLabel="Resumo"/>
+                    <f:selectItem itemValue="P" itemLabel="Nome Completo"/>
+                </p:selectOneMenu>
+
+                <p:inputText value="#{planoDeTrabalhoBean.chaveDeBusca}" placeholder="Digite a pista de pesquisa"/>
+            </p:panelGrid>
+
+            <br/><br/>
+
+            <p:dataTable value="#{planoDeTrabalhoBean.planosDeTrabalho}" var="plano"
+                         emptyMessage="Nenhum plano encontrado"
+                         paginator="true" rows="10" paginatorPosition="bottom">
+
+                <p:column headerText="Título">
+                    <h:outputText value="#{plano.titulo}"/>
+                </p:column>
+
+                <p:column headerText="Edital">
+                    <h:outputText value="#{plano.inscricao.edital.titulo}"/>
+                </p:column>
+
+                <p:column headerText="Pesquisador">
+                    <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}"/>
+                </p:column>
+
+                <p:column headerText="Telefone">
+                    <h:outputText value="#{plano.inscricao.pessoa.telefone}" converter="telefoneConverter"/>
+                </p:column>
+
+                <p:column headerText="E-mail">
+                    <h:outputText value="#{plano.inscricao.pessoa.email}"/>
+                </p:column>
+
+                <p:column headerText="Data Cadastro">
+                    <h:outputText value="#{plano.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Operações">
+
+                    <p:commandButton value="Detalhes" action="/bolsista/plano/detalhes.xhtml" icon="fa fa-info-circle">
+                        <f:param name="planoID" value="#{plano.id}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <br/>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

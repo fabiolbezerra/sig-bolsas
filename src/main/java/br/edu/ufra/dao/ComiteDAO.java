@@ -3,8 +3,8 @@ package br.edu.ufra.dao;
 import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.entidade.Pessoa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
 

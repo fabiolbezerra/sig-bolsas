@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="Unidades Administrativas">
+        Unidades Administrativas
+    </ui:define>
+
+    <ui:define name="content">
+        <h1> Listagem de Unidades Administrativas </h1>
+
+        <br/>
+
+        <p:link value="Cadastrar unidade administrativa"
+                outcome="formulario.xhtml"
+                rendered="#{papelBean.usuarioLogadoAdministrador}"/>
+
+        <br/> <br/>
+
+        <h:form id="formComite">
+            <p:growl showDetail="true" showSummary="true"/>
+
+            <p:dataTable value="#{unidadeAdministrativaBean.unidades}" var="unidade" paginator="true" rows="10" rowHover="true" responsiveLayout="scroll">
+                <p:column headerText="Nome">
+                    <h:outputText value="#{unidade.nome}"/>
+                </p:column>
+
+                <p:column headerText="Sigla">
+                    <h:outputText value="#{unidade.sigla}"/>
+                </p:column>
+
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{unidade.tipo.descricao}"/>
+                </p:column>
+
+                <p:column headerText="Operações" styleClass="p-text-center">
+                    <p:splitButton value="Detalhes"
+                                   action="detalhes.xhtml"
+                                   icon="pi pi-info-circle">
+                        <f:setPropertyActionListener value="#{unidade}" target="#{unidadeAdministrativaBean.unidade}"/>
+
+                        <p:menuitem value="Editar"
+                                    action="formulario.xhtml"
+                                    icon="pi pi-pencil"
+                                    rendered="#{papelBean.usuarioLogadoAdministrador}">
+                            <f:setPropertyActionListener value="#{unidade}"
+                                                         target="#{unidadeAdministrativaBean.unidade}"/>
+                        </p:menuitem>
+                    </p:splitButton>
+                </p:column>
+            </p:dataTable>
+
+            <br/>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

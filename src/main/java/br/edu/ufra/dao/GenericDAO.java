@@ -1,9 +1,9 @@
 package br.edu.ufra.dao;
 
-import javax.persistence.Cache;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.Cache;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class GenericDAO<T> implements InterfaceDAO<T> {

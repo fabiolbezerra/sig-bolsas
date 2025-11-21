@@ -6,7 +6,6 @@
 package br.edu.ufra.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 import java.math.BigDecimal;
 import java.text.*;
@@ -14,6 +13,8 @@ import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -25,9 +26,20 @@ public class UtilTexto {
     private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
     public static String criptografarSHA256(String texto) {
-        ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
-        String textoCriptografado = sha.encodePassword(texto, null);
-        return textoCriptografado;
+        if (texto == null) {
+            return null;
+        }
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(texto.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hash) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
     }
 
     public static String gerarNumerosDataHora() {

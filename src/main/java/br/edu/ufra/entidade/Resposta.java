@@ -1,6 +1,6 @@
 package br.edu.ufra.entidade;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +17,13 @@ public class Resposta {
     @Column(name = "valor", length = 100)
     private String valor;
 
+    @Column(name = "pontuacao_resposta", nullable = false)
+    private double pontuacaoResposta;
+
+    public double getPontuacaoResposta() {
+        return pontuacaoResposta;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "inscricao", nullable = false)
     private Inscricao inscricao;
@@ -24,6 +31,10 @@ public class Resposta {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pergunta", nullable = false)
     private Pergunta pergunta;
+
+    public void setPontuacaoResposta(double pontuacaoResposta) {
+        this.pontuacaoResposta = pontuacaoResposta;
+    }
 
     public Integer getId() {
         return id;
@@ -55,6 +66,11 @@ public class Resposta {
 
     public void setPergunta(Pergunta pergunta) {
         this.pergunta = pergunta;
+    }
+
+    public void calcularPontuacaoResposta() {
+        //TODO: Calcular a partir do valor e da pergunta
+        this.pontuacaoResposta = 0;
     }
 
     @Override

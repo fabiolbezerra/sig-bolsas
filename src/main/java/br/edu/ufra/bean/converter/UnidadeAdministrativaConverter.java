@@ -1,11 +1,11 @@
 package br.edu.ufra.bean.converter;
 
-import javax.faces.convert.Converter;
+import jakarta.faces.convert.Converter;
 import br.edu.ufra.entidade.UnidadeAdministrativa;
 import br.edu.ufra.rn.UnidadeAdministrativaRN;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.FacesConverter;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.FacesConverter;
 
 @FacesConverter(value = "unidadeAdministrativaConverter")
 public class UnidadeAdministrativaConverter implements Converter {

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Comitês Vigentes
+    </ui:define>
+
+    <ui:define name="content">
+        <h1> Listagem de Comitês Vigentes </h1>
+
+        <br/>
+
+        <h:form id="formComite">
+            <p:growl autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <p:dataTable id="comitesDataTable" value="#{comiteBean.listarVigentes()}" var="comite"
+                         emptyMessage="Nenhuma informação a ser exibida"
+                         paginator="true" rows="10" paginatorPosition="bottom">
+                <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">
+                    <h:outputText value="#{comite.portaria}"/>
+                </p:column>
+
+                <p:column headerText="Início da vigência">
+                    <h:outputText value="#{comite.inicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Fim da vigência">
+                    <h:outputText value="#{comite.fim}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Cadastrado por">
+                    <h:outputText value="#{comite.coordenador.nomeCompleto}"/>
+                </p:column>
+
+                <p:column headerText="Operações">
+
+                    <p:splitButton value="Detalhes" action="/gerente/comite/detalhes.xhtml" icon="fa fa-info-circle">
+                        <f:param name="comite" value="#{comite.id}"/>
+                        <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+
+                        <p:menuitem value="Editar"
+                                    action="/coordenador/comite/formulario.xhtml"
+                                    icon="fa fa-pencil-square-o"
+                                    rendered="#{papelBean.usuarioLogadoAdministrador or papelBean.usuarioLogadoCoordenador}">
+                            <f:param name="comite" value="#{comite.id}"/>
+                            <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+
+                        </p:menuitem>
+                    </p:splitButton>
+                </p:column>
+            </p:dataTable>
+
+            <br/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

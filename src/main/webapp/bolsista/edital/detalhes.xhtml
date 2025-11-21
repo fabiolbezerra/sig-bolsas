@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Detalhes
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>#{editalBean.edital.titulo}</h1>
+
+        <h:form id="formTitulo">
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Portaria: "/>
+                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
+
+                <p:outputLabel value="Ano/Número: "/>
+                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
+
+                <p:outputLabel value="Situação: "/>
+                <p:outputLabel value="#{editalBean.obterSituacao(editalBean.edital.situacao)}"/>
+
+                <p:outputLabel value="Tipo: "/>
+                <p:outputLabel value="#{editalBean.obterTipo(editalBean.edital.tipo)}"/>
+
+                <p:outputLabel value="Início das inscrições: "/>
+                <p:outputLabel value="#{editalBean.edital.dataInicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+
+                <p:outputLabel value="Fim das inscrições"/>
+                <p:outputLabel value="#{editalBean.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+
+                <p:outputLabel value="Cadastrado"/>
+                <p:outputLabel value="#{editalBean.edital.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
+            </h:panelGrid>
+
+            <h2>Formulário de inscrição</h2>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Nome: "/>
+                <h:outputText value="#{editalBean.edital.formulario.nome}"/>
+
+                <p:outputLabel value="Número de perguntas: "/>
+                <h:outputText value="#{editalBean.edital.formulario.perguntas.size()}"/>
+
+                <p:outputLabel value="Data de criação: "/>
+                <h:outputText value="#{editalBean.edital.formulario.dataCriacao}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </h:panelGrid>
+
+            <h2>Quem cadastrou</h2>
+
+            <h:outputText value="#{editalBean.edital.coordenador.nomeCompleto}"/>
+
+            <h2>Comitê de avaliação</h2>
+
+            <h3>#{editalBean.edital.comite.portaria}</h3>
+
+            <p:dataList value="#{editalBean.edital.comite.comitePessoas}" var="p"
+                        emptyMessage="Nenhum membro no comitê">
+                <h:outputText value="#{p.pessoa.nomeCompleto}"/>
+            </p:dataList>
+
+            <br/>
+
+            <p:commandLink value="Voltar" action="#{editalBean.voltar()}" icon="fa fa-arrow-circle-left"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

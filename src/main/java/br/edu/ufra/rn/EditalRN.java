@@ -1,13 +1,13 @@
 package br.edu.ufra.rn;
 
 import br.edu.ufra.dao.EditalDAO;
+import br.edu.ufra.entidade.Comite;
 import br.edu.ufra.entidade.Edital;
 
 import java.util.Date;
 import java.util.List;
 
 public class EditalRN {
-    //private final GenericDAO<Edital> DAO = new GenericDAO<>();
     private final EditalDAO DAO = new EditalDAO();
 
     public boolean salvar(Edital edital) {
@@ -29,6 +29,9 @@ public class EditalRN {
 
     public List<Edital> obterVigentes() {
         return DAO.obterVigentes();
+    }
+    public List<Edital> obterEncerrados() {
+        return DAO.obterEncerrados();
     }
 
     public Edital obter(Integer id) {

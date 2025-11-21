@@ -32,8 +32,10 @@
 
             </h:panelGrid>
 
-            <p:button outcome="lista.xhtml" value="Cancelar"/>
-            <p:commandButton value="Salvar" action="#{formularioBean.salvar()}" update="@form"/>
+            <p:button outcome="lista.xhtml" value="Cancelar" icon="fa fa-ban"/>
+            <p:commandButton value="Salvar" icon="fa fa-floppy-o"
+                             action="#{formularioBean.salvar()}"
+                             update="@form" />
         </h:form>
     </ui:define>
 </ui:composition>

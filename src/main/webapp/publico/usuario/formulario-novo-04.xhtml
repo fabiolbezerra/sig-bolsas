@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Operação realizada com sucesso
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Operação realizada com sucesso</h1>
+
+        <div style="background-color: #e8f5e9; border-left: 6px solid #4CAF50; padding: 16px; font-size: 16px;">
+            Seu cadastro foi realizado com sucesso. Agora você pode acessar sua conta.
+        </div>
+        <p:button outcome="/index.xhtml" value="OK" style="margin-top: 20px;" />
+
+    </ui:define>
+</ui:composition>

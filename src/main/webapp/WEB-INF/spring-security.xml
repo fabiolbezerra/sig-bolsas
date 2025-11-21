@@ -1,26 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+             xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                https://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/security
+                https://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http auto-config="true">
-        <intercept-url pattern="/bolsista/**"
-                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
-        <intercept-url pattern="/pesquisador/**"
-                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
-        <intercept-url pattern="/coordenador/**"
-                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
-        <intercept-url pattern="/gerente/**"
-                       access="ROLE_C,ROLE_P,ROLE_B,ROLE_G,ROLE_A" />
-        <form-login
-                login-page="/index.xhtml"
-                authentication-success-handler-ref="myLoginHandler"
-                authentication-failure-url = "/index.xhtml?e=-1"/>
+    <!-- Regras de autorização por URL -->
+    <http auto-config="false" use-expressions="true">
+        <csrf disabled="true"/>
+        <!-- Login e recursos estáticos liberados -->
+        <intercept-url pattern="/index.xhtml" access="permitAll"/>
+        <intercept-url pattern="/j_spring_security_check" access="permitAll"/>
+        <intercept-url pattern="/publico/**" access="permitAll"/>
+        <intercept-url pattern="/jakarta.faces.resource/**" access="permitAll"/>
+        <!-- estáticos do projeto -->
+        <intercept-url pattern="/resources/**" access="permitAll"/>
+        <intercept-url pattern="/css/**" access="permitAll"/>
+        <intercept-url pattern="/js/**" access="permitAll"/>
+        <intercept-url pattern="/images/**" access="permitAll"/>
+
+        <!-- Áreas protegidas por papel -->
+        <intercept-url pattern="/administrador/**" access="hasRole('A')"/>
+        <intercept-url pattern="/coordenador/**" access="hasAnyRole('C','A')"/>
+        <intercept-url pattern="/gerente/**" access="hasAnyRole('C','G','A')"/>
+        <intercept-url pattern="/pesquisador/**" access="hasAnyRole('C','P','G','A')"/>
+        <intercept-url pattern="/bolsista/**" access="hasAnyRole('C','P','B','G','A')"/>
+
+        <form-login login-page="/index.xhtml"
+                    login-processing-url="/j_spring_security_check"
+                    username-parameter="j_username"
+                    password-parameter="j_password"
+                    authentication-success-handler-ref="myLoginHandler"
+                    authentication-failure-url="/index.xhtml?e=-1"/>
         <access-denied-handler error-page="/acesso-negado.xhtml"/>
+
+        <!-- Qualquer outra URL exige autenticação -->
+        <!--  <intercept-url pattern="/**" access="isAuthenticated()"/> -->
+
+
+         <!-- Se precisar, pode desabilitar CSRF (não recomendado em produção) -->
+        <!-- <csrf disabled="true"/> -->
     </http>
+
 
     <beans:bean id="myLoginHandler"
                 class="br.edu.ufra.seguranca.LoginHandler" />
@@ -28,8 +52,10 @@
     <beans:bean id="myAuthenticationHandler"
                 class="br.edu.ufra.seguranca.AuthenticationHandler" />
 
+    <!-- Autenticação usando o seu AuthenticationHandler (sem Spring ORM) -->
     <authentication-manager>
         <authentication-provider ref="myAuthenticationHandler"/>
     </authentication-manager>
+
 
 </beans:beans>

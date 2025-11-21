@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Minhas Inscrições</ui:define>
+
+    <ui:define name="content">
+        <h1>Minhas Inscrições</h1>
+
+        <br/>
+
+        <p:panel header="Dados do Bolsista" style="margin-bottom: 20px;">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputText value="Nome:"/>
+                <h:outputText value="#{papelBean.usuarioLogado.nomeCompleto}"/>
+
+                <h:outputText value="E-mail:"/>
+                <h:outputText value="#{papelBean.usuarioLogado.email}"/>
+
+                <h:outputText value="Telefone:"/>
+                <h:outputText value="#{papelBean.usuarioLogado.telefone}"/>
+            </h:panelGrid>
+        </p:panel>
+
+        <h:form id="formPlanos">
+            <p:growl id="growl" showDetail="true" showSummary="true"/>
+
+            <p:dataTable value="#{planoDeTrabalhoBean.obterPorBolsista(papelBean.usuarioLogado.id)}"
+                         var="plano"
+                         emptyMessage="Você ainda não está inscrito em nenhum plano de trabalho"
+                         paginator="true"
+                         rows="10"
+                         paginatorPosition="bottom"
+                         styleClass="table-striped">
+
+                <p:column headerText="Título" sortBy="#{plano.titulo}" style="width: 30%;">
+                    <h:outputText value="#{plano.titulo}"/>
+                </p:column>
+
+                <p:column headerText="Resumo" sortBy="#{plano.resumo}" style="width: 10%;">
+                    <h:outputText value="#{plano.resumo}"/>
+                </p:column>
+
+                <p:column headerText="Pesquisador" sortBy="#{plano.inscricao.pessoa.nomeCompleto}">
+                    <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}"/>
+                </p:column>
+
+                <p:column headerText="Edital" sortBy="#{plano.inscricao.edital.titulo}">
+                    <h:outputText value="#{plano.inscricao.edital.titulo}"/>
+                </p:column>
+
+                <p:column headerText="Data Cadastro" sortBy="#{plano.dataCadastro}" style="text-align: center; width: 120px;">
+                    <h:outputText value="#{plano.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Período do Edital" style="text-align: center; width: 150px;">
+                    <h:outputText value="#{plano.inscricao.edital.dataInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                    <h:outputText value=" a "/>
+                    <h:outputText value="#{plano.inscricao.edital.dataFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Ações" style="text-align: center; width: 120px;">
+                    <p:commandButton value="Detalhes"
+                                     icon="fa fa-info-circle"
+                                     action="/bolsista/inscricao/detalhes.xhtml"
+                                     styleClass="ui-button-info">
+                        <f:param name="planoID" value="#{plano.id}"/>
+                        <f:param name="bolsistaID" value="#{papelBean.usuarioLogado.id}"/>
+                        <f:param name="inscricaoBolsistaID" value="#{papelBean.usuarioLogado.id}"/>
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

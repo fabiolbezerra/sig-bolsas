@@ -28,7 +28,7 @@
 
             <p:growl showDetail="true" showSummary="true"/>
 
-            <p:dataTable value="#{formularioBean.formularios}" var="formulario">
+            <p:dataTable value="#{formularioBean.formularios}" var="formulario" paginator="true" rows="10" rowHover="true" responsiveLayout="scroll">
                 <p:column headerText="Nome">
                     <h:outputText value="#{formulario.nome}"/>
                 </p:column>
@@ -39,15 +39,15 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Operações">
-                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="fa fa-search">
+                <p:column headerText="Operações" styleClass="p-text-center">
+                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="pi pi-info-circle">
                         <f:setPropertyActionListener value="#{formulario}" target="#{formularioBean.formulario}"/>
 
-                        <p:menuitem value="Editar" action="formulario.xhtml" icon="fa fa-pencil">
+                        <p:menuitem value="Editar" action="formulario.xhtml" icon="pi pi-pencil">
                             <f:setPropertyActionListener value="#{formulario}" target="#{formularioBean.formulario}"/>
                         </p:menuitem>
 
-                        <p:menuitem value="Perguntas" action="formulario-perguntas.xhtml" icon="fa fa-pencil">
+                        <p:menuitem value="Perguntas" outcome="/gerente/pergunta/formulario.xhtml" icon="pi pi-question">
                             <f:param name="formularioID" value="#{formulario.id}"/>
                         </p:menuitem>
 

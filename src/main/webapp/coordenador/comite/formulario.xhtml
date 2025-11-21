@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:define name="title">
+        Cadastro de Comitê
+    </ui:define>
+    <ui:define name="content">
+        <h1>Comitê</h1>
+        <h:form id="formComite">
+            <p:growl showDetail="true" showSummary="true"/>
+            <h:inputHidden value="#{comiteBean.comite.id}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Portaria"/>
+                <p:inputText value="#{comiteBean.comite.portaria}"
+                             required="true"
+                             requiredMessage="A portaria é obrigatória"/>
+                <p:outputLabel value="Início da vigência"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.inicio}"
+                            required="true"
+                            requiredMessage="Data inicial é obrigatória"/>
+                <p:outputLabel value="Fim da vigência"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{comiteBean.comite.fim}"
+                            required="true"
+                            requiredMessage="Data final é obrigatória"/>
+                <p:outputLabel value="Coordenador"/>
+                <p:selectOneMenu converter="pessoaConverter" value="#{comiteBean.comite.coordenador}">
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
+                    <f:selectItems value="#{pessoaBean.coordenadores}"
+                                   var="p"
+                                   itemValue="#{p}"
+                                   itemLabel="#{p.nomeCompleto}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+
+            <br/>
+            <p:button outcome="#{comiteBean.voltar()}" value="Cancelar" icon="fa fa-ban"
+                      rendered="#{comiteBean.comite.id == null or comiteBean.comite.id == 0}"/>
+            <p:commandButton value="Salvar"
+                             action="#{comiteBean.salvar()}"
+                             update="@form"
+                             icon="fa fa-check-square-o" rendered="#{comiteBean.comite.id == null or comiteBean.comite.id == 0}"/>
+
+            <p:panel rendered="#{comiteBean.comite.id != null and comiteBean.comite.id > 0}"
+                     header="Pesquisadores do Comitê"
+                     style="margin-top: 20px;"
+                     id="painelPesquisadores">
+
+                <h:panelGrid columns="3" style="width: 100%; margin-bottom: 15px;" id="painelAdicionar">
+                    <p:outputLabel value="Adicionar Pesquisador:"/>
+                    <p:selectOneMenu converter="pessoaConverter"
+                                     value="#{comiteBean.pesquisadorSelecionado}"
+                                     style="width: 300px;"
+                                     id="selectPesquisador">
+                        <f:selectItem noSelectionOption="true" itemLabel="Selecione um pesquisador"/>
+                        <f:selectItems value="#{pessoaBean.pesquisadores}"
+                                       var="pesq"
+                                       itemValue="#{pesq}"
+                                       itemLabel="#{pesq.nomeCompleto}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Adicionar"
+                                     action="#{comiteBean.adicionarPesquisador()}"
+                                     update="@form"
+                                     process="@form"
+                                     icon="fa fa-plus"
+                                     styleClass="ui-button-success"
+                                     id="btnAdicionar"/>
+                </h:panelGrid>
+
+                <p:separator/>
+
+                <p:dataTable value="#{comiteBean.comite.comitePessoas}"
+                             var="comitePessoa"
+                             emptyMessage="Nenhuma informação a ser exibida"
+                             paginator="true" rows="10" paginatorPosition="bottom">
+                             id="tabelaPesquisadores">
+
+                    <p:column headerText="Nome Completo" sortBy="#{comitePessoa.pessoa.nomeCompleto}">
+                        <h:outputText value="#{comitePessoa.pessoa.nomeCompleto}"/>
+                    </p:column>
+
+                    <p:column headerText="Email">
+                        <h:outputText value="#{comitePessoa.pessoa.email}"/>
+                    </p:column>
+
+                    <p:column headerText="Ações" style="text-align: center; width: 100px;">
+                        <p:commandButton icon="fa fa-trash"
+                                         title="Remover pesquisador"
+                                         action="#{comiteBean.removerPesquisador(comitePessoa.pessoa)}"
+                                         update="@form"
+                                         process="@form"
+                                         styleClass="ui-button-danger"
+                                         onclick="return confirm('Tem certeza que deseja remover este pesquisador do comitê?');">
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+                <br/>
+                <p:button outcome="#{comiteBean.voltar()}" value="Voltar" icon="fa fa-arrow-circle-left"/>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

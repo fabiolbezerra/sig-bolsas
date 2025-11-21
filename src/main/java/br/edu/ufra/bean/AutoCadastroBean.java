@@ -5,18 +5,19 @@ import br.edu.ufra.rn.PessoaRN;
 import br.edu.ufra.util.UtilBean;
 import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.PessoaPapel;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
+@Named
 @ViewScoped
-@ManagedBean
-
-public class AutoCadastroBean {
+public class AutoCadastroBean implements Serializable {
 
     private final PessoaRN RN = new PessoaRN();
 
@@ -37,7 +38,9 @@ public class AutoCadastroBean {
         System.out.println("Iniciando AutoCadastroBean");
         FacesContext currentInstance = FacesContext.getCurrentInstance();
         String codigoRequisicao = currentInstance.getExternalContext().getRequestParameterMap().get("CODIGO");
-        this.codigoGerado = codigoRequisicao;
+        if (codigoRequisicao != null && !codigoRequisicao.trim().isEmpty()) {
+            this.codigoGerado = codigoRequisicao;
+        }
     }
 
     public String getSenha() {
@@ -89,24 +92,52 @@ public class AutoCadastroBean {
     }
 
     public void gerarCodigo() {
-        if (this.pessoa.getEmail() == null || this.pessoa.getEmail().trim().isEmpty()) {
+        if (this.email == null || this.email.trim().isEmpty()) {
             UtilBean.criarMensagemDeAviso("Informe um e-mail");
-        } else {
-            String resultadoEnvio = RN.iniciarValidacaoDoEmail(this.pessoa.getEmail());
-            if (resultadoEnvio != null && resultadoEnvio.equals(this.codigoGerado)) {
+            return;
+        }
+
+        try {
+            String codigoRetornado = RN.iniciarValidacaoDoEmail(this.email);
+
+            if (codigoRetornado != null && !codigoRetornado.trim().isEmpty()) {
+
+                this.codigoGerado = codigoRetornado;
+
                 UtilBean.criarMensagemDeInformacao("Código gerado e enviado para o seu e-mail.");
+
+                try {
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    String url = context.getExternalContext().getRequestContextPath() +
+                            "/formulario-novo-02.xhtml?CODIGO=" + codigoRetornado;
+                    context.getExternalContext().redirect(url);
+                } catch (Exception ex) {
+                    UtilBean.criarMensagemDeErro("Erro ao redirecionar: " + ex.getMessage());
+                }
             } else {
-                UtilBean.criarMensagemDeErro("Erro ao enviar o código para o e-mail.");
+                UtilBean.criarMensagemDeErro("Erro ao gerar o código para o e-mail.");
             }
+        } catch (Exception e) {
+            UtilBean.criarMensagemDeErro("Erro ao enviar o código para o e-mail: " + e.getMessage());
         }
     }
 
     public String validarCodigo() {
-        if (this.codigoDigitado != null && this.codigoDigitado.equals(this.codigoGerado)) {
-            return ""; //<--- inserir o endereço da página de criaçao do usuário
+        if (this.codigoDigitado == null || this.codigoDigitado.trim().isEmpty()) {
+            UtilBean.criarMensagemDeErro("Informe o código recebido por e-mail.");
+            return null;
+        }
+
+        if (this.codigoGerado == null || this.codigoGerado.trim().isEmpty()) {
+            UtilBean.criarMensagemDeErro("O Código não foi gerado. Solicite um novo código.");
+            return null;
+        }
+
+        if (this.codigoDigitado.trim().equals(this.codigoGerado.trim())) {
+            UtilBean.criarMensagemDeInformacao("Código validado com Sucesso.");
+            return "/publico/usuario/formulario-novo-03.xhtml?faces-redirect=true";
         } else {
-            UtilBean.criarMensagemDeErro("Código Inválido");
-            pessoa = new Pessoa();
+            UtilBean.criarMensagemDeErro("Código inválido. Verifique o código recebido por e-mail.");
             return null;
         }
     }
@@ -134,8 +165,4 @@ public class AutoCadastroBean {
         }
 
     }
-
 }
-
-
-

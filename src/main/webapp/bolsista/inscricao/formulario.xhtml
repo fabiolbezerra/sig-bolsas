@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:define name="title">
+        Formulário de Inscrição
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form>
+
+            <h:inputHidden value="#{inscricaoBolsistaBean.edital.id}"/>
+            <h:inputHidden value="#{inscricaoBolsistaBean.bolsista.id}"/>
+
+            <p:panel header="Nova Inscrição" style="width: 95%; margin: 20px auto; font-size: large">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+
+                <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+                    <f:facet name="header">
+                        <p:outputLabel value="Dados do Edital"/>
+                    </f:facet>
+
+                    <h:outputText value="Edital:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.edital.titulo}" />
+
+                    <h:outputText value="Ano/Número:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.edital.ano} / #{inscricaoBolsistaBean.edital.numero}"/>
+
+                    <h:outputText value="Situação:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.obterSituacao(inscricaoBolsistaBean.edital.situacao)}" />
+
+                    <h:outputText value="Tipo:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.obterTipo(inscricaoBolsistaBean.edital.tipo)}"/>
+
+                    <h:outputText value="Início das inscrições:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.edital.dataInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+
+                    <h:outputText value="Fim das inscrições:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.edital.dataFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+
+                </p:panelGrid>
+
+                <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+                    <f:facet name="header">
+                        <p:outputLabel value="Dados do Participante"/>
+                    </f:facet>
+
+                    <h:outputText value="Nome Completo:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.bolsista.nomeCompleto}" />
+
+                    <h:outputText value="Telefone:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.bolsista.telefone}" />
+
+                    <h:outputText value="Email:" />
+                    <h:outputText value="#{inscricaoBolsistaBean.bolsista.email}" />
+
+                    <h:outputText value="Senha:" />
+                    <p:password id="senha" value="#{inscricaoBolsistaBean.senha}" feedback="true"
+                                promptLabel="Digite a senha" weakLabel="Fraca" goodLabel="Boa"
+                                strongLabel="Forte" required="true" requiredMessage="Senha obrigatória"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Cancelar" action="/bolsista/plano/lista.xhtml?faces-redirect=true"
+                                 styleClass="ui-button-secondary" icon="fa fa-ban" ajax="false" immediate="true"
+                                 style="margin-top: 20px; margin-left: 10px;"/>
+
+                <p:commandButton value="Confirmar Inscrição" action="#{inscricaoBolsistaBean.novaInscricaoBolsista()}"
+                                 icon="fa fa-check-square-o" update="messages" style="margin-top: 20px;" ajax="false">
+                    <f:param name="planoID" value="#{inscricaoBolsistaBean.planoDeTrabalho.id}"/>
+                    <f:param name="bolsistaID" value="#{inscricaoBolsistaBean.bolsista.id}"/>
+                </p:commandButton>
+
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

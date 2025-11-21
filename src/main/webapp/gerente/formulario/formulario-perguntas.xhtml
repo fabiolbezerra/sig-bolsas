@@ -7,41 +7,106 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
->
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
-        Cadastro de Unidades Administrativas
+        Perguntas do Formulário
     </ui:define>
 
     <ui:define name="content">
-        <h1>Unidades Administrativas</h1>
 
-        <h:form id="formUnidadeAdministrativa">
-            <p:growl showDetail="true" showSummary="true"/>
+        <h1>Perguntas do Formulário</h1>
 
-            <h:inputHidden value="#{unidadeAdministrativaBean.unidade.id}"/>
-            <h:panelGrid columns="2">
+        <div class="ui-g">
+            <div class="ui-g-4">
+                <h2>Cadastro de Pergunta</h2>
 
-                <p:outputLabel value="Nome"/>
-                <p:inputText value="#{unidadeAdministrativaBean.unidade.nome}"/>
+                <h:form id="formPergunta">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-                <p:outputLabel value="Sigla"/>
-                <p:inputText value="#{unidadeAdministrativaBean.unidade.sigla}"
-                             required="true"
-                             requiredMessage="A sigla da unidade é obrigatória"/>
+                    <h:inputHidden value="#{perguntaBean.pergunta.id}"/>
+                    <h:panelGrid columns="2">
 
-                <p:outputLabel value="Titulação"/>
-                <p:selectOneMenu value="#{unidadeAdministrativaBean.unidade.tipo}">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione o tipo"/>
-                    <f:selectItem itemValue="I" itemLabel="Instituto"/>
-                    <f:selectItem itemValue="C" itemLabel="Campus"/>
-                </p:selectOneMenu>
+                        <p:outputLabel value="Texto da pergunta" for="itaTexto"/>
+                        <p:inputTextarea id="itaTexto"
+                                         required="true"
+                                         value="#{perguntaBean.pergunta.texto}"
+                                         rows="3"
+                                         maxlength="250"/>
 
-            </h:panelGrid>
+                        <p:outputLabel value="Pontuação" for="inPontuacao"/>
+                        <p:inputNumber id="inPontuacao"
+                                       decimalPlaces="2"
+                                       decimalSeparator=","
+                                       required="true"
+                                       value="#{perguntaBean.pergunta.pontuacao}"/>
 
-            <p:button outcome="lista.xhtml" value="Cancelar"/>
-            <p:commandButton value="Salvar" action="#{unidadeAdministrativaBean.salvar()}" update="@form"/>
-        </h:form>
+                        <p:outputLabel value="Tipo de pergunta"/>
+                        <p:selectOneMenu value="#{perguntaBean.pergunta.tipo}" converter="tipoPerguntaConverter">
+                            <f:selectItem noSelectionOption="true" itemValue="null"
+                                          itemLabel="Selecione o tipo de pergunta"/>
+                            <f:selectItems value="#{tipoEnumBean.tiposDePergunta}" var="tp"
+                                           itemValue="#{tp}" itemLabel="#{tp.toString()}"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                    <!-- https://stackoverflow.com/questions/17587304/how-to-use-if-else-condition-in-jsf-to-display-image -->
+
+                    <p:button outcome="lista.xhtml" value="Cancelar"/>
+                    <p:commandButton value="Limpar" action="#{perguntaBean.atualizar()}" update="formPergunta"/>
+                    <p:commandButton value="Salvar" action="#{perguntaBean.salvar()}"
+                                     update="formPergunta formListaDePerguntas"/>
+                </h:form>
+            </div>
+
+            <div class="ui-g-8">
+                <h2>#{perguntaBean.formulario.nome}</h2>
+
+                <h:form id="formListaDePerguntas">
+                    <p:growl showDetail="true" showSummary="true"/>
+
+                    <ui:repeat value="#{perguntaBean.perguntas}" var="pergunta">
+                        <p:panel>
+                            <f:facet name="header">
+                                Pergunta #{pergunta.ordem}
+                                <div class="top_direita">
+                                    <p:commandButton icon="fa fa-pencil" update="formPergunta formListaDePerguntas">
+                                        <f:setPropertyActionListener target="#{perguntaBean.pergunta}"
+                                                                     value="#{pergunta}"/>
+                                    </p:commandButton>
+
+                                    <p:commandButton icon="fa fa-arrow-up"
+                                                     actionListener="#{perguntaBean.moverParaCima(pergunta)}"
+                                                     update="formPergunta formListaDePerguntas"/>
+
+                                    <p:commandButton icon="fa fa-arrow-down"
+                                                     actionListener="#{perguntaBean.moverParaBaixo(pergunta)}"
+                                                     update="formPergunta formListaDePerguntas"/>
+
+                                    <!-- TODO: Solicitar confirmação da exclusão -->
+                                    <p:commandButton icon="fa fa-trash"
+                                                     actionListener="#{perguntaBean.excluir(pergunta)}"
+                                                     update="formPergunta formListaDePerguntas" />
+                                </div>
+                            </f:facet>
+
+                            <f:facet name="footer">
+                                Pontuação #{pergunta.pontuacao}
+                            </f:facet>
+
+                            <p:outputLabel value="#{pergunta.texto}"/>
+                            <p:dataList value="#{pergunta.opcaoPerguntas}" var="opcao" rendered="#{not empty pergunta.opcaoPerguntas}">
+                                <h:outputText value="#{opcao.resposta}" />
+                            </p:dataList>
+
+                        </p:panel>
+                        <br/>
+                    </ui:repeat>
+                </h:form>
+            </div>
+
+        </div>
+
     </ui:define>
 </ui:composition>

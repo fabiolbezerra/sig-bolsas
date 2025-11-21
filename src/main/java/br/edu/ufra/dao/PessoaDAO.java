@@ -4,9 +4,9 @@ import br.edu.ufra.entidade.Papel;
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.entidade.PessoaPapel;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

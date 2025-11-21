@@ -8,10 +8,10 @@ package br.edu.ufra.bean.converter;
 import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.rn.PessoaRN;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
 
 /**
  *

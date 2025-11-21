@@ -1,9 +1,11 @@
 package br.edu.ufra.entidade;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import br.edu.ufra.entidade.tipo.EnumTipoUnidadeAdministrativa;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "unidade_administrativa")
@@ -23,10 +25,11 @@ public class UnidadeAdministrativa {
     private String sigla;
 
     @Column(name = "tipo", nullable = false)
-    private Character tipo;
+    @Enumerated(EnumType.STRING)
+    private EnumTipoUnidadeAdministrativa tipo;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidadeAdministrativa")
-    private Set<Pessoa> membros = new LinkedHashSet<>();
+    private List<Pessoa> membros = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -52,40 +55,34 @@ public class UnidadeAdministrativa {
         this.sigla = sigla;
     }
 
-    public Character getTipo() {
+    public EnumTipoUnidadeAdministrativa getTipo() {
         return tipo;
     }
 
-    public void setTipo(Character tipo) {
+    public void setTipo(EnumTipoUnidadeAdministrativa tipo) {
         this.tipo = tipo;
     }
 
-    public Set<Pessoa> getMembros() {
+    public List<Pessoa> getMembros() {
         return membros;
     }
 
-    public void setMembros(Set<Pessoa> membros) {
+    public void setMembros(List<Pessoa> membros) {
         this.membros = membros;
-    }
-
-    public String obterTipo(Character tipo) {
-        switch (tipo) {
-            case 'I': return "Instituto";
-            case 'C': return "Campus";
-            default: return "-";
-        }
     }
 
     @Override
     public boolean equals(Object object) {
+        if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
 
         UnidadeAdministrativa that = (UnidadeAdministrativa) object;
-        return id.equals(that.id);
+        if (this.id == null || that.id == null) return false;
+        return this.id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return (id != null) ? id.hashCode() : 0;
     }
 }

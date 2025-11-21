@@ -8,27 +8,25 @@ import br.edu.ufra.rn.InscricaoRN;
 import br.edu.ufra.rn.PessoaRN;
 import br.edu.ufra.util.UtilBean;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import java.util.List;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class InscricaoBean {
 
-    private EditalRN editalRN = new EditalRN();
+    private final EditalRN EDITAL_RN = new EditalRN();
+    private final PessoaRN PESSOA_RN = new PessoaRN();
+    private final InscricaoRN INSCRICAO_RN = new InscricaoRN();
 
-    // Correção 1: Inicializar o pessoaRN
-    private PessoaRN pessoaRN = new PessoaRN();
+    private String senha;
 
-    private InscricaoRN inscricaoRN = new InscricaoRN();
-
-    private Inscricao inscricao;
+    private Inscricao inscricao = new Inscricao();
     private Edital edital;
     private Pessoa pesquisador;
-    private String senha;
 
     private List<Inscricao> inscricoes;
 
@@ -41,37 +39,36 @@ public class InscricaoBean {
         System.out.println("Inicializando InscricaoBean ...");
 
         try {
-
-                String idParam = UtilBean.obterValor("inscricaoID");
-                if (idParam != null && !idParam.isEmpty()) {
-                    int inscricaoID = Integer.parseInt(idParam);
-                    inscricao = inscricaoRN.obter(inscricaoID);
-                }
-
+            String idInscricao = UtilBean.obterValor("inscricaoID");
+            if (idInscricao != null && !idInscricao.isEmpty()) {
+                int inscricaoID = Integer.parseInt(idInscricao);
+                inscricao = INSCRICAO_RN.obter(inscricaoID);
                 if (inscricao == null) {
                     inscricao = new Inscricao();
                 }
+            }
 
-                // Carrega o edital se tiver ID na URL
-                String editalIdParam = UtilBean.obterValor("editalID");
-                if (editalIdParam != null && !editalIdParam.isEmpty()) {
-                    int editalID = Integer.parseInt(editalIdParam);
-                    edital = editalRN.obter(editalID);
-                    System.out.println("Carregando edital ID: " + editalID);
+            // Carrega o edital se tiver ID na URL
+            String idEdital = UtilBean.obterValor("editalID");
+            if (idEdital != null && !idEdital.isEmpty()) {
+                int editalID = Integer.parseInt(idEdital);
+                System.out.println("Carregando edital ID: " + editalID);
+                edital = EDITAL_RN.obter(editalID);
+                if (edital != null) {
+                    inscricoes = INSCRICAO_RN.obter(edital);
                 }
+            }
 
-                // Carrega o pesquisador se tiver ID na URL
-                String pesquisadorIdParam = UtilBean.obterValor("pesquisadorID");
-                if (pesquisadorIdParam != null && !pesquisadorIdParam.isEmpty()) {
-                    int pesquisadorID = Integer.parseInt(pesquisadorIdParam);
-                    pesquisador = pessoaRN.obter(pesquisadorID);
-                    System.out.println("Carregando pesquisador ID: " + pesquisadorID);
-                }
-
+            // Carrega o pesquisador se tiver ID na URL
+            String idPesquisador = UtilBean.obterValor("pesquisadorID");
+            if (idPesquisador != null && !idPesquisador.isEmpty()) {
+                int pesquisadorID = Integer.parseInt(idPesquisador);
+                pesquisador = PESSOA_RN.obter(pesquisadorID);
+                System.out.println("Carregando pesquisador ID: " + pesquisadorID);
+            }
         } catch (Exception e) {
             System.out.println("Erro ao inicializar InscricaoBean: " + e.getMessage());
             UtilBean.criarMensagemDeErro("Erro ao carregar inscrição");
-            inscricao = new Inscricao();
         }
     }
 
@@ -113,18 +110,26 @@ public class InscricaoBean {
 
 
     public String iniciarInscricao() {
+        if (!UtilBean.possuiPapel(UtilBean.obterUsuarioLogado(), 'P')) {
+            UtilBean.criarMensagemDeErro("Apenas pesquisadores podem se inscrever.");
+            return null;
+        }
         if (pesquisador == null || edital == null) {
             UtilBean.criarMensagemDeErro("Dados incompletos para iniciar inscrição");
             return null;
         }
 
-        inscricao = inscricaoRN.obter(pesquisador, edital);
+        inscricao = INSCRICAO_RN.obter(pesquisador, edital);
         if (inscricao != null) {
             return "/pesquisador/inscricao/detalhes.xhtml?faces-redirect=true&inscricaoID=" + inscricao.getId();
         } else {
-            return "/pesquisador/inscricao/formulario-perguntas.xhtml?faces-redirect=true&editalID=" + edital.getId()+"&pesquisadorID=" + pesquisador.getId();
+            return "/pesquisador/inscricao/formulario.xhtml?faces-redirect=true&editalID=" + edital.getId() + "&pesquisadorID=" + pesquisador.getId();
         }
 
+    }
+
+    public List<Inscricao> obterPorPesquisador() {
+        return INSCRICAO_RN.obter(UtilBean.obterUsuarioLogado()) ;
     }
 
     public String obterSituacao(Character situacao) {
@@ -168,7 +173,7 @@ public class InscricaoBean {
                 return;
             }
 
-            if (inscricaoRN.salvar(inscricao)) {
+            if (INSCRICAO_RN.salvar(inscricao)) {
                 UtilBean.criarMensagemDeInformacao("Inscrição salva com sucesso");
             } else {
                 UtilBean.criarMensagemDeErro("Falha ao salvar inscrição");
@@ -182,11 +187,11 @@ public class InscricaoBean {
         try {
             // Se algum dos objetos for nulo, tenta carregá-los novamente usando seus IDs
             if (edital == null && edital.getId() != null) {
-                edital = editalRN.obter(edital.getId());
+                edital = EDITAL_RN.obter(edital.getId());
             }
 
             if (pesquisador == null && pesquisador.getId() != null) {
-                pesquisador = pessoaRN.obter(pesquisador.getId());
+                pesquisador = PESSOA_RN.obter(pesquisador.getId());
             }
 
             if (edital == null || pesquisador == null) {
@@ -194,13 +199,13 @@ public class InscricaoBean {
                 return;
             }
 
-            boolean inscricaoCriada = inscricaoRN.novaInscricao(edital, pesquisador, senha, pesquisador.getEmail());
+            boolean inscricaoCriada = INSCRICAO_RN.novaInscricao(edital, pesquisador, senha, pesquisador.getEmail());
 
             if (inscricaoCriada) {
                 UtilBean.criarMensagemDeInformacao("Inscrição gravada com sucesso");
 
                 // Buscar a inscrição recém-criada para obter o ID
-                inscricao = inscricaoRN.obter(pesquisador, edital);
+                inscricao = INSCRICAO_RN.obter(pesquisador, edital);
 
                 if (inscricao != null) {
                     FacesContext.getCurrentInstance().getExternalContext()

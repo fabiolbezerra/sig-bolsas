@@ -5,21 +5,21 @@ insert into formulario
     (1, 'Inscrição PROICT', '2025-05-25');
 
 -- vinculando o formulário criado aos editais
--- update edital set formulario = 1 where id = 1;
--- update edital set formulario = 1 where id = 2;
--- update edital set formulario = 1 where id = 3;
--- update edital set formulario = 1 where id = 4;
+update edital set formulario = 1 where id = 1;
+update edital set formulario = 1 where id = 2;
+update edital set formulario = 1 where id = 3;
+update edital set formulario = 1 where id = 4;
 
 -- pergunta
 insert into pergunta
-    (id, texto, pontuacao, tipo, formulario)
+    (id, ordem, texto, pontuacao, tipo, formulario)
     values
-    (1, 'NOME DO GRUPO DE PESQUISA, certificado no DGP/CNPq.', 0, 'TEXTO', 1),
-    (2, 'Vínculo institucional', 0, 'RESPOSTA_FECHADA', 1),
-    (3, 'Trabalhos COMPLETO publicados em anais de eventos científicos', 5, 'INTEIRO', 1),
-    (4, 'Autoria de Livro  e/ou e-book  técnico-científico especializado', 90, 'INTEIRO', 1),
-    (5, 'Software, jogos eletrônicos', 30, 'INTEIRO', 1),
-    (6, 'Atua como professor(a) ativo(a) do projeto Forma Pará', 0, 'SIM_NAO', 1);
+    (1, 1, 'NOME DO GRUPO DE PESQUISA, certificado no DGP/CNPq.', 0, 'TEXTO', 1),
+    (2, 2, 'Vínculo institucional', 0, 'RESPOSTA_FECHADA', 1),
+    (3, 3, 'Trabalhos COMPLETO publicados em anais de eventos científicos', 5, 'INTEIRO', 1),
+    (4, 4, 'Autoria de Livro  e/ou e-book  técnico-científico especializado', 90, 'INTEIRO', 1),
+    (5, 5, 'Software, jogos eletrônicos', 30, 'INTEIRO', 1),
+    (6, 6, 'Atua como professor(a) ativo(a) do projeto Forma Pará', 0, 'SIM_NAO', 1);
 
 -- opção de perguntas fechadas
 insert into opcao_pergunta

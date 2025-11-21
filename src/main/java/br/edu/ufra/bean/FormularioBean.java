@@ -4,12 +4,12 @@ import br.edu.ufra.entidade.Formulario;
 import br.edu.ufra.rn.FormularioRN;
 import br.edu.ufra.util.UtilBean;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
 import java.util.List;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class FormularioBean {
     private final FormularioRN RN = new FormularioRN();
