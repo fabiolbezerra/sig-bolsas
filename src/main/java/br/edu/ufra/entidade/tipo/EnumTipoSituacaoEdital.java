@@ -4,7 +4,6 @@ public enum EnumTipoSituacaoEdital {
 
     CADASTRADAO,
     PUBLICADO,
-    NAO_PLICADO,
-    ENCERRADO;
-
+    NAO_PUBLICADO,
+    ENCERRADO,
 }
