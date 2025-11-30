@@ -13,59 +13,101 @@
         Login
     </ui:define>
 
+    <!-- Removemos o topo padrão para esta tela ficar limpa -->
     <ui:define name="top">
-        <h2>Sistema de Gestão Bolsistas</h2>
+        <h2></h2>
     </ui:define>
 
     <ui:define name="content">
-        <form id="formLogin"
-              action="#{request.contextPath}/j_spring_security_check"
-              method="post">
 
-            <div align="center">
-                <h3>Entrar no Sistema</h3>
+        <!-- CSS Exclusivo para centralizar a tela de login -->
+        <style>
+            .login-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 90vh; /* Ocupa quase toda a altura da tela */
+            }
+            .login-card {
+                background-color: white;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                width: 100%;
+                max-width: 400px; /* Largura máxima do cartão */
+            }
+            .login-logo {
+                text-align: center;
+                margin-bottom: 2rem;
+                color: #495057;
+            }
+            .login-footer {
+                text-align: center;
+                margin-top: 1.5rem;
+                font-size: 0.9em;
+            }
+        </style>
 
-                <hr width="15%"/>
+        <div class="login-container">
+            <div class="login-card ui-fluid">
 
-                <h:outputText
-                        value="E-mail ou senha inválidos"
-                        rendered="#{param.get('e') != null}"
-                        style="color: #1e1f22; font-size: 1.2em; "/>
-
-                <div class="ui-g-12">
-                    <input id="j_username"
-                           name="j_username"
-                           type="text"
-                           placeholder="Email"
-                           required="required"
-                           class="p-inputtext p-component"/>
+                <div class="login-logo">
+                    <!-- Se tiver uma logo, coloque aqui: <h:graphicImage name="images/logo.png" /> -->
+                    <h2>SIG Bolsas</h2>
+                    <p style="color: #6c757d;">Bem-vindo de volta</p>
                 </div>
 
-                <div class="ui-g-12">
-                    <input id="j_password"
-                           name="j_password"
-                           type="password"
-                           placeholder="Senha"
-                           required="required"
-                           class="p-inputtext p-component"/>
-                </div>
+                <form id="formLogin"
+                      action="#{request.contextPath}/j_spring_security_check"
+                      method="post">
 
-                <hr width="15%"/>
+                    <!-- Mensagem de erro estilizada -->
+                    <p:outputPanel rendered="#{param.get('e') != null}" styleClass="ui-message ui-message-error ui-widget ui-corner-all" style="width: 100%; margin-bottom: 1rem; display: block;">
+                        <span class="ui-message-error-icon"></span>
+                        <span class="ui-message-error-detail">Usuário ou senha inválidos.</span>
+                    </p:outputPanel>
 
-                <div class="ui-g-12">
-                    <button type="submit" class="p-button p-component" style="width: 120px">
-                        <span class="p-button-icon pi pi-sign-in"></span>
-                        <span class="p-button-label">Acessar</span>
+                    <div class="p-field" style="margin-bottom: 1rem;">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="pi pi-user"></i></span>
+                            <input id="j_username"
+                                   name="j_username"
+                                   type="text"
+                                   placeholder="E-mail"
+                                   required="required"
+                                   class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                   style="width: 100%"/>
+                        </div>
+                    </div>
+
+                    <div class="p-field" style="margin-bottom: 1.5rem;">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                            <input id="j_password"
+                                   name="j_password"
+                                   type="password"
+                                   placeholder="Senha"
+                                   required="required"
+                                   class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                   style="width: 100%"/>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                            style="width: 100%; height: 40px; background: #007ad9; color: white; border: none; font-weight: bold; cursor: pointer;">
+                        <span class="ui-button-text ui-c">ENTRAR</span>
                     </button>
-                </div>
 
-                <hr width="15%"/>
-                <p:link value="Esqueci minha senha" outcome="formulario-reinicializar-senha.xhtml"/> |
-                <p:link value="Criar minha conta" outcome="formulario-novo-01.xhtml"/>
+                    <div class="login-footer">
+                        <p:link value="Esqueci minha senha" outcome="formulario-reinicializar-senha.xhtml" style="display: block; margin-bottom: 5px; color: #007ad9;"/>
+                        <p:link value="Não tem conta? Cadastre-se" outcome="formulario-novo-01.xhtml" style="color: #6c757d; font-weight: bold;"/>
+                    </div>
 
-
+                </form>
             </div>
-        </form>
+        </div>
+
     </ui:define>
 
 </ui:composition>

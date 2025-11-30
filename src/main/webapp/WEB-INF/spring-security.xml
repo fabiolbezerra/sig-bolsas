@@ -13,6 +13,12 @@
         <csrf disabled="true"/>
         <!-- Login e recursos estáticos liberados -->
         <intercept-url pattern="/index.xhtml" access="permitAll"/>
+        <intercept-url pattern="/acesso-negado.xhtml" access="permitAll"/>
+        <intercept-url pattern="/formulario-novo-01.xhtml" access="permitAll"/>
+        <intercept-url pattern="/formulario-novo-02.xhtml" access="permitAll"/>
+        <intercept-url pattern="/formulario-reinicializar-senha.xhtml" access="permitAll"/>
+
+
         <intercept-url pattern="/j_spring_security_check" access="permitAll"/>
         <intercept-url pattern="/publico/**" access="permitAll"/>
         <intercept-url pattern="/jakarta.faces.resource/**" access="permitAll"/>
@@ -35,6 +41,12 @@
                     password-parameter="j_password"
                     authentication-success-handler-ref="myLoginHandler"
                     authentication-failure-url="/index.xhtml?e=-1"/>
+
+        <logout logout-url="/j_spring_security_logout"
+                logout-success-url="/index.xhtml"
+                invalidate-session="true"
+                delete-cookies="JSESSIONID"/>
+
         <access-denied-handler error-page="/acesso-negado.xhtml"/>
 
         <!-- Qualquer outra URL exige autenticação -->
