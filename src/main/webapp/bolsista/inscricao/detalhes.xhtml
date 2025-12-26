@@ -9,86 +9,156 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
-    <ui:define name="title">
-        Detalhes da Inscrição
-    </ui:define>
+    <ui:define name="title">Detalhes da Inscrição</ui:define>
 
     <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-info-circle"></i>
+                    Detalhes da Inscrição
+                </h1>
 
-        <h:form>
+                <p:button outcome="/bolsista/inscricao/lista.xhtml"
+                          value="Voltar"
+                          icon="pi pi-arrow-left"
+                          styleClass="ui-button-secondary outline"/>
+            </div>
 
-            <p:panel header="Detalhes da Inscrição" style="width: 95%; margin: 20px auto; font-size: large">
-                <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados do Participante"/>
-                    </f:facet>
-                    <h:outputText value="Nome Completo:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.bolsista.nomeCompleto}" />
+            <div class="content-card">
+                <h:form id="formInscricao">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-                    <h:outputText value="Telefone:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.bolsista.telefone}" />
+                    <!-- Dados do Participante -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-user"></i>
+                            Dados do Participante
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Nome Completo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.bolsista.nomeCompleto}"
+                                              style="font-weight: 600; color: #212529; font-size: 1rem;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Telefone"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.bolsista.telefone}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Email"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.bolsista.email}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Data de Nascimento"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.bolsista.nascimento}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
 
-                    <h:outputText value="Email:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.bolsista.email}" />
+                    <!-- Dados do Edital -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-file"></i>
+                            Dados do Edital
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Edital"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.edital.titulo}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Ano/Número"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText
+                                        value="#{inscricaoBolsistaBean.edital.ano} / #{inscricaoBolsistaBean.edital.numero}"
+                                        style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Situação"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText
+                                        value="#{inscricaoBolsistaBean.obterSituacao(inscricaoBolsistaBean.edital.situacao)}"
+                                        style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Tipo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText
+                                        value="#{inscricaoBolsistaBean.obterTipo(inscricaoBolsistaBean.edital.tipo)}"
+                                        style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Início das inscrições"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.edital.dataInicio}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Fim das inscrições"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.edital.dataFinal}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Cadastrado"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.edital.dataCadastro}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
 
-                    <h:outputText value="Data de Nascimento:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.bolsista.nascimento}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>
-                </p:panelGrid>
+                    <!-- Dados da Inscrição -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-check-circle"></i>
+                            Dados da Inscrição
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Protocolo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.inscricaoBolsista.protocolo}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Data de Inscrição"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBolsistaBean.inscricaoBolsista.dataInscricao}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
-
-                <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados do Edital"/>
-                    </f:facet>
-
-                    <h:outputText value="Edital:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.edital.titulo}" />
-
-                    <h:outputText value="Ano/Número:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.edital.ano} / #{inscricaoBolsistaBean.edital.numero}"/>
-
-                    <h:outputText value="Situação:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.obterSituacao(inscricaoBolsistaBean.edital.situacao)}" />
-
-                    <h:outputText value="Tipo:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.obterTipo(inscricaoBolsistaBean.edital.tipo)}"/>
-
-                    <h:outputText value="Início das inscrições:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.edital.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-
-                    <h:outputText value="Fim das inscrições:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.edital.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-
-                    <h:outputText value="Cadastrado:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.edital.dataCadastro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:panelGrid>
-
-
-                <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados da Inscrição"/>
-                    </f:facet>
-                    <h:outputText value="Protocolo:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.inscricaoBolsista.protocolo}" />
-
-                    <h:outputText value="Data de Inscrição:" />
-                    <h:outputText value="#{inscricaoBolsistaBean.inscricaoBolsista.dataInscricao}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>
-                </p:panelGrid>
-
-                <p:commandButton value="Voltar" action="/bolsista/plano/lista.xhtml?faces-redirect=true"
-                                 styleClass="ui-button-secondary" icon="fa fa-arrow-circle-left" ajax="false" immediate="true"/>
-            </p:panel>
-        </h:form>
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.5rem;
+            }
+        </style>
     </ui:define>
 
 </ui:composition>

@@ -6,30 +6,247 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:p="http://primefaces.org/ui"
 >
 
-    <ui:define name="title">
-        Página Inicial do Coordenador
-    </ui:define>
-
+    <ui:define name="title">Dashboard - Coordenador</ui:define>
 
     <ui:define name="content">
-        <p:card style="max-width: 900px; margin: 0 auto;">
-            <f:facet name="title">Página Inicial do Coordenador</f:facet>
-            <p:panelGrid columns="3" layout="grid" styleClass="p-mt-3" columnClasses="p-pr-2,p-pr-2,p-pr-2">
-                <p:linkButton value="Comitês" outcome="/gerente/comite/lista" icon="pi pi-sitemap"/>
-                <p:linkButton value="Comitês Vigentes" outcome="/coordenador/comite/lista-vigentes" icon="pi pi-check-circle"/>
-                <p:linkButton value="Comitês Encerrados" outcome="/coordenador/comite/lista-encerrados" icon="pi pi-times"/>
-                <p:linkButton value="Editais" outcome="/gerente/edital/lista" icon="pi pi-file"/>
-                <p:linkButton value="Editais Abertos" outcome="/bolsista/edital/lista-abertos.xhtml" icon="pi pi-folder-open"/>
-                <p:linkButton value="Formulários" outcome="/gerente/formulario/lista.xhtml" icon="pi pi-file-edit"/>
-                <p:linkButton value="Pessoas" outcome="/gerente/pessoa/lista" icon="pi pi-user"/>
-                <p:linkButton value="Planos de Trabalho" outcome="/gerente/plano/lista.xhtml" icon="pi pi-briefcase"/>
-                <p:linkButton value="Unidades Administrativas" outcome="/gerente/unidade/lista.xhtml" icon="pi pi-building"/>
-            </p:panelGrid>
-        </p:card>
+
+        <style type="text/css">
+            .dashboard-container {
+                padding: 2rem;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .dashboard-header {
+                margin-bottom: 2rem;
+            }
+
+            .dashboard-header h1 {
+                color: #495057;
+                font-size: 2rem;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .dashboard-header p {
+                color: #6c757d;
+                margin: 0;
+            }
+
+            .dashboard-section {
+                margin-bottom: 2.5rem;
+            }
+
+            .dashboard-section-title {
+                color: #495057;
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #e9ecef;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .dashboard-card {
+                background: white;
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                border-left: 4px solid transparent;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dashboard-card:hover {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+                transform: translateY(-2px);
+            }
+
+            .dashboard-card.blue {
+                border-left-color: #007ad9;
+            }
+
+            .dashboard-card.green {
+                border-left-color: #28a745;
+            }
+
+            .dashboard-card.orange {
+                border-left-color: #fd7e14;
+            }
+
+            .dashboard-card.purple {
+                border-left-color: #6f42c1;
+            }
+
+            .dashboard-card.red {
+                border-left-color: #dc3545;
+            }
+
+            .dashboard-card.teal {
+                border-left-color: #20c997;
+            }
+
+            .card-icon {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                display: block;
+            }
+
+            .card-icon.blue {
+                color: #007ad9;
+            }
+
+            .card-icon.green {
+                color: #28a745;
+            }
+
+            .card-icon.orange {
+                color: #fd7e14;
+            }
+
+            .card-icon.purple {
+                color: #6f42c1;
+            }
+
+            .card-icon.red {
+                color: #dc3545;
+            }
+
+            .card-icon.teal {
+                color: #20c997;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #495057;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+                color: #6c757d;
+                line-height: 1.5;
+            }
+        </style>
+
+        <div class="dashboard-container">
+
+            <div class="dashboard-header">
+                <h1>Painel do Coordenador</h1>
+                <p>Gerencie comitês, editais e formulários do sistema</p>
+            </div>
+
+            <!-- Seção: Gestão de Comitês -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-sitemap" style="margin-right: 0.5rem;"></i>
+                    Gestão de Comitês
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/gerente/comite/lista" styleClass="dashboard-card blue">
+                        <span class="card-icon blue">
+                            <i class="pi pi-sitemap"></i>
+                        </span>
+                        <h3 class="card-title">Todos os Comitês</h3>
+                        <p class="card-description">Visualize e gerencie todos os comitês</p>
+                    </h:link>
+
+                    <h:link outcome="/coordenador/comite/lista-vigentes" styleClass="dashboard-card green">
+                        <span class="card-icon green">
+                            <i class="pi pi-check-circle"></i>
+                        </span>
+                        <h3 class="card-title">Comitês Vigentes</h3>
+                        <p class="card-description">Comitês atualmente ativos no sistema</p>
+                    </h:link>
+
+                    <h:link outcome="/coordenador/comite/lista-encerrados" styleClass="dashboard-card red">
+                        <span class="card-icon red">
+                            <i class="pi pi-times-circle"></i>
+                        </span>
+                        <h3 class="card-title">Comitês Encerrados</h3>
+                        <p class="card-description">Histórico de comitês finalizados</p>
+                    </h:link>
+                </div>
+            </div>
+
+            <!-- Seção: Gestão de Editais -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-file" style="margin-right: 0.5rem;"></i>
+                    Gestão de Editais
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/gerente/edital/lista" styleClass="dashboard-card blue">
+                        <span class="card-icon blue">
+                            <i class="pi pi-file"></i>
+                        </span>
+                        <h3 class="card-title">Todos os Editais</h3>
+                        <p class="card-description">Gerencie todos os editais do sistema</p>
+                    </h:link>
+
+                    <h:link outcome="/bolsista/edital/lista-abertos.xhtml" styleClass="dashboard-card green">
+                        <span class="card-icon green">
+                            <i class="pi pi-folder-open"></i>
+                        </span>
+                        <h3 class="card-title">Editais Abertos</h3>
+                        <p class="card-description">Editais disponíveis para inscrição</p>
+                    </h:link>
+                </div>
+            </div>
+
+            <!-- Seção: Administração -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-cog" style="margin-right: 0.5rem;"></i>
+                    Administração
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/gerente/formulario/lista.xhtml" styleClass="dashboard-card purple">
+                        <span class="card-icon purple">
+                            <i class="pi pi-file-edit"></i>
+                        </span>
+                        <h3 class="card-title">Formulários</h3>
+                        <p class="card-description">Gerencie formulários de inscrição</p>
+                    </h:link>
+
+                    <h:link outcome="/gerente/pessoa/lista" styleClass="dashboard-card teal">
+                        <span class="card-icon teal">
+                            <i class="pi pi-users"></i>
+                        </span>
+                        <h3 class="card-title">Pessoas</h3>
+                        <p class="card-description">Cadastro e gerenciamento de usuários</p>
+                    </h:link>
+
+                    <h:link outcome="/gerente/plano/lista.xhtml" styleClass="dashboard-card orange">
+                        <span class="card-icon orange">
+                            <i class="pi pi-briefcase"></i>
+                        </span>
+                        <h3 class="card-title">Planos de Trabalho</h3>
+                        <p class="card-description">Consulte planos de pesquisa</p>
+                    </h:link>
+
+                    <h:link outcome="/gerente/unidade/lista.xhtml" styleClass="dashboard-card blue">
+                        <span class="card-icon blue">
+                            <i class="pi pi-building"></i>
+                        </span>
+                        <h3 class="card-title">Unidades Administrativas</h3>
+                        <p class="card-description">Estrutura organizacional da instituição</p>
+                    </h:link>
+                </div>
+            </div>
+
+        </div>
+
     </ui:define>
 
 </ui:composition>
+

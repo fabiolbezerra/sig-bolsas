@@ -14,77 +14,81 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>Listagem de Planos de Trabalho</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file-o"></i>
+                    Listagem de Planos de Trabalho
+                </h1>
+            </div>
 
-        <br/>
+            <div class="content-card">
+                <h:form id="formPlanoDeTrabalho">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <br/><br/>
+                    <div style="margin-bottom: 2rem; background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <div style="display: flex; gap: 1rem; align-items: flex-end;">
+                            <div style="flex: 1;">
+                                <p:outputLabel value="Critério de Pesquisa"
+                                               style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;"/>
+                                <p:selectOneMenu value="#{planoDeTrabalhoBean.criterio}" style="width: 100%;">
+                                    <f:selectItem itemValue="T" itemLabel="Título"/>
+                                    <f:selectItem itemValue="R" itemLabel="Resumo"/>
+                                    <f:selectItem itemValue="P" itemLabel="Nome Completo"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div style="flex: 2;">
+                                <p:outputLabel value="Palavra-chave"
+                                               style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;"/>
+                                <p:inputText value="#{planoDeTrabalhoBean.chaveDeBusca}"
+                                             placeholder="Digite sua pesquisa..." style="width: 100%;"/>
+                            </div>
+                            <p:commandButton value="Buscar" action="#{planoDeTrabalhoBean.pesquisar()}" update="@form"
+                                             icon="pi pi-search" styleClass="ui-button-primary" style="height: 34px;"/>
+                        </div>
+                    </div>
 
-        <h:form id="formPlanoDeTrabalho">
-            <p:growl showDetail="true" showSummary="true"/>
+                    <p:dataTable value="#{planoDeTrabalhoBean.planosDeTrabalho}" var="plano"
+                                 emptyMessage="Nenhum plano encontrado"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true">
 
-            <p:panelGrid columns="2">
-                <f:facet name="header">
-                    Critério de Pesquisa
-                </f:facet>
+                        <p:column headerText="Título">
+                            <h:outputText value="#{plano.titulo}" style="font-weight: bold; color: #2c3e50;"/>
+                        </p:column>
 
-                <f:facet name="footer">
-                    <p:commandButton value="Buscar" action="#{planoDeTrabalhoBean.pesquisar()}" update="@form"
-                                     icon="fa fa-search"/>
-                </f:facet>
+                        <p:column headerText="Edital">
+                            <h:outputText value="#{plano.inscricao.edital.titulo}"/>
+                        </p:column>
 
-                <p:selectOneMenu value="#{planoDeTrabalhoBean.criterio}">
-                    <f:selectItem itemValue="T" itemLabel="Título"/>
-                    <f:selectItem itemValue="R" itemLabel="Resumo"/>
-                    <f:selectItem itemValue="P" itemLabel="Nome Completo"/>
-                </p:selectOneMenu>
+                        <p:column headerText="Pesquisador">
+                            <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}"/>
+                        </p:column>
 
-                <p:inputText value="#{planoDeTrabalhoBean.chaveDeBusca}" placeholder="Digite a pista de pesquisa"/>
-            </p:panelGrid>
+                        <p:column headerText="Telefone" style="text-align: center;">
+                            <h:outputText value="#{plano.inscricao.pessoa.telefone}" converter="telefoneConverter"/>
+                        </p:column>
 
-            <br/><br/>
+                        <p:column headerText="E-mail">
+                            <h:outputText value="#{plano.inscricao.pessoa.email}"/>
+                        </p:column>
 
-            <p:dataTable value="#{planoDeTrabalhoBean.planosDeTrabalho}" var="plano"
-                         emptyMessage="Nenhum plano encontrado"
-                         paginator="true" rows="10" paginatorPosition="bottom">
+                        <p:column headerText="Data Cadastro" style="text-align: center;">
+                            <h:outputText value="#{plano.dataCadastro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Título">
-                    <h:outputText value="#{plano.titulo}"/>
-                </p:column>
-
-                <p:column headerText="Edital">
-                    <h:outputText value="#{plano.inscricao.edital.titulo}"/>
-                </p:column>
-
-                <p:column headerText="Pesquisador">
-                    <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}"/>
-                </p:column>
-
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{plano.inscricao.pessoa.telefone}" converter="telefoneConverter"/>
-                </p:column>
-
-                <p:column headerText="E-mail">
-                    <h:outputText value="#{plano.inscricao.pessoa.email}"/>
-                </p:column>
-
-                <p:column headerText="Data Cadastro">
-                    <h:outputText value="#{plano.dataCadastro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="Operações">
-
-                    <p:commandButton value="Detalhes" action="/bolsista/plano/detalhes.xhtml" icon="fa fa-info-circle">
-                        <f:param name="planoID" value="#{plano.id}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-
-            <br/>
-
-        </h:form>
-
+                        <p:column headerText="Operações" style="text-align: center; width: 120px;">
+                            <p:commandButton value="Detalhes" action="/bolsista/plano/detalhes.xhtml"
+                                             icon="pi pi-info-circle">
+                                <f:param name="planoID" value="#{plano.id}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

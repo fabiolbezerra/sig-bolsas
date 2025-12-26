@@ -9,71 +9,104 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">
-        Plano de Trabalho
-    </ui:define>
+    <ui:define name="title">Planos de Trabalho Disponíveis</ui:define>
 
     <ui:define name="content">
-        <h1>Listagem de Planos de Trabalho</h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-clipboard"></i>
+                    Planos de Trabalho Disponíveis
+                </h1>
+            </div>
 
-        <br/>
+            <div class="content-card">
+                <h:form id="formPlanoDeTrabalho">
+                    <p:growl showDetail="true" showSummary="true"/>
+                    <f:param name="bolsistaID" value="#{papelBean.usuarioLogado.id}"/>
 
-        <br/><br/>
+                    <p:dataTable value="#{planoDeTrabalhoBean.obterPlanoDeTrabalhoVigentes()}"
+                                 var="plano"
+                                 emptyMessage="Nenhum plano de trabalho disponível"
+                                 paginator="true"
+                                 rows="10"
+                                 paginatorPosition="bottom"
+                                 reflow="true">
 
-        <h:form id="formPlanoDeTrabalho">
-            <p:growl showDetail="true" showSummary="true"/>
-            <f:param name="bolsistaID" value="#{papelBean.usuarioLogado.id}"/>
-            <p:dataTable value="#{planoDeTrabalhoBean.obterPlanoDeTrabalhoVigentes()}" var="plano"
-                         emptyMessage="Nenhum plano encontrado"
-                         paginator="true" rows="10" paginatorPosition="bottom">
+                        <p:column headerText="Título" priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{plano.titulo}" style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{plano.inscricao.edital.titulo}"
+                                              style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"
+                                              class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-                <p:column headerText="Título">
-                    <h:outputText value="#{plano.titulo}"/>
-                </p:column>
-                <p:column headerText="Resumo">
-                    <h:outputText value="#{plano.resumo}"/>
-                </p:column>
-                <p:column headerText="Edital">
-                    <h:outputText value="#{plano.inscricao.edital.titulo}"/>
-                </p:column>
-                <p:column headerText="Situação do Edital">
-                    <h:outputText value="#{inscricaoBolsistaBean.obterSituacao(plano.inscricao.edital.situacao)}"/>
-                </p:column>
+                        <p:column headerText="Resumo" priority="3">
+                            <h:outputText value="#{plano.resumo}"
+                                          style="max-width: 300px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"/>
+                        </p:column>
 
-                <p:column headerText="Pesquisador">
-                    <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}"/>
-                </p:column>
+                        <p:column headerText="Edital" priority="2">
+                            <h:outputText value="#{plano.inscricao.edital.titulo}"/>
+                        </p:column>
 
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{plano.inscricao.pessoa.telefone}" converter="telefoneConverter"/>
-                </p:column>
+                        <p:column headerText="Situação" priority="4">
+                            <h:outputText
+                                    value="#{inscricaoBolsistaBean.obterSituacao(plano.inscricao.edital.situacao)}"/>
+                        </p:column>
 
-                <p:column headerText="E-mail">
-                    <h:outputText value="#{plano.inscricao.pessoa.email}"/>
-                </p:column>
+                        <p:column headerText="Pesquisador" priority="3">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}" style="font-weight: 500;"/>
+                                <h:outputText value="#{plano.inscricao.pessoa.telefone}" converter="telefoneConverter"
+                                              style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"
+                                              class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-                <p:column headerText="Data Cadastro">
-                    <h:outputText value="#{plano.dataCadastro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="Operações">
-                    <p:splitButton value="Inscrever-se" action="#{inscricaoBolsistaBean.iniciarInscricaoBolsista()}" icon="fa fa-pencil"
-                                   ajax="false">
-                        <f:param name="planoID" value="#{plano.id}"/>
-                        <f:param name="bolsistaID" value="#{papelBean.usuarioLogado.id}"/>
+                        <p:column headerText="Contato" priority="5">
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <h:outputText value="#{plano.inscricao.pessoa.telefone}" converter="telefoneConverter"
+                                              style="font-size: 0.9rem;"/>
+                                <h:outputText value="#{plano.inscricao.pessoa.email}"
+                                              style="font-size: 0.85rem; color: #666;"/>
+                            </div>
+                        </p:column>
 
-                        <p:menuitem value="Detalhes" action="/bolsista/plano/detalhes.xhtml"  icon="fa fa-info-circle">
-                            <f:param name="planoID" value="#{plano.id}"/>
-                        </p:menuitem>
-                    </p:splitButton>
-                </p:column>
-            </p:dataTable>
+                        <p:column headerText="Data Cadastro" priority="4" styleClass="text-center">
+                            <h:outputText value="#{plano.dataCadastro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-            <br/>
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:splitButton value="Inscrever-se"
+                                           action="#{inscricaoBolsistaBean.iniciarInscricaoBolsista()}"
+                                           icon="pi pi-user-plus"
+                                           styleClass="split-action"
+                                           ajax="false">
+                                <f:param name="planoID" value="#{plano.id}"/>
+                                <f:param name="bolsistaID" value="#{papelBean.usuarioLogado.id}"/>
 
-        </h:form>
-
+                                <p:menuitem value="Detalhes"
+                                            action="/bolsista/plano/detalhes.xhtml"
+                                            icon="pi pi-info-circle">
+                                    <f:param name="planoID" value="#{plano.id}"/>
+                                </p:menuitem>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

@@ -10,57 +10,137 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="title">
-        Cadastro de Pessoa
-    </ui:define>
+    <ui:define name="title">Cadastro de Pessoa</ui:define>
 
     <ui:define name="content">
-        <h1>Pessoa</h1>
-        <h:form id="formPessoa">
-            <p:messages showDetail="true" showSummary="true"/>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-user-plus"></i>
+                    Cadastro de Pessoa
+                </h1>
+            </div>
 
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h:inputHidden value="#{pessoaBean.pessoa.id}"/>
-            <h:inputHidden value="#{pessoaBean.pessoa.senha}"/>
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Nome completo"/>
-                <p:inputText value="#{pessoaBean.pessoa.nomeCompleto}"
-                             validator="nomeCompletoValidator"/>
+                    <h:inputHidden value="#{pessoaBean.pessoa.id}"/>
+                    <h:inputHidden value="#{pessoaBean.pessoa.senha}"/>
 
-                <p:outputLabel value="Telefone"/>
-                <p:inputMask mask="(99) 99999-9999"
-                             value="#{pessoaBean.pessoa.telefone}"
-                             converter="telefoneConverter"/>
+                    <div class="ui-fluid">
+                        <!-- Dados Pessoais -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-user"></i>
+                                Dados Pessoais
+                            </h2>
+                            <div class="p-grid p-formgrid"
+                                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div class="p-field">
+                                    <p:outputLabel for="nomeCompleto" value="Nome Completo" style="font-weight: 600;"/>
+                                    <p:inputText id="nomeCompleto"
+                                                 value="#{pessoaBean.pessoa.nomeCompleto}"
+                                                 validator="nomeCompletoValidator"
+                                                 required="true"
+                                                 requiredMessage="O nome completo é obrigatório"
+                                                 style="width: 100%"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="telefone" value="Telefone" style="font-weight: 600;"/>
+                                    <p:inputMask id="telefone"
+                                                 mask="(99) 99999-9999"
+                                                 value="#{pessoaBean.pessoa.telefone}"
+                                                 converter="telefoneConverter"
+                                                 style="width: 100%"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="nascimento" value="Data de Nascimento"
+                                                   style="font-weight: 600;"/>
+                                    <p:calendar id="nascimento"
+                                                pattern="dd/MM/yyyy"
+                                                value="#{pessoaBean.pessoa.nascimento}"
+                                                showOn="button"
+                                                required="true"
+                                                requiredMessage="A data de nascimento é obrigatória"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="unidade" value="Unidade Administrativa"
+                                                   style="font-weight: 600;"/>
+                                    <p:selectOneMenu id="unidade"
+                                                     converter="unidadeAdministrativaConverter"
+                                                     value="#{pessoaBean.pessoa.unidadeAdministrativa}"
+                                                     style="width: 100%">
+                                        <f:selectItem noSelectionOption="true"
+                                                      itemLabel="Selecione uma Unidade Administrativa"/>
+                                        <f:selectItems value="#{unidadeAdministrativaBean.unidades}"
+                                                       var="u"
+                                                       itemValue="#{u}"
+                                                       itemLabel="#{u.nome}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
 
-                <p:outputLabel value="E-mail"  rendered="#{pessoaBean.pessoa.id == null}"/>
-                <p:inputText value="#{pessoaBean.pessoa.email}"
-                             validator="emailValidator"
-                             rendered="#{pessoaBean.pessoa.id == null}"/>
+                        <!-- Dados de Acesso (apenas para novo cadastro) -->
+                        <ui:fragment rendered="#{pessoaBean.pessoa.id == null}">
+                            <div style="margin-bottom: 2.5rem;">
+                                <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                    <i class="pi pi-lock"></i>
+                                    Dados de Acesso
+                                </h2>
+                                <div class="p-grid p-formgrid"
+                                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                    <div class="p-field">
+                                        <p:outputLabel for="email" value="E-mail" style="font-weight: 600;"/>
+                                        <p:inputText id="email"
+                                                     value="#{pessoaBean.pessoa.email}"
+                                                     validator="emailValidator"
+                                                     required="true"
+                                                     requiredMessage="O e-mail é obrigatório"
+                                                     style="width: 100%"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="senha1" value="Senha" style="font-weight: 600;"/>
+                                        <p:password id="senha1"
+                                                    value="#{pessoaBean.pessoa.senha}"
+                                                    match="senha2"
+                                                    feedback="true"
+                                                    promptLabel="Digite a senha"
+                                                    weakLabel="Fraca"
+                                                    goodLabel="Boa"
+                                                    strongLabel="Forte"
+                                                    required="true"
+                                                    requiredMessage="A senha é obrigatória"
+                                                    style="width: 100%"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="senha2" value="Confirmar Senha" style="font-weight: 600;"/>
+                                        <p:password id="senha2"
+                                                    value="#{pessoaBean.senha}"
+                                                    required="true"
+                                                    requiredMessage="Confirme a senha"
+                                                    style="width: 100%"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+                    </div>
 
-                <p:outputLabel value="Senha" rendered="#{pessoaBean.pessoa.id == null}"/>
-                <p:password id="senha1"
-                            value="#{pessoaBean.pessoa.senha}"
-                            match="senha2"
-                            rendered="#{pessoaBean.pessoa.id == null}"/>
-
-                <p:outputLabel value="Redigite a Senha" rendered="#{pessoaBean.pessoa.id == null}"/>
-                <p:password id="senha2"
-                            value="#{pessoaBean.senha}"
-                            rendered="#{pessoaBean.pessoa.id == null}"/>
-
-                <p:outputLabel value="Data de nascimento"/>
-                <p:calendar pattern="dd/MM/yyyy" value="#{pessoaBean.pessoa.nascimento}" showIcon="true"/>
-
-                <p:outputLabel value="Unidade Administrativa"/>
-                <p:selectOneMenu converter="unidadeAdministrativaConverter" value="#{pessoaBean.pessoa.unidadeAdministrativa}">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma Unidade Administrativa"/>
-                    <f:selectItems value="#{unidadeAdministrativaBean.unidades}" var="u" itemValue="#{u}"
-                                   itemLabel="#{u.nome}"/>
-                </p:selectOneMenu>
-            </h:panelGrid>
-
-            <p:button outcome="lista.xhtml" value="Cancelar" icon="pi pi-ban"/>
-            <p:commandButton value="Salvar" action="#{pessoaBean.salvar()}" update="@form" icon="pi pi-save"/>
-        </h:form>
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <p:commandButton value="Salvar"
+                                         action="#{pessoaBean.salvar()}"
+                                         update="@form"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success"/>
+                        <p:button outcome="lista.xhtml"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

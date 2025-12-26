@@ -10,53 +10,85 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="title">
-        Formulários
-    </ui:define>
+    <ui:define name="title">Formulários de Inscrição</ui:define>
 
     <ui:define name="content">
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file-edit"></i>
+                    Formulários de Inscrição
+                </h1>
 
-        <h1>Formulários de Inscrição</h1>
+                <p:link outcome="formulario.xhtml" styleClass="btn-new">
+                    <i class="pi pi-plus"></i>
+                    <span>Cadastrar Formulário</span>
+                </p:link>
+            </div>
 
-        <br/>
+            <div class="content-card">
+                <h:form id="formPapel">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <p:link value="Cadastrar Formulário" outcome="formulario.xhtml"/>
+                    <p:dataTable value="#{formularioBean.formularios}"
+                                 var="formulario"
+                                 paginator="true"
+                                 rows="10"
+                                 rowHover="true"
+                                 paginatorPosition="bottom"
+                                 reflow="true"
+                                 emptyMessage="Nenhum formulário cadastrado">
 
-        <br/><br/>
+                        <p:column headerText="Nome" priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{formulario.nome}" style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{formulario.dataCriacao}"
+                                              style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"
+                                              class="mobile-only">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </p:column>
 
-        <h:form id="formPapel">
+                        <p:column headerText="Data de Criação" priority="2" styleClass="text-center">
+                            <h:outputText value="#{formulario.dataCriacao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-            <p:growl showDetail="true" showSummary="true"/>
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:splitButton value="Detalhes"
+                                           action="detalhes.xhtml"
+                                           icon="pi pi-info-circle"
+                                           styleClass="split-action">
+                                <f:setPropertyActionListener value="#{formulario}"
+                                                             target="#{formularioBean.formulario}"/>
 
-            <p:dataTable value="#{formularioBean.formularios}" var="formulario" paginator="true" rows="10" rowHover="true" responsiveLayout="scroll">
-                <p:column headerText="Nome">
-                    <h:outputText value="#{formulario.nome}"/>
-                </p:column>
+                                <p:menuitem value="Editar"
+                                            action="formulario.xhtml"
+                                            icon="pi pi-pencil">
+                                    <f:setPropertyActionListener value="#{formulario}"
+                                                                 target="#{formularioBean.formulario}"/>
+                                </p:menuitem>
 
-                <p:column headerText="Data de Criação">
-                    <h:outputText value="#{formulario.dataCriacao}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
-
-                <p:column headerText="Operações" styleClass="p-text-center">
-                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="pi pi-info-circle">
-                        <f:setPropertyActionListener value="#{formulario}" target="#{formularioBean.formulario}"/>
-
-                        <p:menuitem value="Editar" action="formulario.xhtml" icon="pi pi-pencil">
-                            <f:setPropertyActionListener value="#{formulario}" target="#{formularioBean.formulario}"/>
-                        </p:menuitem>
-
-                        <p:menuitem value="Perguntas" outcome="/gerente/pergunta/formulario.xhtml" icon="pi pi-question">
-                            <f:param name="formularioID" value="#{formulario.id}"/>
-                        </p:menuitem>
-
-                    </p:splitButton>
-                </p:column>
-            </p:dataTable>
-
-        </h:form>
-
+                                <p:menuitem value="Perguntas"
+                                            outcome="/gerente/pergunta/formulario.xhtml"
+                                            icon="pi pi-question-circle">
+                                    <f:param name="formularioID" value="#{formulario.id}"/>
+                                </p:menuitem>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

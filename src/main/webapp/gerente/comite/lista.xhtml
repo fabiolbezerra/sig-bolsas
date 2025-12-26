@@ -15,65 +15,83 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1> Listagem de Comitês </h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-users"></i>
+                    Listagem de Comitês
+                </h1>
 
-        <br/>
+                <p:link outcome="/coordenador/comite/formulario.xhtml"
+                        rendered="#{papelBean.usuarioLogadoAdministrador or papelBean.usuarioLogadoCoordenador}"
+                        styleClass="btn-new">
+                    <i class="pi pi-plus"></i>
+                    <span>Cadastrar Comitê</span>
+                </p:link>
+            </div>
 
-        <p:link value="Cadastrar Comitê"
-                outcome="/coordenador/comite/formulario.xhtml"
-                rendered="#{papelBean.usuarioLogadoAdministrador or papelBean.usuarioLogadoCoordenador}"/>
+            <div class="content-card">
+                <h:form id="formComite">
+                    <p:growl showDetail="true" showSummary="true"/>
+                    <f:param name="listaid" value="1"/>
 
-        <br/> <br/>
+                    <p:dataTable value="#{comiteBean.comites}" var="comite"
+                                 emptyMessage="Nenhuma informação a ser exibida"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true">
 
-        <h:form id="formComite">
-            <p:growl showDetail="true" showSummary="true"/>
-            <f:param name="listaid" value="1"/>
+                        <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains"
+                                  priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{comite.portaria}" styleClass="portaria-text"
+                                              style="font-weight: 600;"/>
+                                <h:outputText value="Criado por: #{comite.coordenador.nomeCompleto}"
+                                              style="font-size: 0.8rem; color: #666;" class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-            <p:dataTable value="#{comiteBean.comites}" var="comite"
-                         emptyMessage="Nenhuma informação a ser exibida"
-                         paginator="true" rows="10" paginatorPosition="bottom">
-                <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">
-                    <h:outputText value="#{comite.portaria}"/>
-                </p:column>
+                        <p:column headerText="Início da vigência" styleClass="text-center" priority="3">
+                            <h:outputText value="#{comite.inicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Início da vigência">
-                    <h:outputText value="#{comite.inicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Fim da vigência" styleClass="text-center" priority="2">
+                            <h:outputText value="#{comite.fim}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Fim da vigência">
-                    <h:outputText value="#{comite.fim}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Cadastrado por" priority="4">
+                            <h:outputText value="#{comite.coordenador.nomeCompleto}"/>
+                        </p:column>
 
-                <p:column headerText="Cadastrado por">
-                    <h:outputText value="#{comite.coordenador.nomeCompleto}"/>
-                </p:column>
+                        <p:column headerText="Operações" styleClass="text-center action-column">
+                            <p:splitButton value="Detalhes" action="/gerente/comite/detalhes.xhtml"
+                                           icon="pi pi-info-circle" styleClass="split-action">
+                                <f:param name="comite" value="#{comite.id}"/>
+                                <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
 
-                <p:column headerText="Operações">
-
-                    <p:splitButton value="Detalhes" action="/gerente/comite/detalhes.xhtml" icon="fa fa-info-circle">
-                        <f:param name="comite" value="#{comite.id}"/>
-                        <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-
-                        <p:menuitem value="Editar"
-                                    action="/coordenador/comite/formulario.xhtml"
-                                    icon="fa fa-pencil-square-o"
-                                    rendered="#{papelBean.usuarioLogadoAdministrador or papelBean.usuarioLogadoCoordenador}">
-                            <f:param name="comite" value="#{comite.id}"/>
-                            <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-
-                        </p:menuitem>
-                    </p:splitButton>
-                </p:column>
-            </p:dataTable>
-
-            <br/>
-
-        </h:form>
-
+                                <p:menuitem value="Editar"
+                                            action="/coordenador/comite/formulario.xhtml"
+                                            icon="pi pi-pencil"
+                                            rendered="#{papelBean.usuarioLogadoAdministrador or papelBean.usuarioLogadoCoordenador}">
+                                    <f:param name="comite" value="#{comite.id}"/>
+                                    <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+                                </p:menuitem>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

@@ -14,56 +14,147 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>
-            <h:outputText value="#{comiteBean.comite.portaria}"/>
-        </h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-info-circle"></i>
+                    Detalhes do Comitê: <h:outputText value="#{comiteBean.comite.portaria}"/>
+                </h1>
 
-        <h:form id="formComite">
-            <h2>Vigência</h2>
+                <p:button outcome="#{comiteBean.voltar()}"
+                          value="Voltar"
+                          icon="pi pi-arrow-left"
+                          styleClass="ui-button-secondary outline"/>
+            </div>
 
-            <h:outputText value="#{comiteBean.comite.inicio}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </h:outputText>
-            a
-            <h:outputText value="#{comiteBean.comite.fim}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </h:outputText>
+            <div class="content-card">
+                <h:form id="formComite">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h2>Membros</h2>
+                    <!-- Informações Gerais -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-calendar"></i>
+                            Vigência e Período
+                        </h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef; display: inline-block;">
+                            <span style="font-weight: 600; color: #495057;">Período:</span>
+                            <span style="margin-left: 0.5rem; font-size: 1.1rem;">
+                                <h:outputText value="#{comiteBean.comite.inicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <span style="margin: 0 0.5rem; color: #adb5bd;">a</span>
+                                <h:outputText value="#{comiteBean.comite.fim}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </span>
+                        </div>
+                    </div>
 
-            <p:dataList value="#{comiteBean.comite.comitePessoas}" var="membro" emptyMessage="Nenhum membro">
-                <h:outputText value="#{membro.pessoa.nomeCompleto}"/>
-            </p:dataList>
+                    <!-- Coordenador -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-user-edit"></i>
+                            Coordenador Responsável
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Nome completo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{comiteBean.comite.coordenador.nomeCompleto}"
+                                              style="font-weight: 600; color: #212529; font-size: 1rem;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Telefone"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{comiteBean.comite.coordenador.telefone}"
+                                              converter="telefoneConverter" style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="E-mail"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{comiteBean.comite.coordenador.email}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Data de nascimento"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{comiteBean.comite.coordenador.nascimento}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
 
-            <h2>Comitê cadastrado por</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+                        <!-- Membros -->
+                        <p:panel header="Membros do Comitê" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-users" style="margin-right: 0.5rem;"></i>
+                                Membros do Comitê
+                            </f:facet>
+                            <p:dataTable value="#{comiteBean.comite.comitePessoas}" var="membro"
+                                         emptyMessage="Nenhum membro cadastrado"
+                                         styleClass="ui-datatable-sm">
+                                <p:column headerText="Nome do Pesquisador">
+                                    <h:outputText value="#{membro.pessoa.nomeCompleto}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Nome completo:"/>
-                <p:outputLabel value="#{comiteBean.comite.coordenador.nomeCompleto}"/>
+                        <!-- Editais -->
+                        <p:panel header="Editais Vinculados" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-file" style="margin-right: 0.5rem;"></i>
+                                Editais Vinculados
+                            </f:facet>
+                            <p:dataTable value="#{comiteBean.comite.editals}" var="edital"
+                                         emptyMessage="Nenhum edital vinculado"
+                                         styleClass="ui-datatable-sm">
+                                <p:column headerText="Edital">
+                                    <h:outputText value="#{edital.titulo} - #{edital.ano}/#{edital.numero}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
-                <p:outputLabel value="Telefone:"/>
-                <p:outputLabel value="#{comiteBean.comite.coordenador.telefone}" converter="telefoneConverter"/>
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.5rem;
+            }
 
-                <p:outputLabel value="E-mail:"/>
-                <p:outputLabel value="#{comiteBean.comite.coordenador.email}"/>
+            .custom-panel.ui-panel {
+                border: 1px solid #e9ecef !important;
+                border-radius: 8px !important;
+                overflow: hidden;
+            }
 
-                <p:outputLabel value="Data de nascimento:"/>
-                <p:outputLabel value="#{comiteBean.comite.coordenador.nascimento}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </h:panelGrid>
+            .custom-panel .ui-panel-titlebar {
+                background: #f8f9fa !important;
+                border-bottom: 1px solid #e9ecef !important;
+                font-weight: 600 !important;
+                color: #495057 !important;
+                padding: 0.75rem 1rem !important;
+            }
 
-            <h2>Editais que o comitê atua</h2>
+            .custom-panel .ui-panel-content {
+                padding: 0 !important;
+            }
 
-            <p:dataList value="#{comiteBean.comite.editals}" var="edital" emptyMessage="Nenhum edital">
-                <h:outputText value="#{edital.titulo} - #{edital.ano}/#{edital.numero}"/>
-            </p:dataList>
+            .ui-datatable-sm .ui-datatable-thead th {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
 
-            <br/>
-
-            <p:commandLink value="Voltar" action="#{comiteBean.voltar()}"
-                           icon="fa fa-arrow-left" />
-        </h:form>
-
+            .ui-datatable-sm .ui-datatable-data td {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+        </style>
     </ui:define>
 </ui:composition>

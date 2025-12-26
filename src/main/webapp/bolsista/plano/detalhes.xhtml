@@ -9,82 +9,187 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-   <ui:define name="title">
-      Detalhes
-   </ui:define>
+    <ui:define name="title">Detalhes do Plano de Trabalho</ui:define>
 
    <ui:define name="content">
+       <div class="page-container">
+           <div class="page-header">
+               <h1 class="page-title">
+                   <i class="pi pi-clipboard"></i>
+                   #{planoDeTrabalhoBean.planoDeTrabalho.titulo}
+               </h1>
+               <p:commandButton value="Voltar" action="#{planoDeTrabalhoBean.voltar()}" icon="pi pi-arrow-left"
+                                styleClass="ui-button-secondary outline"/>
+           </div>
 
-      <h1>#{planoDeTrabalhoBean.planoDeTrabalho.titulo}</h1>
+           <div class="content-card">
+               <h:form id="formPlanoDeTrabalho">
+                   <p:growl showDetail="true" showSummary="true"/>
 
-      <h:form id="formPlanoDeTrabalho">
+                   <!-- Informações do Plano -->
+                   <div style="margin-bottom: 2.5rem;">
+                       <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                           <i class="pi pi-file"></i>
+                           Dados do Plano de Trabalho
+                       </h2>
+                       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                           <div class="info-group" style="grid-column: 1 / -1;">
+                               <p:outputLabel value="Resumo"
+                                              style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                               <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.resumo}"
+                                             style="font-weight: 600; color: #212529;"/>
+                           </div>
+                           <div class="info-group">
+                               <p:outputLabel value="Data de Cadastro"
+                                              style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                               <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.dataCadastro}"
+                                             style="font-weight: 600; color: #212529;">
+                                   <f:convertDateTime pattern="dd/MM/yyyy"/>
+                               </h:outputText>
+                           </div>
+                       </div>
+                   </div>
 
-         <h:panelGrid columns="2">
-            <p:outputLabel value="Resumo"/>
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.resumo}"/>
+                   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                       <!-- Dados do Pesquisador -->
+                       <p:panel header="Pesquisador" styleClass="custom-panel">
+                           <f:facet name="header">
+                               <i class="pi pi-user" style="margin-right: 0.5rem;"></i>
+                               Pesquisador Responsável
+                           </f:facet>
+                           <div style="padding: 1.5rem;">
+                               <div class="info-group" style="margin-bottom: 1rem;">
+                                   <p:outputLabel value="Nome"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText
+                                           value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.pessoa.nomeCompleto}"
+                                           style="font-weight: 600;"/>
+                               </div>
+                               <div class="info-group" style="margin-bottom: 1rem;">
+                                   <p:outputLabel value="Telefone"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText
+                                           value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.pessoa.telefone}"
+                                           converter="telefoneConverter" style="font-weight: 600;"/>
+                               </div>
+                               <div class="info-group">
+                                   <p:outputLabel value="E-mail"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.pessoa.email}"
+                                                 style="font-weight: 600;"/>
+                               </div>
+                           </div>
+                       </p:panel>
 
-            <p:outputLabel value="Pesquisador"/>
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.pessoa.nomeCompleto}"/>
+                       <!-- Dados do Edital -->
+                       <p:panel header="Edital" styleClass="custom-panel">
+                           <f:facet name="header">
+                               <i class="pi pi-file-edit" style="margin-right: 0.5rem;"></i>
+                               Edital Vinculado
+                           </f:facet>
+                           <div style="padding: 1.5rem;">
+                               <div class="info-group" style="margin-bottom: 1rem;">
+                                   <p:outputLabel value="Título"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.titulo}"
+                                                 style="font-weight: 600;"/>
+                               </div>
+                               <div class="info-group" style="margin-bottom: 1rem;">
+                                   <p:outputLabel value="Ano / Número"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText
+                                           value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.ano} / #{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.numero}"
+                                           style="font-weight: 600;"/>
+                               </div>
+                               <div class="info-group" style="margin-bottom: 1rem;">
+                                   <p:outputLabel value="Situação"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText
+                                           value="#{planoDeTrabalhoBean.obterSituacao(planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.situacao)}"
+                                           style="font-weight: 600;"/>
+                               </div>
+                               <div class="info-group" style="margin-bottom: 1rem;">
+                                   <p:outputLabel value="Tipo"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText
+                                           value="#{planoDeTrabalhoBean.obterTipo(planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.tipo)}"
+                                           style="font-weight: 600;"/>
+                               </div>
+                               <div class="info-group">
+                                   <p:outputLabel value="Período de Inscrições"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <div>
+                                       <h:outputText
+                                               value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.dataInicio}"
+                                               style="font-weight: 600;">
+                                           <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                       </h:outputText>
+                                       <span style="margin: 0 0.3rem; color: #adb5bd;">a</span>
+                                       <h:outputText
+                                               value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.dataFinal}"
+                                               style="font-weight: 600;">
+                                           <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                       </h:outputText>
+                                   </div>
+                               </div>
+                           </div>
+                       </p:panel>
+                   </div>
 
-            <p:outputLabel value="Telefone"/>
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.pessoa.telefone}" converter="telefoneConverter"/>
+                   <!-- Dados da Inscrição (condicional) -->
+                   <ui:fragment rendered="#{!papelBean.usuarioLogadoBolsista}">
+                       <div style="margin-bottom: 2.5rem;">
+                           <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                               <i class="pi pi-check-circle"></i>
+                               Dados da Inscrição
+                           </h2>
+                           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                               <div class="info-group">
+                                   <p:outputLabel value="Protocolo"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.protocolo}"
+                                                 style="font-weight: 600; color: #212529;"/>
+                               </div>
+                               <div class="info-group">
+                                   <p:outputLabel value="Data de Inscrição"
+                                                  style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                   <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.dataInscricao}"
+                                                 style="font-weight: 600; color: #212529;">
+                                       <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                   </h:outputText>
+                               </div>
+                           </div>
+                       </div>
+                   </ui:fragment>
+               </h:form>
+           </div>
+       </div>
 
-            <p:outputLabel value="E-mail"/>
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.pessoa.email}"/>
+       <style type="text/css">
+           .info-group {
+               background: #fff;
+               padding: 0.2rem;
+           }
 
-            <p:outputLabel value="Data de Cadastro"/>
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.dataCadastro}">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </p:outputLabel>
-         </h:panelGrid>
+           .custom-panel.ui-panel {
+               border: 1px solid #e9ecef !important;
+               border-radius: 8px !important;
+               overflow: hidden;
+               height: 100%;
+           }
 
-         <h2>Dados do Edital</h2>
+           .custom-panel .ui-panel-titlebar {
+               background: #f8f9fa !important;
+               border-bottom: 1px solid #e9ecef !important;
+               font-weight: 600 !important;
+               color: #495057 !important;
+               padding: 0.75rem 1rem !important;
+           }
 
-         <h:panelGrid columns="2">
-            <p:outputLabel value="Edital:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.titulo}" />
-
-            <p:outputLabel value="Ano/Número:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.ano} / #{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.numero}"/>
-
-            <p:outputLabel value="Situação:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.obterSituacao(planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.situacao)}" />
-
-            <p:outputLabel value="Tipo:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.obterTipo(planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.tipo)}"/>
-
-            <p:outputLabel value="Início das inscrições:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.dataInicio}">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </p:outputLabel>
-
-            <p:outputLabel value="Fim das inscrições:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.dataFinal}">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </p:outputLabel>
-
-            <p:outputLabel value="Cadastrado:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.edital.dataCadastro}">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </p:outputLabel>
-         </h:panelGrid>
-
-
-         <h:panelGroup rendered="#{!papelBean.usuarioLogadoBolsista}">
-            <h2>Dados da Inscrição</h2>
-         </h:panelGroup>
-         <h:panelGrid columns="2" rendered="#{!papelBean.usuarioLogadoBolsista}">
-            <p:outputLabel value="Protocolo:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.protocolo}" />
-
-            <p:outputLabel value="Data de Inscrição:" />
-            <p:outputLabel value="#{planoDeTrabalhoBean.planoDeTrabalho.inscricao.dataInscricao}">
-               <f:convertDateTime pattern="dd/MM/yyyy" />
-            </p:outputLabel>
-         </h:panelGrid>
-
-         <br/>
-         <p:commandLink value="Voltar" action="#{planoDeTrabalhoBean.voltar()}" icon="fa fa-arrow-circle-left"/>
-      </h:form>
+           .custom-panel .ui-panel-content {
+               padding: 0 !important;
+           }
+       </style>
    </ui:define>
 </ui:composition>
+

@@ -15,33 +15,41 @@
     </ui:define>
 
     <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-key"></i>
+                    Listagem de Papéis (Permissões)
+                </h1>
+            </div>
 
-        <h1>Papéis</h1>
+            <div class="content-card">
+                <h:form id="formPapel">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <br/><br/>
+                    <p:dataTable value="#{papelBean.papeis}" var="papel"
+                                 emptyMessage="Nenhuma informação a ser exibida"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true">
 
-        <h:form id="formPapel">
+                        <p:column headerText="Nome" priority="1">
+                            <h:outputText value="#{papel.nome}" style="font-weight: 600; color: #2c3e50;"/>
+                        </p:column>
 
-            <p:growl showDetail="true" showSummary="true"/>
+                        <p:column headerText="Código" priority="2">
+                            <h:outputText value="#{papel.codigo}"/>
+                        </p:column>
 
-            <p:dataTable value="#{papelBean.papeis}" var="papel" paginator="true" rows="10" rowHover="true" responsiveLayout="scroll">
-                <p:column headerText="Nome">
-                    <h:outputText value="#{papel.nome}"/>
-                </p:column>
-
-                <p:column headerText="Código">
-                    <h:outputText value="#{papel.codigo}"/>
-                </p:column>
-
-                <p:column headerText="Operações" styleClass="p-text-center">
-                    <p:splitButton value="Detalhes" action="detalhes.xhtml" icon="pi pi-info-circle">
-                        <f:setPropertyActionListener value="#{papel}" target="#{papelBean.papel}"/>
-                    </p:splitButton>
-                </p:column>
-            </p:dataTable>
-
-        </h:form>
-
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:commandButton value="Detalhes" action="detalhes.xhtml"
+                                             icon="pi pi-info-circle" styleClass="ui-button-outlined">
+                                <f:setPropertyActionListener value="#{papel}" target="#{papelBean.papel}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

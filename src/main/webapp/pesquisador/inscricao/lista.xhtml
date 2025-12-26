@@ -9,67 +9,79 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">
-        Minhas Inscrições
-    </ui:define>
+    <ui:define name="title">Minhas Inscrições</ui:define>
 
     <ui:define name="content">
-        <h1>Minhas Inscrições</h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-list"></i>
+                    Minhas Inscrições
+                </h1>
+            </div>
 
-        <br/>
+            <div class="content-card">
+                <h:form id="formInscricao">
+                    <p:growl showDetail="true" showSummary="true"/>
+                    <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
 
-        <p:panel header="Dados do Pesquisador" style="margin-bottom: 20px;">
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputText value="Nome:"/>
-                <h:outputText value="#{papelBean.usuarioLogado.nomeCompleto}"/>
+                    <p:dataTable value="#{inscricaoBean.obterPorPesquisador()}"
+                                 var="inscricao"
+                                 emptyMessage="Você ainda não possui inscrições"
+                                 paginator="true"
+                                 rows="10"
+                                 paginatorPosition="bottom"
+                                 reflow="true">
 
-                <h:outputText value="E-mail:"/>
-                <h:outputText value="#{papelBean.usuarioLogado.email}"/>
+                        <p:column headerText="Edital" priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{inscricao.edital.titulo}"
+                                              style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{inscricao.edital.ano}/#{inscricao.edital.numero}"
+                                              style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"
+                                              class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-                <h:outputText value="Telefone:"/>
-                <h:outputText value="#{papelBean.usuarioLogado.telefone}"/>
-            </h:panelGrid>
-        </p:panel>
+                        <p:column headerText="Ano/Número" priority="2" styleClass="text-center">
+                            <h:outputText value="#{inscricao.edital.ano} / #{inscricao.edital.numero}"/>
+                        </p:column>
 
-        <h:form id="formInscricao">
-            <p:growl showDetail="true" showSummary="true"/>
-            <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
+                        <p:column headerText="Período de Inscrições" priority="3">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <h:outputText value="#{inscricao.edital.dataInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <span style="color: #adb5bd;">a</span>
+                                <h:outputText value="#{inscricao.edital.dataFinal}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </p:column>
 
-            <p:dataTable value="#{inscricaoBean.obterPorPesquisador()}" var="inscricao"
-                         emptyMessage="Nenhuma inscrição encontrada"
-                         paginator="true" rows="10" paginatorPosition="bottom">
-                <p:column headerText="Edital">
-                    <h:outputText value="#{inscricao.edital.titulo}"/>
-                </p:column>
-
-                <p:column headerText="Ano/Número">
-                    <h:outputText value="#{inscricao.edital.ano} / #{inscricao.edital.numero}"/>
-                </p:column>
-
-                <p:column headerText="Período">
-                    <h:outputText value="#{inscricao.edital.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                    a
-                    <h:outputText value="#{inscricao.edital.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
-
-                <p:column headerText=" ">
-                    <p:commandButton value="Planos de trabalho"
-                                     action="/pesquisador/plano/lista-pesquisador.xhtml" icon="fa fa-search"
-                                     styleClass="ui-button-danger"
-                                     update="@form"
-                                     ajax="true">
-                        <f:param name="editalID" value="#{inscricao.edital.id}"/>
-                        <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
-                        <f:param name="inscricaoID" value="#{inscricao.id}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </h:form>
-
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:commandButton value="Planos de Trabalho"
+                                             action="/pesquisador/plano/lista-pesquisador.xhtml"
+                                             icon="pi pi-clipboard"
+                                             styleClass="ui-button-info"
+                                             update="@form"
+                                             ajax="true">
+                                <f:param name="editalID" value="#{inscricao.edital.id}"/>
+                                <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
+                                <f:param name="inscricaoID" value="#{inscricao.id}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

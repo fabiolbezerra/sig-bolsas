@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -19,19 +20,452 @@
 
     <!-- Estilos Globais Adicionais -->
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            background-color: #f4f6f9; /* Fundo cinza suave */
+            background-color: #f4f6f9;
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
         .center_content {
-            padding: 10px;
+            padding: 0;
+            min-height: calc(100vh - 70px);
         }
-        /* Remove bordas e sombras do layout antigo se necessário */
+
+        /* Navbar Superior Moderna */
         .top {
-            border-bottom: 1px solid #dee2e6;
+            background: #036fab !important;
+            padding: 0 !important;
+            height: 70px !important;
+            display: flex !important;
+            align-items: center !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        .navbar-container {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            padding: 0 2rem !important;
+        }
+
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.75rem !important;
+            color: white !important;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
+        }
+
+        .navbar-brand i {
+            font-size: 2rem !important;
+        }
+
+        .navbar-user {
+            display: flex !important;
+            align-items: center !important;
+            gap: 1.5rem !important;
+            flex: 1 !important;
+            justify-content: flex-end !important;
+        }
+
+        .user-info {
+            display: flex !important;
+            align-items: center !important;
+            gap: 1rem !important;
+            color: white !important;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .user-roles {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .user-role-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .navbar-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .navbar-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            padding: 0;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            box-sizing: border-box;
+        }
+
+        .navbar-btn span {
+            display: none;
+        }
+
+        .navbar-btn i {
+            margin: 0 !important;
+        }
+
+        .navbar-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+            text-decoration: none !important;
+        }
+
+        .navbar-btn.primary {
+            background: white !important;
+            color: #036fab !important;
+            border-color: white !important;
+        }
+
+        .navbar-btn.primary:hover {
+            background: #f8f9fa !important;
+            color: #035a8c !important;
+        }
+
+        /* Ajustes específicos para PrimeFaces MenuButton na navbar */
+        .navbar-actions .ui-menubutton {
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            vertical-align: middle !important;
+            height: 38px !important;
+            width: 38px !important;
+        }
+
+        .navbar-actions .ui-menubutton button {
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: white !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            padding: 0 !important;
+            border-radius: 6px !important;
+            font-size: 1.1rem !important;
+            height: 38px !important;
+            width: 38px !important;
+            min-width: 38px !important;
+            transition: all 0.3s ease !important;
+            font-family: inherit !important;
+            font-weight: normal !important;
+            box-shadow: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .navbar-actions .ui-menubutton button:hover {
+            background: rgba(255, 255, 255, 0.25) !important;
+        }
+
+        .navbar-actions .ui-menubutton button .ui-button-text {
+            display: none !important;
+        }
+
+        .navbar-actions .ui-menubutton button .ui-button-icon-left {
+            position: static !important;
+            display: inline-block !important;
+            margin: 0 !important;
+            font-size: 1.1rem !important;
+        }
+
+        .navbar-actions .ui-menubutton button .ui-icon-triangle-1-s {
+            display: none !important;
+        }
+
+        /* Dropdown Menu e Ajustes PrimeFaces */
+        .ui-menu.ui-widget {
+            padding: 0.5rem !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid #e9ecef !important;
+        }
+
+        .ui-menu .ui-menuitem-link {
+            padding: 0.6rem 1rem !important;
+            border-radius: 4px !important;
+            transition: background 0.2s !important;
+        }
+
+        .ui-menu .ui-menuitem-link:hover {
+            background: #f8f9fa !important;
+        }
+
+        .ui-menu .ui-menuitem-icon {
+            color: #036fab !important;
+        }
+
+        /* Dropdown Menu */
+        .user-menu {
+            position: relative;
+        }
+
+        .user-menu-trigger {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .user-menu-trigger:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 0 1rem !important;
+                gap: 0.5rem !important;
+            }
+
+            .navbar-brand span {
+                display: none;
+            }
+
+            .navbar-brand i {
+                font-size: 1.5rem !important;
+            }
+
+            .navbar-user {
+                gap: 0.5rem !important;
+            }
+
+            form[id$="form_menu"] {
+                gap: 0.5rem !important;
+            }
+
+            .user-info {
+                gap: 0.5rem !important;
+            }
+
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .navbar-actions {
+                gap: 0.25rem;
+            }
+
+            .navbar-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+
+            .navbar-actions .ui-menubutton,
+            .navbar-actions .ui-menubutton button {
+                width: 34px !important;
+                height: 34px !important;
+                min-width: 34px !important;
+            }
+
+            .navbar-actions .ui-menubutton button .ui-button-icon-left {
+                font-size: 1rem !important;
+            }
+
+            /* Ajustes de Layout Mobile */
+            .page-container {
+                padding: 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem !important;
+            }
+
+            .btn-new {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Classes de Layout para Conteúdo */
+        .page-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
             background: white;
-            padding: 1rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            margin: 0 !important;
+            border-bottom: none !important;
+            color: #495057 !important;
+            font-size: 1.75rem !important;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-title i {
+            color: #036fab;
+        }
+
+        .content-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Customização PrimeFaces DataTable */
+        .text-center {
+            text-align: center !important;
+        }
+
+        .portaria-text {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .action-column {
+            width: 150px;
+        }
+
+        .split-action {
+            width: 100%;
+        }
+
+        .split-action button {
+            width: auto !important;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hide {
+                display: none !important;
+            }
+
+            .action-column {
+                width: auto !important;
+            }
+
+            .split-action {
+                width: 100% !important;
+            }
+
+            .split-action .ui-button {
+                width: 100% !important;
+            }
+        }
+
+        .ui-datatable thead th {
+            background: #f8f9fa !important;
+            color: #495057 !important;
+            padding: 1rem !important;
+            font-weight: 600 !important;
+            border-color: #e9ecef !important;
+        }
+
+        .ui-datatable tbody td {
+            padding: 0.75rem 1rem !important;
+            border-color: #f1f3f5 !important;
+        }
+
+        .ui-datatable .ui-datatable-data tr.ui-widget-content:hover {
+            background-color: #f8f9fa !important;
+        }
+
+        .ui-datatable .ui-paginator {
+            background: white !important;
+            border: none !important;
+            padding: 1rem !important;
+        }
+
+        /* Botões de Ação na Lista */
+        .btn-new {
+            background-color: #28a745 !important;
+            color: white !important;
+            border: none !important;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 6px !important;
+            font-weight: 600 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            text-decoration: none !important;
+            transition: background 0.2s !important;
+        }
+
+        .btn-new:hover {
+            background-color: #218838 !important;
         }
     </style>
 </h:head>
@@ -40,22 +474,80 @@
 
     <div id="top" class="top">
         <ui:insert name="top">
-            <p:outputPanel rendered="#{papelBean.usuarioLogado != null}">
-                Olá #{papelBean.usuarioLogado.nomeCompleto}!
+            <p:outputPanel rendered="#{papelBean.usuarioLogado != null}" style="width: 100%;">
+                <div class="navbar-container">
+                    <!-- Logo/Brand -->
+                    <h:link outcome="#{papelBean.irParaPaginaPrincipal()}" styleClass="navbar-brand">
+                        <i class="pi pi-graduation-cap"></i>
+                        <span>SIG Bolsas</span>
+                    </h:link>
+                    <!-- User Section -->
+                    <div class="navbar-user">
+                        <h:form id="form_menu"
+                                style="display: flex; align-items: center; gap: 1.5rem; justify-content: flex-end;">
+                            <!-- User Info with Avatar -->
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    #{papelBean.usuarioLogado.nomeCompleto.substring(0,1).toUpperCase()}
+                                </div>
+                                <div class="user-details">
+                                    <div class="user-name">
+                                        #{papelBean.usuarioLogado.nomeCompleto}
+                                    </div>
+                                    <div class="user-roles">
+                                        <ui:repeat value="#{papelBean.usuarioLogado.pessoaPapels}" var="permissao">
+                                            <span class="user-role-badge">#{permissao.papel.nome}</span>
+                                        </ui:repeat>
+                                    </div>
+                                </div>
+                            </div>
 
-                <div class="top_direita">
-                    <p:link value="Início" outcome="#{papelBean.irParaPaginaPrincipal()}"/> |
-                    <p:link value="Alterar senha" outcome="/pesquisador/principal.xhtml"/> |
-                    <p:link value="Alterar e-mail" outcome="/pesquisador/principal.xhtml"/> |
-                    <p:link href="#{request.contextPath}/j_spring_security_logout" value="Sair"/>
+                            <!-- Action Buttons -->
+                            <div class="navbar-actions">
+                                <h:link outcome="#{papelBean.irParaPaginaPrincipal()}" styleClass="navbar-btn"
+                                        title="Início">
+                                    <i class="pi pi-home"></i>
+                                    <span>Início</span>
+                                </h:link>
+
+                                <p:menuButton icon="pi pi-user" styleClass="navbar-btn" title="Perfil">
+                                    <p:menuitem value="Alterar Senha"
+                                                icon="pi pi-lock"
+                                                outcome="/bolsista/pessoa/formulario-senha.xhtml">
+                                        <f:param name="pessoaID" value="#{papelBean.usuarioLogado.id}"/>
+                                    </p:menuitem>
+                                    <p:menuitem value="Alterar E-mail"
+                                                icon="pi pi-envelope"
+                                                outcome="/bolsista/pessoa/formulario-email.xhtml">
+                                        <f:param name="pessoaID" value="#{papelBean.usuarioLogado.id}"/>
+                                    </p:menuitem>
+                                    <p:separator/>
+                                    <p:menuitem value="Meu Perfil"
+                                                icon="pi pi-user"
+                                                outcome="/bolsista/pessoa/detalhes.xhtml">
+                                        <f:param name="pessoaID" value="#{papelBean.usuarioLogado.id}"/>
+                                    </p:menuitem>
+                                </p:menuButton>
+
+                                <h:outputLink value="#{request.contextPath}/j_spring_security_logout"
+                                              styleClass="navbar-btn primary" title="Sair">
+                                    <i class="pi pi-sign-out"></i>
+                                    <span>Sair</span>
+                                </h:outputLink>
+                            </div>
+                        </h:form>
+                    </div>
                 </div>
-                <br/>
             </p:outputPanel>
-            <p:outputPanel rendered="#{papelBean.usuarioLogado != null}">
-                |
-                <ui:repeat value="#{papelBean.usuarioLogado.pessoaPapels}" var="permissao">
-                    #{permissao.papel.nome} |
-                </ui:repeat>
+
+            <!-- Fallback quando não há usuário logado -->
+            <p:outputPanel rendered="#{papelBean.usuarioLogado == null}" style="width: 100%;">
+                <div class="navbar-container">
+                    <h:link outcome="/index.xhtml" styleClass="navbar-brand">
+                        <i class="pi pi-graduation-cap"></i>
+                        <span>SIG Bolsas</span>
+                    </h:link>
+                </div>
             </p:outputPanel>
         </ui:insert>
     </div>

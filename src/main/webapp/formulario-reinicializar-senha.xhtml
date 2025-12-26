@@ -7,31 +7,87 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
     <ui:define name="title">
         Reinicializar Senha
     </ui:define>
 
+    <!-- Removemos o topo padrão para esta tela ficar limpa -->
+    <ui:define name="top">
+        <h2></h2>
+    </ui:define>
+
     <ui:define name="content">
-        <h1> Reinicializar Senha</h1>
 
-        <br/>
+        <!-- CSS Exclusivo para centralizar a tela de recuperação de senha -->
+        <style>
+            .login-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 90vh; /* Ocupa quase toda a altura da tela */
+            }
 
-        <h:form id="formSenha">
-            <p:growl showDetail="true" showSummary="true"/>
+            .login-card {
+                background-color: white;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 400px; /* Largura máxima do cartão */
+            }
 
-            <h:inputHidden value="#{pessoaBean.novoEmail}"/>
+            .login-logo {
+                text-align: center;
+                margin-bottom: 2rem;
+                color: #495057;
+            }
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="E-mail Cadastrado:" />
-                <p:inputText value="#{pessoaBean.novoEmail}" style="width: 400px;"
-                             validator="emailValidator" />
-            </h:panelGrid>
+            .login-footer {
+                text-align: center;
+                margin-top: 1.5rem;
+                font-size: 0.9em;
+            }
+        </style>
 
-            <p:button outcome="index.xhtml" value="Cancelar" icon="fa fa-ban"/>
-            <p:commandButton value="Redefinir Senha" action="#{pessoaBean.enviarEmailRenicializacaoDeSenha()}" update="@form"/>
-        </h:form>
+        <div class="login-container">
+            <div class="login-card ui-fluid">
+
+                <div class="login-logo">
+                    <h2>SIG Bolsas</h2>
+                    <p style="color: #6c757d;">Recuperar senha</p>
+                </div>
+
+                <h:form id="formSenha">
+                    <p:growl showDetail="true" showSummary="true"/>
+
+                    <h:inputHidden value="#{pessoaBean.novoEmail}"/>
+
+                    <div class="p-field" style="margin-bottom: 1.5rem;">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></span>
+                            <p:inputText id="email" value="#{pessoaBean.novoEmail}"
+                                         placeholder="Digite seu e-mail cadastrado"
+                                         required="true"
+                                         validator="emailValidator"
+                                         style="width: 100%"/>
+                        </div>
+                    </div>
+
+                    <p:commandButton value="REDEFINIR SENHA"
+                                     action="#{pessoaBean.enviarEmailRenicializacaoDeSenha()}"
+                                     update="@form"
+                                     style="width: 100%; height: 40px; background: #007ad9; color: white; border: none; font-weight: bold;"/>
+
+                    <div class="login-footer">
+                        <p:link value="Voltar para o login" outcome="index.xhtml"
+                                style="color: #007ad9; font-weight: bold;"/>
+                    </div>
+
+                </h:form>
+            </div>
+        </div>
+
     </ui:define>
 </ui:composition>

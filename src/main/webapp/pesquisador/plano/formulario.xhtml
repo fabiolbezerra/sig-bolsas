@@ -10,35 +10,98 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-   <ui:define name="title">
-      Cadastro de Plano de Trabalho
-   </ui:define>
+    <ui:define name="title">Cadastro de Plano de Trabalho</ui:define>
 
    <ui:define name="content">
-      <h1>Plano de Trabalho</h1>
-      <h:form id="formPlanoDeTrabalho">
-         <p:growl showDetail="true" showSummary="true"/>
+       <div class="page-container">
+           <div class="page-header">
+               <h1 class="page-title">
+                   <i class="pi pi-clipboard"></i>
+                   Cadastro de Plano de Trabalho
+               </h1>
+           </div>
 
-         <h:panelGrid columns="2">
-            <p:outputLabel value="Título" for="titulo"/>
-            <p:inputText id="titulo" value="#{planoDeTrabalhoBean.planoDeTrabalho.titulo}"
-                         required="true" requiredMessage="O título é obrigatório"
-                         style="width: 400px;"/>
+           <div class="content-card">
+               <h:form id="formPlanoDeTrabalho">
+                   <p:growl showDetail="true" showSummary="true"/>
 
-            <p:outputLabel value="Resumo" for="resumo"/>
-            <p:inputTextarea id="resumo" value="#{planoDeTrabalhoBean.planoDeTrabalho.resumo}"
-                             rows="5" cols="50" autoResize="false"
-                             required="true" requiredMessage="O resumo é obrigatório"/>
+                   <h:inputHidden value="#{planoDeTrabalhoBean.planoDeTrabalho.id}"/>
 
-            <p:outputLabel value="Data de Cadastro" rendered="#{planoDeTrabalhoBean.planoDeTrabalho.id != null}"/>
-            <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.dataCadastro}" rendered="#{planoDeTrabalhoBean.planoDeTrabalho.id != null}">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </h:outputText>
-         </h:panelGrid>
-         <br/><br/>
-         <p:button outcome = "/pesquisador/inscricao/lista.xhtml?faces-redirect=true" value="Cancelar" icon="fa fa-ban"/>
-         <p:commandButton value="Salvar" action="#{planoDeTrabalhoBean.salvar()}"
-                          update="@form" icon="fa fa-floppy-o" process="@form"/>
-      </h:form>
+                   <div class="ui-fluid">
+                       <!-- Dados do Plano -->
+                       <div style="margin-bottom: 2.5rem;">
+                           <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                               <i class="pi pi-file"></i>
+                               Dados do Plano de Trabalho
+                           </h2>
+                           <div class="p-grid p-formgrid"
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                               <div class="p-field" style="grid-column: 1 / -1;">
+                                   <p:outputLabel for="titulo" value="Título" style="font-weight: 600;"/>
+                                   <p:inputText id="titulo"
+                                                value="#{planoDeTrabalhoBean.planoDeTrabalho.titulo}"
+                                                required="true"
+                                                requiredMessage="O título é obrigatório"
+                                                style="width: 100%"
+                                                placeholder="Digite o título do plano de trabalho"/>
+                               </div>
+                               <div class="p-field" style="grid-column: 1 / -1;">
+                                   <p:outputLabel for="resumo" value="Resumo" style="font-weight: 600;"/>
+                                   <p:inputTextarea id="resumo"
+                                                    value="#{planoDeTrabalhoBean.planoDeTrabalho.resumo}"
+                                                    rows="5"
+                                                    autoResize="false"
+                                                    required="true"
+                                                    requiredMessage="O resumo é obrigatório"
+                                                    style="width: 100%"
+                                                    placeholder="Digite o resumo do plano de trabalho"/>
+                               </div>
+                           </div>
+                       </div>
+
+                       <!-- Dados de Cadastro (apenas para edição) -->
+                       <ui:fragment rendered="#{planoDeTrabalhoBean.planoDeTrabalho.id != null}">
+                           <div style="margin-bottom: 2.5rem;">
+                               <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                   <i class="pi pi-info-circle"></i>
+                                   Informações de Cadastro
+                               </h2>
+                               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                                   <div class="info-group">
+                                       <p:outputLabel value="Data de Cadastro"
+                                                      style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                       <h:outputText value="#{planoDeTrabalhoBean.planoDeTrabalho.dataCadastro}"
+                                                     style="font-weight: 600; color: #212529;">
+                                           <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                       </h:outputText>
+                                   </div>
+                               </div>
+                           </div>
+                       </ui:fragment>
+                   </div>
+
+                   <!-- Botões de Ação -->
+                   <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                       <p:commandButton value="Salvar"
+                                        action="#{planoDeTrabalhoBean.salvar()}"
+                                        update="@form"
+                                        process="@form"
+                                        icon="pi pi-check"
+                                        styleClass="ui-button-success"/>
+                       <p:button outcome="/pesquisador/inscricao/lista.xhtml"
+                                 value="Cancelar"
+                                 icon="pi pi-times"
+                                 styleClass="ui-button-secondary outline"/>
+                   </div>
+               </h:form>
+           </div>
+       </div>
+
+       <style type="text/css">
+           .info-group {
+               background: #fff;
+               padding: 0.5rem;
+           }
+       </style>
    </ui:define>
 </ui:composition>

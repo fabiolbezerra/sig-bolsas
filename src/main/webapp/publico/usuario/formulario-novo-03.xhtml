@@ -7,90 +7,170 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
->
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">
-        Dados da Conta
-    </ui:define>
+    <ui:define name="title">Dados da Conta</ui:define>
 
     <ui:define name="content">
-        <h1>Dados da Conta</h1>
-        <h:form id="formPessoa">
-            <p:growl showDetail="true" showSummary="true"/>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-user-plus"></i>
+                    Criar Nova Conta
+                </h1>
+            </div>
 
-            <h:inputHidden value="#{autoCadastroBean.pessoa.id}"/>
-            <h:inputHidden value="#{autoCadastroBean.pessoa.senha}"/>
-            <h:panelGrid columns="4">
-                <p:selectManyCheckbox value="#{autoCadastroBean.papeis}"
-                                      required="true"
-                                      requiredMessage="Por favor, escolha um papel: Pesquisador ou Bolsista."
-                                      converter="papelConverter">
-                    <f:selectItems value="#{papelBean.getlistarPerfil()}"
-                                   var="papel"
-                                   itemLabel="#{papel.nome}"
-                                   itemValue="#{papel}"/>
-                </p:selectManyCheckbox>
-            </h:panelGrid>
-            <h:panelGrid columns="2">
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-                <p:outputLabel value="Nome completo"/>
-                <p:inputText value="#{autoCadastroBean.pessoa.nomeCompleto}"
-                             required="true"
-                             requiredMessage="Informe o seu nome completo para prosseguir."
-                             validator="nomeCompletoValidator"/>
+                    <h:inputHidden value="#{autoCadastroBean.pessoa.id}"/>
+                    <h:inputHidden value="#{autoCadastroBean.pessoa.senha}"/>
 
-                <p:outputLabel value="Telefone"/>
-                <p:inputMask mask="(99) 99999-9999"
-                             value="#{autoCadastroBean.pessoa.telefone}"
-                             required="true"
-                             requiredMessage="Por favor, insira um número de telefone válido."
-                             converter="telefoneConverter"/>
+                    <div class="ui-fluid">
+                        <!-- Seleção de Perfil -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-shield"></i>
+                                Selecione seu Perfil
+                            </h2>
+                            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                                <p:outputLabel value="Eu sou:"
+                                               style="display: block; margin-bottom: 1rem; font-weight: 600; color: #495057;"/>
+                                <p:selectManyCheckbox value="#{autoCadastroBean.papeis}"
+                                                      required="true"
+                                                      requiredMessage="Por favor, escolha um papel: Pesquisador ou Bolsista"
+                                                      converter="papelConverter"
+                                                      layout="grid"
+                                                      columns="2">
+                                    <f:selectItems value="#{papelBean.getlistarPerfil()}"
+                                                   var="papel"
+                                                   itemLabel="#{papel.nome}"
+                                                   itemValue="#{papel}"/>
+                                </p:selectManyCheckbox>
+                            </div>
+                        </div>
 
-                <p:outputLabel value="E-mail"/>
-                <p:inputText value="#{autoCadastroBean.pessoa.email}"
-                             required="true" label="E-mail"
-                             requiredMessage="Insira um endereço de e-mail."
-                             validator="emailValidator"
-                             />
+                        <!-- Dados Pessoais -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-user"></i>
+                                Dados Pessoais
+                            </h2>
+                            <div class="p-grid p-formgrid"
+                                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div class="p-field">
+                                    <p:outputLabel for="nomeCompleto" value="Nome Completo" style="font-weight: 600;"/>
+                                    <p:inputText id="nomeCompleto"
+                                                 value="#{autoCadastroBean.pessoa.nomeCompleto}"
+                                                 validator="nomeCompletoValidator"
+                                                 required="true"
+                                                 requiredMessage="Informe o seu nome completo para prosseguir"
+                                                 style="width: 100%"
+                                                 placeholder="Digite seu nome completo"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="telefone" value="Telefone" style="font-weight: 600;"/>
+                                    <p:inputMask id="telefone"
+                                                 mask="(99) 99999-9999"
+                                                 value="#{autoCadastroBean.pessoa.telefone}"
+                                                 converter="telefoneConverter"
+                                                 required="true"
+                                                 requiredMessage="Por favor, insira um número de telefone válido"
+                                                 style="width: 100%"
+                                                 placeholder="(00) 00000-0000"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="nascimento" value="Data de Nascimento"
+                                                   style="font-weight: 600;"/>
+                                    <p:calendar id="nascimento"
+                                                pattern="dd/MM/yyyy"
+                                                value="#{autoCadastroBean.pessoa.nascimento}"
+                                                showOn="button"
+                                                required="true"
+                                                requiredMessage="Informe sua data de nascimento no formato dd/mm/aaaa"
+                                                placeholder="dd/mm/aaaa"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="unidade" value="Unidade Administrativa"
+                                                   style="font-weight: 600;"/>
+                                    <p:selectOneMenu id="unidade"
+                                                     converter="unidadeAdministrativaConverter"
+                                                     value="#{autoCadastroBean.pessoa.unidadeAdministrativa}"
+                                                     style="width: 100%">
+                                        <f:selectItem noSelectionOption="true"
+                                                      itemLabel="Selecione uma Unidade Administrativa"/>
+                                        <f:selectItems value="#{unidadeAdministrativaBean.unidades}"
+                                                       var="u"
+                                                       itemValue="#{u}"
+                                                       itemLabel="#{u.nome}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
 
-                <p:outputLabel value="Senha" rendered="#{autoCadastroBean.pessoa.id == null}"/>
-                <p:password id="senha1"
-                            value="#{autoCadastroBean.pessoa.senha}"
-                            required="true"
-                            requiredMessage="Crie uma senha segura."
-                            match="senha2"
-                            rendered="#{autoCadastroBean.pessoa.id == null}"/>
+                        <!-- Dados de Acesso -->
+                        <ui:fragment rendered="#{autoCadastroBean.pessoa.id == null}">
+                            <div style="margin-bottom: 2.5rem;">
+                                <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                    <i class="pi pi-lock"></i>
+                                    Dados de Acesso
+                                </h2>
+                                <div class="p-grid p-formgrid"
+                                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                    <div class="p-field">
+                                        <p:outputLabel for="email" value="E-mail" style="font-weight: 600;"/>
+                                        <p:inputText id="email"
+                                                     value="#{autoCadastroBean.pessoa.email}"
+                                                     validator="emailValidator"
+                                                     required="true"
+                                                     requiredMessage="Insira um endereço de e-mail válido"
+                                                     style="width: 100%"
+                                                     placeholder="seu@email.com"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="senha1" value="Senha" style="font-weight: 600;"/>
+                                        <p:password id="senha1"
+                                                    value="#{autoCadastroBean.pessoa.senha}"
+                                                    match="senha2"
+                                                    feedback="true"
+                                                    promptLabel="Digite a senha"
+                                                    weakLabel="Fraca"
+                                                    goodLabel="Boa"
+                                                    strongLabel="Forte"
+                                                    required="true"
+                                                    requiredMessage="Crie uma senha segura"
+                                                    style="width: 100%"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="senha2" value="Confirmar Senha" style="font-weight: 600;"/>
+                                        <p:password id="senha2"
+                                                    value="#{autoCadastroBean.senha}"
+                                                    required="true"
+                                                    requiredMessage="Digite novamente a senha para confirmação"
+                                                    style="width: 100%"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+                    </div>
 
-                <p:outputLabel value="Redigite a Senha" rendered="#{autoCadastroBean.pessoa.id == null}"/>
-                <p:password id="senha2"
-                            value="#{autoCadastroBean.senha}"
-                            required="true"
-                            requiredMessage="Digite novamente a senha para confirmação."
-                            rendered="#{autoCadastroBean.pessoa.id == null}"/>
-
-                <p:outputLabel value="Data de nascimento"/>
-                <p:calendar pattern="dd/MM/yyyy"
-                            value="#{autoCadastroBean.pessoa.nascimento}"
-                            required="true"
-                            requiredMessage="Informe sua data de nascimento no formato dd/mm/aaaa."/>
-
-                <p:outputLabel value="Unidade Administrativa"/>
-                <p:selectOneMenu converter="unidadeAdministrativaConverter" value="#{autoCadastroBean.pessoa.unidadeAdministrativa}">
-                <f:selectItem noSelectionOption="true" itemLabel="Selecione uma Unidade Administrativa"/>
-                <f:selectItems value="#{unidadeAdministrativaBean.unidades}" var="u" itemValue="#{u}"
-                               itemLabel="#{u.nome}"/>
-                </p:selectOneMenu>
-
-            </h:panelGrid>
-            <h:panelGrid columns="2">
-                <p:button outcome="/index.xhtml" value="Cancelar" form = "none" icon="fa fa-ban"/>
-                <p:commandButton value="Salvar"
-                                 action="#{autoCadastroBean.salvar}"
-                                 update="@form"
-                                 process="@form"
-                                 icon="fa fa-floppy-o"/>
-            </h:panelGrid>
-        </h:form>
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <p:commandButton value="Criar Conta"
+                                         action="#{autoCadastroBean.salvar}"
+                                         update="@form"
+                                         process="@form"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success"/>
+                        <p:button outcome="/index.xhtml"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>
+

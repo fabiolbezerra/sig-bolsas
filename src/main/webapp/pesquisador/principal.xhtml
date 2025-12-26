@@ -6,23 +6,173 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:p="http://primefaces.org/ui"
 >
 
-    <ui:define name="title">
-        Página Inicial
-    </ui:define>
-
+    <ui:define name="title">Dashboard - Pesquisador</ui:define>
 
     <ui:define name="content">
-        <p:card style="max-width: 700px; margin: 0 auto;">
-            <f:facet name="title">Página Inicial do Pesquisador</f:facet>
-            <p:panelGrid columns="2" layout="grid" styleClass="p-mt-3" columnClasses="p-pr-2,p-pr-2">
-                <p:linkButton value="Editais Abertos" outcome="/bolsista/edital/lista-abertos.xhtml" icon="pi pi-folder-open"/>
-                <p:linkButton value="Minhas Inscrições" outcome="/pesquisador/inscricao/lista.xhtml" icon="pi pi-list"/>
-            </p:panelGrid>
-        </p:card>
+
+        <style type="text/css">
+            .dashboard-container {
+                padding: 2rem;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .dashboard-header {
+                margin-bottom: 2rem;
+            }
+
+            .dashboard-header h1 {
+                color: #495057;
+                font-size: 2rem;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .dashboard-header p {
+                color: #6c757d;
+                margin: 0;
+            }
+
+            .dashboard-section {
+                margin-bottom: 2.5rem;
+            }
+
+            .dashboard-section-title {
+                color: #495057;
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #e9ecef;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .dashboard-card {
+                background: white;
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                border-left: 4px solid transparent;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dashboard-card:hover {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+                transform: translateY(-2px);
+            }
+
+            .dashboard-card.blue {
+                border-left-color: #007ad9;
+            }
+
+            .dashboard-card.green {
+                border-left-color: #28a745;
+            }
+
+            .dashboard-card.orange {
+                border-left-color: #fd7e14;
+            }
+
+            .dashboard-card.purple {
+                border-left-color: #6f42c1;
+            }
+
+            .dashboard-card.red {
+                border-left-color: #dc3545;
+            }
+
+            .dashboard-card.teal {
+                border-left-color: #20c997;
+            }
+
+            .card-icon {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                display: block;
+            }
+
+            .card-icon.blue {
+                color: #007ad9;
+            }
+
+            .card-icon.green {
+                color: #28a745;
+            }
+
+            .card-icon.orange {
+                color: #fd7e14;
+            }
+
+            .card-icon.purple {
+                color: #6f42c1;
+            }
+
+            .card-icon.red {
+                color: #dc3545;
+            }
+
+            .card-icon.teal {
+                color: #20c997;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #495057;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+                color: #6c757d;
+                line-height: 1.5;
+            }
+        </style>
+
+        <div class="dashboard-container">
+
+            <div class="dashboard-header">
+                <h1>Painel do Pesquisador</h1>
+                <p>Acesse editais e gerencie suas inscrições</p>
+            </div>
+
+            <!-- Seção: Minhas Ações -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-user" style="margin-right: 0.5rem;"></i>
+                    Minhas Ações
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/bolsista/edital/lista-abertos.xhtml" styleClass="dashboard-card blue">
+                        <span class="card-icon blue">
+                            <i class="pi pi-folder-open"></i>
+                        </span>
+                        <h3 class="card-title">Editais Abertos</h3>
+                        <p class="card-description">Consulte editais disponíveis para inscrição</p>
+                    </h:link>
+
+                    <h:link outcome="/pesquisador/inscricao/lista.xhtml" styleClass="dashboard-card green">
+                        <span class="card-icon green">
+                            <i class="pi pi-list"></i>
+                        </span>
+                        <h3 class="card-title">Minhas Inscrições</h3>
+                        <p class="card-description">Acompanhe suas inscrições e planos de trabalho</p>
+                    </h:link>
+                </div>
+            </div>
+
+        </div>
+
     </ui:define>
 
 </ui:composition>
+

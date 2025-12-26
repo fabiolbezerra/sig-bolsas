@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Alterar E-mail</ui:define>
+
+    <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-at"></i>
+                    Alterar E-mail
+                </h1>
+                <p:button outcome="#{pessoaBean.cancelar()}" value="Cancelar" icon="pi pi-times"
+                          styleClass="ui-button-secondary outline"/>
+            </div>
+
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
+
+                    <h:inputHidden value="#{pessoaBean.pessoa.email}"/>
+                    <h:inputHidden value="#{pessoaBean.pessoa.senha}"/>
+
+                    <div class="ui-fluid">
+                        <!-- Informações do Usuário (Read-only) -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-user"></i>
+                                Dados do Usuário
+                            </h2>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                                <div class="info-group">
+                                    <p:outputLabel value="Nome Completo"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.nomeCompleto}"
+                                                  style="font-weight: 600; color: #212529;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Telefone"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.telefone}" converter="telefoneConverter"
+                                                  style="font-weight: 600; color: #212529;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="E-mail Atual"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.email}"
+                                                  style="font-weight: 600; color: #212529;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Data de Nascimento"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.nascimento}"
+                                                  style="font-weight: 600; color: #212529;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alteração de E-mail -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-envelope"></i>
+                                Novo E-mail
+                            </h2>
+
+                            <!-- Aviso de Segurança -->
+                            <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #007ad9; margin-bottom: 2rem;">
+                                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                    <i class="pi pi-info-circle"
+                                       style="font-size: 1.5rem; color: #007ad9; margin-top: 0.2rem;"></i>
+                                    <div>
+                                        <h3 style="margin: 0 0 0.5rem 0; color: #007ad9; font-size: 1rem;">Atenção</h3>
+                                        <p style="margin: 0; color: #495057; line-height: 1.6; font-size: 0.9rem;">
+                                            Por segurança, você precisará confirmar sua senha atual para alterar o e-mail.
+                                            O novo e-mail será utilizado para login no sistema.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-grid p-formgrid"
+                                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div class="p-field">
+                                    <p:outputLabel for="senhaAtual" value="Senha Atual" style="font-weight: 600;"/>
+                                    <p:password id="senhaAtual"
+                                                value="#{pessoaBean.senha}"
+                                                required="true"
+                                                requiredMessage="Digite sua senha atual para confirmar a alteração"
+                                                placeholder="Digite sua senha"
+                                                toggleMask="true"
+                                                style="width: 100%;"/>
+                                    <small style="display: block; margin-top: 0.5rem; color: #6c757d;">
+                                        Confirme sua identidade para prosseguir
+                                    </small>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="novoEmail" value="Novo E-mail" style="font-weight: 600;"/>
+                                    <p:inputText id="novoEmail"
+                                                 value="#{pessoaBean.novoEmail}"
+                                                 required="true"
+                                                 requiredMessage="Digite o novo endereço de e-mail"
+                                                 validator="emailValidator"
+                                                 placeholder="seuemail@exemplo.com"
+                                                 style="width: 100%;">
+                                        <p:ajax event="blur" update="@this"/>
+                                    </p:inputText>
+                                    <small style="display: block; margin-top: 0.5rem; color: #6c757d;">
+                                        Digite um e-mail válido
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <p:commandButton value="Alterar E-mail"
+                                         action="#{pessoaBean.alterarEmail()}"
+                                         update="@form"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success"/>
+                        <p:button outcome="#{pessoaBean.cancelar()}"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+        <style type="text/css">
+            .info-group {
+                background: #f8f9fa;
+                padding: 1rem;
+                border-radius: 6px;
+                border: 1px solid #e9ecef;
+            }
+        </style>
+    </ui:define>
+</ui:composition>
+

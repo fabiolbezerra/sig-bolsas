@@ -6,21 +6,201 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="title">
-        Operação realizada com sucesso
-    </ui:define>
+    <ui:define name="title">Cadastro Realizado com Sucesso</ui:define>
 
     <ui:define name="content">
-        <h1>Operação realizada com sucesso</h1>
 
-        <div style="background-color: #e8f5e9; border-left: 6px solid #4CAF50; padding: 16px; font-size: 16px;">
-            Seu cadastro foi realizado com sucesso. Agora você pode acessar sua conta.
+        <style type="text/css">
+            .success-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 60vh;
+                padding: 2rem;
+            }
+
+            .success-card {
+                background: white;
+                border-radius: 12px;
+                padding: 3rem;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                max-width: 600px;
+                width: 100%;
+                border-top: 4px solid #28a745;
+            }
+
+            .success-icon {
+                font-size: 5rem;
+                color: #28a745;
+                margin-bottom: 1.5rem;
+                animation: successPulse 1s ease-in-out;
+            }
+
+            @keyframes successPulse {
+                0% {
+                    transform: scale(0);
+                    opacity: 0;
+                }
+                50% {
+                    transform: scale(1.1);
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            .success-title {
+                color: #28a745;
+                font-size: 2rem;
+                font-weight: 600;
+                margin: 0 0 1rem 0;
+            }
+
+            .success-message {
+                color: #495057;
+                font-size: 1.1rem;
+                line-height: 1.6;
+                margin-bottom: 2rem;
+                padding: 1.5rem;
+                background: #e8f5e9;
+                border-radius: 8px;
+                border-left: 4px solid #28a745;
+            }
+
+            .success-actions {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .btn-primary {
+                padding: 0.75rem 2rem;
+                background: #28a745;
+                color: white;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1.1rem;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                border: none;
+                cursor: pointer;
+            }
+
+            .btn-primary:hover {
+                background: #218838;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            }
+
+            .success-info {
+                margin-top: 2rem;
+                padding-top: 2rem;
+                border-top: 1px solid #e9ecef;
+            }
+
+            .success-info-title {
+                color: #495057;
+                font-size: 0.95rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+            }
+
+            .success-info-list {
+                text-align: left;
+                color: #6c757d;
+                font-size: 0.9rem;
+                line-height: 1.8;
+                margin: 0;
+                padding-left: 1.5rem;
+            }
+
+            .success-info-list li {
+                margin-bottom: 0.5rem;
+            }
+
+            .success-info-list i {
+                color: #28a745;
+                margin-right: 0.5rem;
+            }
+
+            @media (max-width: 768px) {
+                .success-card {
+                    padding: 2rem 1.5rem;
+                }
+
+                .success-icon {
+                    font-size: 4rem;
+                }
+
+                .success-title {
+                    font-size: 1.5rem;
+                }
+
+                .success-message {
+                    font-size: 1rem;
+                }
+
+                .btn-primary {
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+        </style>
+
+        <div class="success-container">
+            <div class="success-card">
+                <div class="success-icon">
+                    <i class="pi pi-check-circle"></i>
+                </div>
+
+                <h1 class="success-title">Cadastro Realizado!</h1>
+
+                <div class="success-message">
+                    <strong>Parabéns!</strong> Seu cadastro foi realizado com sucesso.
+                    <br/>
+                    Agora você pode acessar sua conta e utilizar todas as funcionalidades do sistema.
+                </div>
+
+                <div class="success-actions">
+                    <h:link outcome="/index.xhtml" styleClass="btn-primary">
+                        <i class="pi pi-sign-in"></i>
+                        <span>Fazer Login</span>
+                    </h:link>
+                </div>
+
+                <div class="success-info">
+                    <div class="success-info-title">Próximos Passos:</div>
+                    <ul class="success-info-list">
+                        <li>
+                            <i class="pi pi-check"></i>
+                            Faça login com seu e-mail e senha cadastrados
+                        </li>
+                        <li>
+                            <i class="pi pi-check"></i>
+                            Complete seu perfil com informações adicionais
+                        </li>
+                        <li>
+                            <i class="pi pi-check"></i>
+                            Explore os editais disponíveis para inscrição
+                        </li>
+                        <li>
+                            <i class="pi pi-check"></i>
+                            Consulte a documentação do sistema se necessário
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <p:button outcome="/index.xhtml" value="OK" style="margin-top: 20px;" />
 
     </ui:define>
+
 </ui:composition>
+

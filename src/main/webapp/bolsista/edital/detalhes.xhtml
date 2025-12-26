@@ -14,71 +14,160 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>#{editalBean.edital.titulo}</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-info-circle"></i>
+                    #{editalBean.edital.titulo}
+                </h1>
+                <p:commandButton value="Voltar" action="#{editalBean.voltar()}" icon="pi pi-arrow-left"
+                                 styleClass="ui-button-secondary outline"/>
+            </div>
 
-        <h:form id="formTitulo">
+            <div class="content-card">
+                <h:form id="formTitulo">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Portaria: "/>
-                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
+                    <!-- Informações do Edital -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-file"></i>
+                            Dados do Edital
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Ano / Número"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Situação"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{editalBean.obterSituacao(editalBean.edital.situacao)}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Tipo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{editalBean.obterTipo(editalBean.edital.tipo)}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Período de Inscrições"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{editalBean.edital.dataInicio}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <span style="margin: 0 0.3rem; color: #adb5bd;">a</span>
+                                <h:outputText value="#{editalBean.edital.dataFinal}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
 
-                <p:outputLabel value="Ano/Número: "/>
-                <p:outputLabel value="#{editalBean.edital.ano} / #{editalBean.edital.numero}"/>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                        <!-- Formulário de Inscrição -->
+                        <p:panel header="Formulário de Inscrição" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-list" style="margin-right: 0.5rem;"></i>
+                                Formulário de Inscrição
+                            </f:facet>
+                            <div style="padding: 1.5rem;">
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Nome"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{editalBean.edital.formulario.nome}"
+                                                  style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Número de perguntas"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{editalBean.edital.formulario.perguntas.size()}"
+                                                  style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Data de criação"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{editalBean.edital.formulario.dataCriacao}"
+                                                  style="font-weight: 600;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </div>
+                            </div>
+                        </p:panel>
 
-                <p:outputLabel value="Situação: "/>
-                <p:outputLabel value="#{editalBean.obterSituacao(editalBean.edital.situacao)}"/>
+                        <!-- Coordenador e Comitê -->
+                        <p:panel header="Responsáveis" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-users" style="margin-right: 0.5rem;"></i>
+                                Responsáveis
+                            </f:facet>
+                            <div style="padding: 1.5rem;">
+                                <div class="info-group" style="margin-bottom: 1.5rem;">
+                                    <p:outputLabel value="Coordenador"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{editalBean.edital.coordenador.nomeCompleto}"
+                                                  style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Comitê de Avaliação"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{editalBean.edital.comite.portaria}"
+                                                  style="font-weight: 600; display: block; margin-bottom: 0.5rem;"/>
 
-                <p:outputLabel value="Tipo: "/>
-                <p:outputLabel value="#{editalBean.obterTipo(editalBean.edital.tipo)}"/>
+                                    <p:dataTable value="#{editalBean.edital.comite.comitePessoas}" var="p"
+                                                 emptyMessage="Nenhum membro no comitê"
+                                                 styleClass="ui-datatable-sm">
+                                        <p:column headerText="Membros">
+                                            <h:outputText value="#{p.pessoa.nomeCompleto}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
-                <p:outputLabel value="Início das inscrições: "/>
-                <p:outputLabel value="#{editalBean.edital.dataInicio}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.2rem;
+            }
 
-                <p:outputLabel value="Fim das inscrições"/>
-                <p:outputLabel value="#{editalBean.edital.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
+            .custom-panel.ui-panel {
+                border: 1px solid #e9ecef !important;
+                border-radius: 8px !important;
+                overflow: hidden;
+                height: 100%;
+            }
 
-                <p:outputLabel value="Cadastrado"/>
-                <p:outputLabel value="#{editalBean.edital.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </h:panelGrid>
+            .custom-panel .ui-panel-titlebar {
+                background: #f8f9fa !important;
+                border-bottom: 1px solid #e9ecef !important;
+                font-weight: 600 !important;
+                color: #495057 !important;
+                padding: 0.75rem 1rem !important;
+            }
 
-            <h2>Formulário de inscrição</h2>
+            .custom-panel .ui-panel-content {
+                padding: 0 !important;
+            }
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Nome: "/>
-                <h:outputText value="#{editalBean.edital.formulario.nome}"/>
+            .ui-datatable-sm .ui-datatable-thead th {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
 
-                <p:outputLabel value="Número de perguntas: "/>
-                <h:outputText value="#{editalBean.edital.formulario.perguntas.size()}"/>
-
-                <p:outputLabel value="Data de criação: "/>
-                <h:outputText value="#{editalBean.edital.formulario.dataCriacao}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:outputText>
-            </h:panelGrid>
-
-            <h2>Quem cadastrou</h2>
-
-            <h:outputText value="#{editalBean.edital.coordenador.nomeCompleto}"/>
-
-            <h2>Comitê de avaliação</h2>
-
-            <h3>#{editalBean.edital.comite.portaria}</h3>
-
-            <p:dataList value="#{editalBean.edital.comite.comitePessoas}" var="p"
-                        emptyMessage="Nenhum membro no comitê">
-                <h:outputText value="#{p.pessoa.nomeCompleto}"/>
-            </p:dataList>
-
-            <br/>
-
-            <p:commandLink value="Voltar" action="#{editalBean.voltar()}" icon="fa fa-arrow-circle-left"/>
-
-        </h:form>
+            .ui-datatable-sm .ui-datatable-data td {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+        </style>
     </ui:define>
 </ui:composition>

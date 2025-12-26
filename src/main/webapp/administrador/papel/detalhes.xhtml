@@ -13,19 +13,41 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>#{papelBean.papel.nome}</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-info-circle"></i>
+                    Papel: #{papelBean.papel.nome}
+                </h1>
+                <p:button outcome="lista.xhtml" value="Voltar" icon="pi pi-arrow-left"
+                          styleClass="ui-button-secondary outline"/>
+            </div>
 
-        <h:form id="formPessoa">
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h2>Pessoas com o papel</h2>
+                    <div style="margin-bottom: 2rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-users"></i>
+                            Pessoas vinculadas a este papel
+                        </h2>
 
-            <p:dataList value="#{papelBean.papel.pessoaPapels}" var="p">
-                <h:outputText value="#{p.pessoa.nomeCompleto}" />
-            </p:dataList>
-
-            <br/>
-
-            <p:commandLink value="Voltar" action="lista.xhtml" />
-        </h:form>
+                        <p:dataTable value="#{papelBean.papel.pessoaPapels}" var="p"
+                                     emptyMessage="Nenhuma pessoa vinculada a este papel"
+                                     paginator="true" rows="10" paginatorPosition="bottom"
+                                     reflow="true" styleClass="ui-datatable-sm">
+                            <p:column headerText="Nome Completo" sortBy="#{p.pessoa.nomeCompleto}">
+                                <h:outputText value="#{p.pessoa.nomeCompleto}"
+                                              style="font-weight: 600; color: #2c3e50;"/>
+                            </p:column>
+                            <p:column headerText="E-mail">
+                                <h:outputText value="#{p.pessoa.email}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

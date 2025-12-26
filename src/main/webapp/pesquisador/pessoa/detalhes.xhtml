@@ -9,77 +9,196 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">
-        Detalhes
-    </ui:define>
+    <ui:define name="title">Detalhes da Pessoa</ui:define>
 
     <ui:define name="content">
-        <h1>#{pessoaBean.pessoa.nomeCompleto}</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-user"></i>
+                    #{pessoaBean.pessoa.nomeCompleto}
+                </h1>
+                <p:commandButton value="Voltar"
+                                 action="/gerente/pessoa/lista.xhtml"
+                                 rendered="#{papelBean.usuarioLogadoGerente or papelBean.usuarioLogadoCoordenador}"
+                                 icon="pi pi-arrow-left"
+                                 styleClass="ui-button-secondary outline"/>
+            </div>
 
-        <h:form id="formPessoa">
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Nome completo"/>
-                <p:outputLabel value="#{pessoaBean.pessoa.nomeCompleto}"/>
+                    <!-- Informações Pessoais -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-info-circle"></i>
+                            Dados Pessoais
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Nome Completo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{pessoaBean.pessoa.nomeCompleto}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Telefone"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{pessoaBean.pessoa.telefone}" converter="telefoneConverter"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="E-mail"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{pessoaBean.pessoa.email}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Data de Nascimento"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{pessoaBean.pessoa.nascimento}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
 
-                <p:outputLabel value="Telefone"/>
-                <p:outputLabel value="#{pessoaBean.pessoa.telefone}" converter="telefoneConverter"/>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                        <!-- Papéis no Sistema -->
+                        <p:panel header="Papéis" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-shield" style="margin-right: 0.5rem;"></i>
+                                Papéis no Sistema
+                            </f:facet>
+                            <div style="padding: 1.5rem;">
+                                <p:dataTable value="#{pessoaBean.pessoa.pessoaPapels}"
+                                             var="papel"
+                                             emptyMessage="Nenhum papel atribuído"
+                                             styleClass="ui-datatable-sm">
+                                    <p:column headerText="Papel">
+                                        <h:outputText value="#{papel.papel.nome}" style="font-weight: 500;"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </p:panel>
 
-                <p:outputLabel value="E-mail"/>
-                <p:outputLabel value="#{pessoaBean.pessoa.email}"/>
+                        <!-- Comitês -->
+                        <p:panel header="Comitês" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-users" style="margin-right: 0.5rem;"></i>
+                                Participação em Comitês
+                            </f:facet>
+                            <div style="padding: 1.5rem;">
+                                <div style="margin-bottom: 1.5rem;">
+                                    <p:outputLabel value="Comitês que sou membro"
+                                                   style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #495057;"/>
+                                    <p:dataTable value="#{pessoaBean.pessoa.comitePessoas}"
+                                                 var="c1"
+                                                 emptyMessage="Não é membro de nenhum comitê"
+                                                 styleClass="ui-datatable-sm">
+                                        <p:column headerText="Período">
+                                            <h:outputText value="#{c1.comite.inicio}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                            <span style="margin: 0 0.3rem; color: #adb5bd;">a</span>
+                                            <h:outputText value="#{c1.comite.fim}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                                <div>
+                                    <p:outputLabel value="Comitês que criei"
+                                                   style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #495057;"/>
+                                    <p:dataTable value="#{pessoaBean.pessoa.comites}"
+                                                 var="c2"
+                                                 emptyMessage="Nenhum comitê criado"
+                                                 styleClass="ui-datatable-sm">
+                                        <p:column headerText="Período">
+                                            <h:outputText value="#{c2.inicio}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                            <span style="margin: 0 0.3rem; color: #adb5bd;">a</span>
+                                            <h:outputText value="#{c2.fim}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
 
-                <p:outputLabel value="Data de nascimento"/>
-                <p:outputLabel value="#{pessoaBean.pessoa.nascimento}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </h:panelGrid>
+                    <!-- Editais Criados -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-file-edit"></i>
+                            Editais Criados
+                        </h2>
 
-            <h2>Papéis no sistema</h2>
+                        <p:dataTable value="#{pessoaBean.pessoa.editals}"
+                                     var="e"
+                                     emptyMessage="Nenhum edital criado"
+                                     reflow="true"
+                                     styleClass="ui-datatable-sm">
+                            <p:column headerText="Título" priority="1">
+                                <h:outputText value="#{e.titulo}" style="font-weight: 600;"/>
+                            </p:column>
+                            <p:column headerText="Ano / Número" priority="2" styleClass="text-center">
+                                <h:outputText value="#{e.ano} / #{e.numero}"/>
+                            </p:column>
+                            <p:column headerText="Período" priority="3">
+                                <h:outputText value="#{e.dataInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <span style="margin: 0 0.3rem; color: #adb5bd;">a</span>
+                                <h:outputText value="#{e.dataFinal}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
-            <p:dataList value="#{pessoaBean.pessoa.pessoaPapels}" var="papel">
-                <h:outputText value="#{papel.papel.nome}"/>
-            </p:dataList>
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.2rem;
+            }
 
-            <h2>Comitês que sou membro</h2>
+            .custom-panel.ui-panel {
+                border: 1px solid #e9ecef !important;
+                border-radius: 8px !important;
+                overflow: hidden;
+                height: 100%;
+            }
 
-            <p:dataList value="#{pessoaBean.pessoa.comitePessoas}" var="c1" emptyMessage="Não sou membro de comitês">
-                <p:outputLabel value="#{c1.comite.inicio}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-                a
-                <p:outputLabel value="#{c1.comite.fim}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </p:dataList>
+            .custom-panel .ui-panel-titlebar {
+                background: #f8f9fa !important;
+                border-bottom: 1px solid #e9ecef !important;
+                font-weight: 600 !important;
+                color: #495057 !important;
+                padding: 0.75rem 1rem !important;
+            }
 
-            <h2>Comitês que criei</h2>
+            .custom-panel .ui-panel-content {
+                padding: 0 !important;
+            }
 
-            <p:dataList value="#{pessoaBean.pessoa.comites}" var="c2" emptyMessage="Nenhum comitê criado">
-                <p:outputLabel value="#{c2.inicio}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-                a
-                <p:outputLabel value="#{c2.fim}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </p:dataList>
+            .ui-datatable-sm .ui-datatable-thead th {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
 
-            <h2>Editais que criei</h2>
-
-            <p:dataList value="#{pessoaBean.pessoa.editals}" var="e" emptyMessage="Nenhum edital criado">
-                Edital <h:outputText value="#{e.titulo}"/>, de
-                <p:outputLabel value="#{e.dataInicio}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-                a
-                <p:outputLabel value="#{c2.fim}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </p:outputLabel>
-            </p:dataList>
-
-            <br/>
-
-            <p:commandLink value="Voltar" action="/gerente/pessoa/lista.xhtml" rendered="#{papelBean.usuarioLogadoGerente or papelBean.usuarioLogadoCoordenador}"/>
-        </h:form>
+            .ui-datatable-sm .ui-datatable-data td {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+        </style>
     </ui:define>
 </ui:composition>
+

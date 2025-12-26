@@ -15,46 +15,68 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1> Listagem de Comitês Encerrados</h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-users"></i>
+                    Listagem de Comitês Encerrados
+                </h1>
+            </div>
 
-        <h:form id="formComite">
-            <p:growl showDetail="true" showSummary="true"/>
-            <p:dataTable id="comitesDataTable" value="#{comiteBean.listarEncerrados()}" var="comite"
-                         emptyMessage="Nenhuma informação a ser exibida"
-                         paginator="true" rows="10" paginatorPosition="bottom">
-                <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains">
-                    <h:outputText value="#{comite.portaria}"/>
-                </p:column>
+            <div class="content-card">
+                <h:form id="formComite">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-                <p:column headerText="Início da vigência">
-                    <h:outputText value="#{comite.inicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                    <p:dataTable id="comitesDataTable" value="#{comiteBean.listarEncerrados()}" var="comite"
+                                 emptyMessage="Nenhuma informação a ser exibida"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true">
 
-                <p:column headerText="Fim da vigência">
-                    <h:outputText value="#{comite.fim}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Portaria" filterBy="#{comite.portaria}" filterMatchMode="contains"
+                                  priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{comite.portaria}" styleClass="portaria-text"
+                                              style="font-weight: 600;"/>
+                                <h:outputText value="Criado por: #{comite.coordenador.nomeCompleto}"
+                                              style="font-size: 0.8rem; color: #666;" class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-                <p:column headerText="Cadastrado por">
-                    <h:outputText value="#{comite.coordenador.nomeCompleto}"/>
-                </p:column>
+                        <p:column headerText="Início da vigência" styleClass="text-center" priority="3">
+                            <h:outputText value="#{comite.inicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Operações">
+                        <p:column headerText="Fim da vigência" styleClass="text-center" priority="2">
+                            <h:outputText value="#{comite.fim}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                    <p:commandButton value="Detalhes" action="/gerente/comite/detalhes.xhtml" icon="fa fa-info-circle">
-                        <f:param name="comite" value="#{comite.id}"/>
-                        <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
-                    </p:commandButton >
-                </p:column>
+                        <p:column headerText="Cadastrado por" priority="4">
+                            <h:outputText value="#{comite.coordenador.nomeCompleto}"/>
+                        </p:column>
 
-            </p:dataTable>
+                        <p:column headerText="Operações" styleClass="text-center action-column">
+                            <p:commandButton value="Detalhes" action="/gerente/comite/detalhes.xhtml"
+                                             icon="pi pi-info-circle" styleClass="ui-button-outlined">
+                                <f:param name="comite" value="#{comite.id}"/>
+                                <f:setPropertyActionListener value="#{comite}" target="#{comiteBean.comite}"/>
+                            </p:commandButton>
+                        </p:column>
 
-            <br/>
-
-        </h:form>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

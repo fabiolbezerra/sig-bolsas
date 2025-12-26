@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Alterar Senha</ui:define>
+
+    <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-lock"></i>
+                    Alterar Senha
+                </h1>
+                <p:button outcome="#{pessoaBean.cancelar()}" value="Cancelar" icon="pi pi-times"
+                          styleClass="ui-button-secondary outline"/>
+            </div>
+
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
+
+                    <h:inputHidden value="#{pessoaBean.pessoa.email}"/>
+
+                    <div class="ui-fluid">
+                        <!-- Informações do Usuário (Read-only) -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-user"></i>
+                                Dados do Usuário
+                            </h2>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                                <div class="info-group">
+                                    <p:outputLabel value="Nome Completo"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.nomeCompleto}"
+                                                  style="font-weight: 600; color: #212529;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Telefone"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.telefone}" converter="telefoneConverter"
+                                                  style="font-weight: 600; color: #212529;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="E-mail"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.email}"
+                                                  style="font-weight: 600; color: #212529;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Data de Nascimento"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{pessoaBean.pessoa.nascimento}"
+                                                  style="font-weight: 600; color: #212529;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alteração de Senha -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-key"></i>
+                                Nova Senha
+                            </h2>
+
+                            <!-- Instruções de Segurança -->
+                            <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 2rem;">
+                                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                    <i class="pi pi-exclamation-triangle"
+                                       style="font-size: 1.5rem; color: #ffc107; margin-top: 0.2rem;"></i>
+                                    <div>
+                                        <h3 style="margin: 0 0 0.5rem 0; color: #856404; font-size: 1rem;">Importante</h3>
+                                        <p style="margin: 0; color: #856404; line-height: 1.6; font-size: 0.9rem;">
+                                            A senha deve ter no mínimo 6 caracteres. Recomendamos usar letras maiúsculas, minúsculas, números e símbolos para maior segurança.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-grid p-formgrid"
+                                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div class="p-field">
+                                    <p:outputLabel for="senhaAtual" value="Senha Atual" style="font-weight: 600;"/>
+                                    <p:password id="senhaAtual"
+                                                value="#{pessoaBean.senha}"
+                                                required="true"
+                                                requiredMessage="Digite sua senha atual"
+                                                placeholder="Digite sua senha atual"
+                                                toggleMask="true"
+                                                style="width: 100%;"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="senha1" value="Nova Senha" style="font-weight: 600;"/>
+                                    <p:password id="senha1"
+                                                value="#{pessoaBean.novaSenha}"
+                                                required="true"
+                                                requiredMessage="Digite a nova senha"
+                                                validatorMessage="Senhas devem ser iguais"
+                                                match="senha2"
+                                                feedback="true"
+                                                promptLabel="Digite a nova senha"
+                                                weakLabel="Fraca"
+                                                goodLabel="Boa"
+                                                strongLabel="Forte"
+                                                toggleMask="true"
+                                                placeholder="Digite a nova senha"
+                                                style="width: 100%;"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="senha2" value="Confirmar Nova Senha" style="font-weight: 600;"/>
+                                    <p:password id="senha2"
+                                                value="#{pessoaBean.novaSenhaRedigitada}"
+                                                required="true"
+                                                requiredMessage="Confirme a nova senha"
+                                                toggleMask="true"
+                                                placeholder="Confirme a nova senha"
+                                                style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <p:commandButton value="Alterar Senha"
+                                         action="#{pessoaBean.alterarSenha()}"
+                                         update="@form"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success"/>
+                        <p:button outcome="#{pessoaBean.cancelar()}"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+        <style type="text/css">
+            .info-group {
+                background: #f8f9fa;
+                padding: 1rem;
+                border-radius: 6px;
+                border: 1px solid #e9ecef;
+            }
+        </style>
+    </ui:define>
+</ui:composition>
+

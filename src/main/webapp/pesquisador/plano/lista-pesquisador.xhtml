@@ -10,141 +10,175 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="title">
-        Planos de Trabalho
-    </ui:define>
+    <ui:define name="title">Meus Planos de Trabalho</ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-clipboard"></i>
+                    Meus Planos de Trabalho
+                </h1>
 
-            <p:link value="Adicionar plano de trabalho" outcome="/pesquisador/plano/formulario.xhtml">
-                <f:param name="inscricaoID" value="#{planoDeTrabalhoBean.inscricao.id}"/>
-                <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
-            </p:link>
+                <p:link outcome="/pesquisador/plano/formulario.xhtml" styleClass="btn-new">
+                    <f:param name="inscricaoID" value="#{planoDeTrabalhoBean.inscricao.id}"/>
+                    <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
+                    <i class="pi pi-plus"></i>
+                    <span>Adicionar Plano</span>
+                </p:link>
+            </div>
 
-            <br/>
-            <br/>
+            <div class="content-card">
+                <h:form id="formPlanos">
+                    <p:growl id="messages" showDetail="true" life="3000"/>
 
-            <p:panelGrid columns="2" style="width: 100%;margin-bottom: 20px;">
-                <f:facet name="header">
-                    <p:outputLabel value="Dados do Edital"/>
-                </f:facet>
-
-                <h:outputText value="Edital:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.titulo}"/>
-
-                <h:outputText value="Ano/Número:"/>
-                <h:outputText
-                        value="#{planoDeTrabalhoBean.inscricao.edital.ano} / #{planoDeTrabalhoBean.inscricao.edital.numero}"/>
-
-                <h:outputText value="Situação:"/>
-                <h:outputText
-                        value="#{planoDeTrabalhoBean.obterSituacao(planoDeTrabalhoBean.inscricao.edital.situacao)}"/>
-
-                <h:outputText value="Tipo:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.obterTipo(planoDeTrabalhoBean.inscricao.edital.tipo)}"/>
-
-                <h:outputText value="Início das inscrições:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.dataInicio}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-
-                <h:outputText value="Fim das inscrições:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-
-                <h:outputText value="Cadastrado:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.dataCadastro}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:panelGrid>
-
-            <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
-                <f:facet name="header">
-                    <p:outputLabel value="Dados da Inscrição"/>
-                </f:facet>
-
-                <h:outputText value="Protocolo:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.protocolo}"/>
-
-                <h:outputText value="Data de Inscrição:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.dataInscricao}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-
-            </p:panelGrid>
-
-            <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
-                <f:facet name="header">
-                    <p:outputLabel value="Dados do Pesquisador"/>
-                </f:facet>
-                <h:outputText value="Nome Completo:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.nomeCompleto}"/>
-
-                <h:outputText value="Telefone:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.telefone}"/>
-
-                <h:outputText value="Email:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.email}"/>
-
-                <h:outputText value="Data de Nascimento:"/>
-                <h:outputText value="#{planoDeTrabalhoBean.inscricao.pessoa.nascimento}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:panelGrid>
-
-            <p:panel header="Planos de Trabalho" style="width: 95%; margin: 20px auto;font-size: large">
-                <p:dataGrid columns="4" value="#{planoDeTrabalhoBean.planosDeTrabalho}" var="planoDeTrabalho"
-                            emptyMessage="Nenhum plano de trabalho encontrado">
-                    <div style="border: 2px solid #333; border-radius: 15px; padding: 15px; width: 200px; min-height: 180px; display: flex; flex-direction: column; margin: 10px;">
-                        <div style="border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 10px; font-weight: bold; width: 100%;">
-                            <h:outputText value="#{planoDeTrabalho.titulo}"/>
+                    <!-- Informações do Edital -->
+                    <div style="margin-bottom: 2rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-file"></i>
+                            Dados do Edital
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Edital"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{planoDeTrabalhoBean.inscricao.edital.titulo}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Ano/Número"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText
+                                        value="#{planoDeTrabalhoBean.inscricao.edital.ano} / #{planoDeTrabalhoBean.inscricao.edital.numero}"
+                                        style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Situação"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText
+                                        value="#{planoDeTrabalhoBean.obterSituacao(planoDeTrabalhoBean.inscricao.edital.situacao)}"
+                                        style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Tipo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText
+                                        value="#{planoDeTrabalhoBean.obterTipo(planoDeTrabalhoBean.inscricao.edital.tipo)}"
+                                        style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Protocolo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{planoDeTrabalhoBean.inscricao.protocolo}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Data de Inscrição"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{planoDeTrabalhoBean.inscricao.dataInscricao}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
                         </div>
-                        <div style="font-size: 12px; flex-grow: 1; overflow: hidden; text-overflow: ellipsis;">
-                            <h:outputText value="#{planoDeTrabalho.resumo}"/>
-                        </div>
-
-                    </div>
-                    <div style="display: flex; justify-content: flex-start; gap: 10px; margin-top: 10px; margin-left: 20px;">
-                        <p:button value="Editar"
-                                  outcome="formulario.xhtml"
-                                  icon="fa fa-pencil-square-o">
-                            <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
-                        </p:button>
-
-                        <p:commandButton value="Excluir"
-                                         action="#{planoDeTrabalhoBean.excluir(planoDeTrabalho)}"
-                                         icon="fa fa-trash-o"
-                                         update="@form messages"
-                                         process="@this"
-                                         ajax="true">
-                            <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
-                            <p:confirm header="Confirmação"
-                                       message="Tem certeza que deseja excluir este plano de trabalho?"
-                                       icon="pi pi-info-circle"/>
-                        </p:commandButton>
                     </div>
 
-                </p:dataGrid>
-                <p:commandButton value="Voltar"
-                                 action="/pesquisador/inscricao/lista.xhtml?faces-redirect=true"
-                                 icon="fa fa-arrow-circle-left"/>
-            </p:panel>
-        </h:form>
+                    <!-- Lista de Planos -->
+                    <div style="margin-bottom: 2rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-list"></i>
+                            Planos de Trabalho
+                        </h2>
+
+                        <p:dataTable value="#{planoDeTrabalhoBean.planosDeTrabalho}"
+                                     var="planoDeTrabalho"
+                                     emptyMessage="Nenhum plano de trabalho cadastrado"
+                                     paginator="true"
+                                     rows="10"
+                                     paginatorPosition="bottom"
+                                     reflow="true">
+
+                            <p:column headerText="Título" priority="1">
+                                <div style="display: flex; flex-direction: column;">
+                                    <h:outputText value="#{planoDeTrabalho.titulo}"
+                                                  style="font-weight: 600; color: #2c3e50;"/>
+                                    <h:outputText value="#{planoDeTrabalho.resumo}"
+                                                  style="font-size: 0.85rem; color: #666; margin-top: 0.25rem; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"/>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Resumo" priority="3">
+                                <h:outputText value="#{planoDeTrabalho.resumo}"
+                                              style="max-width: 400px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"/>
+                            </p:column>
+
+                            <p:column headerText="Data Cadastro" priority="2" styleClass="text-center">
+                                <h:outputText value="#{planoDeTrabalho.dataCadastro}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                                <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                    <p:button value="Editar"
+                                              outcome="formulario.xhtml"
+                                              icon="pi pi-pencil"
+                                              styleClass="ui-button-warning">
+                                        <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
+                                    </p:button>
+
+                                    <p:commandButton icon="pi pi-trash"
+                                                     action="#{planoDeTrabalhoBean.excluir(planoDeTrabalho)}"
+                                                     styleClass="ui-button-danger"
+                                                     update="@form"
+                                                     process="@this"
+                                                     ajax="true"
+                                                     title="Excluir">
+                                        <f:param name="planoID" value="#{planoDeTrabalho.id}"/>
+                                        <p:confirm header="Confirmação"
+                                                   message="Tem certeza que deseja excluir este plano de trabalho?"
+                                                   icon="pi pi-exclamation-triangle"/>
+                                    </p:commandButton>
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+                    <!-- Botão Voltar -->
+                    <div style="margin-top: 2rem;">
+                        <p:button value="Voltar"
+                                  outcome="/pesquisador/inscricao/lista.xhtml"
+                                  icon="pi pi-arrow-left"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
             <p:commandButton value="Sim"
                              type="button"
                              styleClass="ui-confirmdialog-yes"
-                             icon="fa fa-check-square-o"/>
+                             icon="pi pi-check"/>
             <p:commandButton value="Não"
                              type="button"
                              styleClass="ui-confirmdialog-no ui-button-secondary"
-                             icon="fa fa-times"/>
+                             icon="pi pi-times"/>
         </p:confirmDialog>
 
-        <p:growl id="messages" showDetail="true" life="3000"/>
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.5rem;
+            }
+        </style>
     </ui:define>
 
 </ui:composition>

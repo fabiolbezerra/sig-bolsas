@@ -5,11 +5,11 @@ import br.edu.ufra.entidade.Pessoa;
 import br.edu.ufra.entidade.PessoaPapel;
 import br.edu.ufra.rn.PessoaRN;
 import br.edu.ufra.util.UtilBean;
-
 import jakarta.annotation.PostConstruct;
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,8 @@ public class PessoaBean implements Serializable {
 
     private List<Pessoa> pessoas;
 
+    private String returnTo; // Armazena a página de retorno
+
     public PessoaBean() {
         System.out.println("Criando PessoaBean ...");
     }
@@ -40,7 +42,13 @@ public class PessoaBean implements Serializable {
     public void init() {
         System.out.println("Inicializando PessoaBean ...");
         FacesContext currentInstance = FacesContext.getCurrentInstance();
+
+        // Captura o parâmetro pessoa ou pessoaID
         String pessoaID = currentInstance.getExternalContext().getRequestParameterMap().get("pessoa");
+        if (pessoaID == null) {
+            pessoaID = currentInstance.getExternalContext().getRequestParameterMap().get("pessoaID");
+        }
+
         if (pessoaID != null) {
             try {
                 int id = Integer.parseInt(pessoaID);
@@ -54,6 +62,9 @@ public class PessoaBean implements Serializable {
                 UtilBean.criarMensagemDeErro("Não foi recuperar o pessoa");
             }
         }
+
+        // Captura o parâmetro returnTo se existir
+        returnTo = currentInstance.getExternalContext().getRequestParameterMap().get("returnTo");
     }
 
     public String getSenha() {
@@ -247,5 +258,61 @@ public class PessoaBean implements Serializable {
                 UtilBean.criarMensagemDeInformacao("Pessoa encontrada com sucesso");
             }
         }
+    }
+
+    /**
+     * Método para cancelar e voltar para a página apropriada
+     * Se returnTo foi definido, usa ele. Caso contrário, detecta pelo papel do usuário.
+     * Prioridade de papéis: Administrador > Gerente > Coordenador > Pesquisador/Bolsista
+     */
+    public String cancelar() {
+        if (returnTo != null && !returnTo.trim().isEmpty()) {
+            // Se veio com parâmetro returnTo, usa ele
+            return returnTo + "?faces-redirect=true";
+        }
+
+        // Detecta o papel do usuário logado com prioridade
+        Pessoa usuarioLogado = UtilBean.obterUsuarioLogado();
+        if (usuarioLogado != null && usuarioLogado.getPessoaPapels() != null) {
+
+            // Prioridade 1: Administrador
+            for (PessoaPapel pp : usuarioLogado.getPessoaPapels()) {
+                if ("Administrador".equalsIgnoreCase(pp.getPapel().getNome())) {
+                    return "/administrador/principal.xhtml?faces-redirect=true";
+                }
+            }
+
+            // Prioridade 2: Gerente
+            for (PessoaPapel pp : usuarioLogado.getPessoaPapels()) {
+                if ("Gerente".equalsIgnoreCase(pp.getPapel().getNome())) {
+                    return "/gerente/pessoa/lista.xhtml?faces-redirect=true";
+                }
+            }
+
+            // Prioridade 3: Coordenador
+            for (PessoaPapel pp : usuarioLogado.getPessoaPapels()) {
+                if ("Coordenador".equalsIgnoreCase(pp.getPapel().getNome())) {
+                    return "/gerente/pessoa/lista.xhtml?faces-redirect=true";
+                }
+            }
+
+            // Prioridade 4: Bolsista
+            for (PessoaPapel pp : usuarioLogado.getPessoaPapels()) {
+                if ("Bolsista".equalsIgnoreCase(pp.getPapel().getNome())) {
+                    return "/bolsista/principal.xhtml?faces-redirect=true";
+                }
+            }
+        }
+
+        // Caso padrão: volta para o dashboard do pesquisador
+        return "/pesquisador/principal.xhtml?faces-redirect=true";
+    }
+
+    public String getReturnTo() {
+        return returnTo;
+    }
+
+    public void setReturnTo(String returnTo) {
+        this.returnTo = returnTo;
     }
 }

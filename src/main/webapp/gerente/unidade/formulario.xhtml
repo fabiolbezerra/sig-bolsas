@@ -10,44 +10,85 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="title">
-        Cadastro de Unidade Administrativa
-    </ui:define>
+    <ui:define name="title">Cadastro de Unidade Administrativa</ui:define>
 
     <ui:define name="content">
-        <h1>Unidade Administrativa</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-building"></i>
+                    Cadastro de Unidade Administrativa
+                </h1>
+            </div>
 
-        <h:form id="formUnidadeAdministrativa">
-            <p:growl showDetail="true" showSummary="true"/>
+            <div class="content-card">
+                <h:form id="formUnidadeAdministrativa">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h:inputHidden value="#{unidadeAdministrativaBean.unidade.id}"/>
-            <h:panelGrid columns="2">
+                    <h:inputHidden value="#{unidadeAdministrativaBean.unidade.id}"/>
 
-                <p:outputLabel value="Nome"/>
-                <p:inputText value="#{unidadeAdministrativaBean.unidade.nome}"/>
+                    <div class="ui-fluid">
+                        <!-- Dados da Unidade -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-info-circle"></i>
+                                Dados da Unidade
+                            </h2>
+                            <div class="p-grid p-formgrid"
+                                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div class="p-field">
+                                    <p:outputLabel for="nome" value="Nome" style="font-weight: 600;"/>
+                                    <p:inputText id="nome"
+                                                 value="#{unidadeAdministrativaBean.unidade.nome}"
+                                                 required="true"
+                                                 requiredMessage="O nome da unidade é obrigatório"
+                                                 style="width: 100%"
+                                                 placeholder="Digite o nome da unidade"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="sigla" value="Sigla" style="font-weight: 600;"/>
+                                    <p:inputText id="sigla"
+                                                 value="#{unidadeAdministrativaBean.unidade.sigla}"
+                                                 required="true"
+                                                 requiredMessage="A sigla da unidade é obrigatória"
+                                                 style="width: 100%"
+                                                 placeholder="Digite a sigla"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="tipo" value="Tipo" style="font-weight: 600;"/>
+                                    <p:selectOneMenu id="tipo"
+                                                     value="#{unidadeAdministrativaBean.unidade.tipo}"
+                                                     converter="tipoUnidadeAdministrativaConverter"
+                                                     required="true"
+                                                     requiredMessage="O tipo da unidade é obrigatório"
+                                                     style="width: 100%">
+                                        <f:selectItem noSelectionOption="true"
+                                                      itemValue="null"
+                                                      itemLabel="Selecione o tipo"/>
+                                        <f:selectItems value="#{tipoEnumBean.tiposDeUnidadeAdministrativa}"
+                                                       var="ua"
+                                                       itemLabel="#{ua.descricao}"
+                                                       itemValue="#{ua}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <p:outputLabel value="Sigla"/>
-                <p:inputText value="#{unidadeAdministrativaBean.unidade.sigla}"
-                             required="true"
-                             requiredMessage="A sigla da unidade é obrigatória"/>
-
-                <p:outputLabel value="Tipo"/>
-                <p:selectOneMenu value="#{unidadeAdministrativaBean.unidade.tipo}"
-                                 converter="tipoUnidadeAdministrativaConverter">
-                    <f:selectItem noSelectionOption="true"
-                                  itemValue="null"
-                                  itemLabel="Selecione o tipo"/>
-                    <f:selectItems value="#{tipoEnumBean.tiposDeUnidadeAdministrativa}"
-                                   var="ua"
-                                   itemLabel="#{ua.descricao}"
-                                   itemValue="#{ua}"/>
-                </p:selectOneMenu>
-
-            </h:panelGrid>
-
-            <p:button outcome="lista.xhtml" value="Cancelar" icon="fa fa-ban"/>
-            <p:commandButton value="Salvar" action="#{unidadeAdministrativaBean.salvar()}" update="@form"
-                             icon="fa fa-floppy-o"/>
-        </h:form>
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <p:commandButton value="Salvar"
+                                         action="#{unidadeAdministrativaBean.salvar()}"
+                                         update="@form"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success"/>
+                        <p:button outcome="lista.xhtml"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

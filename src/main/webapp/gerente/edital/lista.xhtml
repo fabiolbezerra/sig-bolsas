@@ -10,76 +10,101 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="Editais">
-        Editais
+    <ui:define name="title">
+        Listagem de Editais
     </ui:define>
 
     <ui:define name="content">
-        <h1> Listagem de Editais </h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file"></i>
+                    Listagem de Editais
+                </h1>
 
-        <br/>
+                <p:link outcome="/coordenador/edital/formulario.xhtml"
+                        rendered="#{papelBean.usuarioLogadoCoordenador or papelBean.usuarioLogadoAdministrador}"
+                        styleClass="btn-new">
+                    <i class="pi pi-plus"></i>
+                    <span>Cadastrar Edital</span>
+                </p:link>
+            </div>
 
-        <p:link value="Cadastrar Edital"
-                outcome="/coordenador/edital/formulario.xhtml"
-                rendered="#{papelBean.usuarioLogadoCoordenador or papelBean.usuarioLogadoAdministrador}"/>
+            <div class="content-card">
+                <h:form id="formEdital">
+                    <p:growl showDetail="true" showSummary="true"/>
+                    <p:dataTable value="#{editalBean.editais}" var="edital"
+                                 emptyMessage="Nenhuma informação a ser exibida"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true">
 
-        <br/><br/>
+                        <p:column headerText="Título" priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{edital.titulo}" style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{edital.ano} / #{edital.numero}"
+                                              style="font-size: 0.85rem; color: #666;" class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-        <h:form id="formEdital">
-            <p:growl showDetail="true" showSummary="true"/>
-            <p:dataTable value="#{editalBean.editais}" var="edital">
-                <p:column headerText="Título">
-                    <h:outputText value="#{edital.titulo}"/>
-                </p:column>
+                        <p:column headerText="Ano e Número" priority="3">
+                            <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
+                        </p:column>
 
-                <p:column headerText="Ano e Número">
-                    <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
-                </p:column>
+                        <p:column headerText="Cadastro" priority="4">
+                            <h:outputText value="#{edital.dataCadastro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Cadastro">
-                    <h:outputText value="#{edital.dataCadastro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Inscrições" priority="2">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <h:outputText value="#{edital.dataInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <span style="color: #adb5bd;">a</span>
+                                <h:outputText value="#{edital.dataFinal}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </p:column>
 
-                <p:column headerText="Inscrições">
-                    <h:outputText value="#{edital.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                    a
-                    <h:outputText value="#{edital.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Situação" priority="4">
+                            <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}"/>
+                        </p:column>
 
-                <p:column headerText="Situação">
-                    <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}"/>
-                </p:column>
+                        <p:column headerText="Tipo" priority="5">
+                            <h:outputText value="#{editalBean.obterTipo(edital.tipo)}"/>
+                        </p:column>
 
-                <p:column headerText="Tipo">
-                    <h:outputText value="#{editalBean.obterTipo(edital.tipo)}"/>
-                </p:column>
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:splitButton value="Detalhes" action="/bolsista/edital/detalhes.xhtml"
+                                           icon="pi pi-info-circle" styleClass="split-action">
+                                <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
 
-                <p:column headerText="Operações">
-                    <p:splitButton value="Detalhes" action="/bolsista/edital/detalhes.xhtml" icon="fa fa-info-circle">
-                        <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+                                <p:menuitem value="Editar"
+                                            rendered="#{papelBean.usuarioLogadoCoordenador or papelBean.usuarioLogadoAdministrador}"
+                                            action="/coordenador/edital/formulario.xhtml"
+                                            icon="pi pi-pencil">
+                                    <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
+                                </p:menuitem>
 
-                        <p:menuitem value="Editar"
-                                    rendered="#{papelBean.usuarioLogadoCoordenador or papelBean.usuarioLogadoAdministrador}"
-                                    action="/coordenador/edital/formulario.xhtml"
-                                    icon="fa fa-pencil-square-o">
-                            <f:setPropertyActionListener value="#{edital}" target="#{editalBean.edital}"/>
-                        </p:menuitem>
-
-                        <p:menuitem value="Inscrições" action="/gerente/inscricao/lista.xhtml">
-                            <f:param value="#{edital.id}" name="editalID"/>
-                        </p:menuitem>
-                    </p:splitButton>
-                </p:column>
-            </p:dataTable>
-
-        </h:form>
-
+                                <p:menuitem value="Inscrições" action="/gerente/inscricao/lista.xhtml"
+                                            icon="pi pi-list">
+                                    <f:param value="#{edital.id}" name="editalID"/>
+                                </p:menuitem>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

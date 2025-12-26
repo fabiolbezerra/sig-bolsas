@@ -12,80 +12,71 @@
     <ui:define name="title">Minhas Inscrições</ui:define>
 
     <ui:define name="content">
-        <h1>Minhas Inscrições</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-list"></i>
+                    Minhas Inscrições
+                </h1>
+            </div>
 
-        <br/>
+            <div class="content-card">
+                <h:form id="formPlanos">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <p:panel header="Dados do Bolsista" style="margin-bottom: 20px;">
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputText value="Nome:"/>
-                <h:outputText value="#{papelBean.usuarioLogado.nomeCompleto}"/>
+                    <p:dataTable value="#{planoDeTrabalhoBean.obterPorBolsista(papelBean.usuarioLogado.id)}"
+                                 var="plano"
+                                 emptyMessage="Você ainda não está inscrito em nenhum plano de trabalho"
+                                 paginator="true"
+                                 rows="10"
+                                 paginatorPosition="bottom"
+                                 reflow="true">
 
-                <h:outputText value="E-mail:"/>
-                <h:outputText value="#{papelBean.usuarioLogado.email}"/>
+                        <p:column headerText="Título" sortBy="#{plano.titulo}" priority="1">
+                            <h:outputText value="#{plano.titulo}"/>
+                        </p:column>
 
-                <h:outputText value="Telefone:"/>
-                <h:outputText value="#{papelBean.usuarioLogado.telefone}"/>
-            </h:panelGrid>
-        </p:panel>
+                        <p:column headerText="Pesquisador" sortBy="#{plano.inscricao.pessoa.nomeCompleto}" priority="2">
+                            <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}"/>
+                        </p:column>
 
-        <h:form id="formPlanos">
-            <p:growl id="growl" showDetail="true" showSummary="true"/>
+                        <p:column headerText="Edital" sortBy="#{plano.inscricao.edital.titulo}" priority="3">
+                            <h:outputText value="#{plano.inscricao.edital.titulo}"/>
+                        </p:column>
 
-            <p:dataTable value="#{planoDeTrabalhoBean.obterPorBolsista(papelBean.usuarioLogado.id)}"
-                         var="plano"
-                         emptyMessage="Você ainda não está inscrito em nenhum plano de trabalho"
-                         paginator="true"
-                         rows="10"
-                         paginatorPosition="bottom"
-                         styleClass="table-striped">
+                        <p:column headerText="Data Cadastro" sortBy="#{plano.dataCadastro}" styleClass="text-center"
+                                  priority="4">
+                            <h:outputText value="#{plano.dataCadastro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Título" sortBy="#{plano.titulo}" style="width: 30%;">
-                    <h:outputText value="#{plano.titulo}"/>
-                </p:column>
+                        <p:column headerText="Período do Edital" styleClass="text-center" priority="5">
+                            <h:outputText value="#{plano.inscricao.edital.dataInicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                            <h:outputText value=" a "/>
+                            <h:outputText value="#{plano.inscricao.edital.dataFinal}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Resumo" sortBy="#{plano.resumo}" style="width: 10%;">
-                    <h:outputText value="#{plano.resumo}"/>
-                </p:column>
+                        <p:column headerText="Operações" styleClass="text-center action-column">
+                            <p:commandButton value="Detalhes"
+                                             icon="pi pi-info-circle"
+                                             action="/bolsista/inscricao/detalhes.xhtml"
+                                             styleClass="ui-button-info"
+                                             ajax="false">
+                                <f:param name="planoID" value="#{plano.id}"/>
+                                <f:param name="bolsistaID" value="#{papelBean.usuarioLogado.id}"/>
+                                <f:param name="inscricaoBolsistaID" value="#{papelBean.usuarioLogado.id}"/>
+                            </p:commandButton>
+                        </p:column>
 
-                <p:column headerText="Pesquisador" sortBy="#{plano.inscricao.pessoa.nomeCompleto}">
-                    <h:outputText value="#{plano.inscricao.pessoa.nomeCompleto}"/>
-                </p:column>
-
-                <p:column headerText="Edital" sortBy="#{plano.inscricao.edital.titulo}">
-                    <h:outputText value="#{plano.inscricao.edital.titulo}"/>
-                </p:column>
-
-                <p:column headerText="Data Cadastro" sortBy="#{plano.dataCadastro}" style="text-align: center; width: 120px;">
-                    <h:outputText value="#{plano.dataCadastro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
-
-                <p:column headerText="Período do Edital" style="text-align: center; width: 150px;">
-                    <h:outputText value="#{plano.inscricao.edital.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                    <h:outputText value=" a "/>
-                    <h:outputText value="#{plano.inscricao.edital.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
-
-                <p:column headerText="Ações" style="text-align: center; width: 120px;">
-                    <p:commandButton value="Detalhes"
-                                     icon="fa fa-info-circle"
-                                     action="/bolsista/inscricao/detalhes.xhtml"
-                                     styleClass="ui-button-info">
-                        <f:param name="planoID" value="#{plano.id}"/>
-                        <f:param name="bolsistaID" value="#{papelBean.usuarioLogado.id}"/>
-                        <f:param name="inscricaoBolsistaID" value="#{papelBean.usuarioLogado.id}"/>
-                    </p:commandButton>
-                </p:column>
-
-            </p:dataTable>
-        </h:form>
-
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

@@ -9,82 +9,155 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
-    <ui:define name="title">
-        Formulário de Inscrição
-    </ui:define>
+    <ui:define name="title">Formulário de Inscrição</ui:define>
 
     <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-pencil"></i>
+                    Formulário de Inscrição
+                </h1>
 
-        <h:form>
+                <p:button outcome="/bolsista/edital/lista-abertos.xhtml"
+                          value="Cancelar"
+                          icon="pi pi-times"
+                          styleClass="ui-button-secondary outline"/>
+            </div>
 
-            <h:inputHidden value="#{inscricaoBean.edital.id}"/>
-            <h:inputHidden value="#{inscricaoBean.pesquisador.id}"/>
+            <div class="content-card">
+                <h:form id="formInscricao">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
 
-            <p:panel header="Nova Inscrição" style="width: 95%; margin: 20px auto; font-size: large">
-                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                    <h:inputHidden value="#{inscricaoBean.edital.id}"/>
+                    <h:inputHidden value="#{inscricaoBean.pesquisador.id}"/>
 
-                <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados do Edital"/>
-                    </f:facet>
+                    <!-- Dados do Edital -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-file"></i>
+                            Dados do Edital
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Edital"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.edital.titulo}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Ano/Número"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.edital.ano} / #{inscricaoBean.edital.numero}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Situação"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.obterSituacao(inscricaoBean.edital.situacao)}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Tipo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.obterTipo(inscricaoBean.edital.tipo)}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Início das Inscrições"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.edital.dataInicio}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Fim das Inscrições"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.edital.dataFinal}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
 
-                    <h:outputText value="Edital:" />
-                    <h:outputText value="#{inscricaoBean.edital.titulo}" />
+                    <!-- Dados do Participante -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-user"></i>
+                            Dados do Participante
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Nome Completo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.pesquisador.nomeCompleto}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Telefone"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.pesquisador.telefone}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Email"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.pesquisador.email}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                        </div>
+                    </div>
 
-                    <h:outputText value="Ano/Número:" />
-                    <h:outputText value="#{inscricaoBean.edital.ano} / #{inscricaoBean.edital.numero}"/>
+                    <!-- Confirmação de Senha -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-lock"></i>
+                            Confirmação de Segurança
+                        </h2>
+                        <div style="max-width: 400px;">
+                            <p:outputLabel for="senha" value="Senha"
+                                           style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.5rem; font-weight: 600;"/>
+                            <p:password id="senha"
+                                        value="#{inscricaoBean.senha}"
+                                        feedback="true"
+                                        promptLabel="Digite a senha"
+                                        weakLabel="Fraca"
+                                        goodLabel="Boa"
+                                        strongLabel="Forte"
+                                        required="true"
+                                        requiredMessage="Senha obrigatória"
+                                        style="width: 100%;"/>
+                        </div>
+                    </div>
 
-                    <h:outputText value="Situação:" />
-                    <h:outputText value="#{inscricaoBean.obterSituacao(inscricaoBean.edital.situacao)}" />
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <p:commandButton value="Confirmar Inscrição"
+                                         action="#{inscricaoBean.novaInscricao()}"
+                                         update="messages"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success">
+                            <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
+                            <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
+                        </p:commandButton>
 
-                    <h:outputText value="Tipo:" />
-                    <h:outputText value="#{inscricaoBean.obterTipo(inscricaoBean.edital.tipo)}"/>
+                        <p:button outcome="/bolsista/edital/lista-abertos.xhtml"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
-                    <h:outputText value="Início das inscrições:" />
-                    <h:outputText value="#{inscricaoBean.edital.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-
-                    <h:outputText value="Fim das inscrições:" />
-                    <h:outputText value="#{inscricaoBean.edital.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-
-                </p:panelGrid>
-
-                <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados do Participante"/>
-                    </f:facet>
-
-                    <h:outputText value="Nome Completo:" />
-                    <h:outputText value="#{inscricaoBean.pesquisador.nomeCompleto}" />
-
-                    <h:outputText value="Telefone:" />
-                    <h:outputText value="#{inscricaoBean.pesquisador.telefone}" />
-
-                    <h:outputText value="Email:" />
-                    <h:outputText value="#{inscricaoBean.pesquisador.email}" />
-
-                    <h:outputText value="Senha:" />
-                    <p:password id="senha" value="#{inscricaoBean.senha}" feedback="true"
-                                promptLabel="Digite a senha" weakLabel="Fraca" goodLabel="Boa"
-                                strongLabel="Forte" required="true" requiredMessage="Senha obrigatória"/>
-                </p:panelGrid>
-
-                <p:commandButton value="Cancelar" action="/bolsista/edital/lista-abertos.xhtml?faces-redirect=true"
-                                 styleClass="ui-button-secondary" icon="fa fa-ban" immediate="true"
-                                 style="margin-top: 20px; margin-left: 10px;"/>
-
-                <p:commandButton value="Confirmar Inscrição" action="#{inscricaoBean.novaInscricao()}"
-                                 icon="fa fa-check-square-o" update="messages" style="margin-top: 20px;" >
-                    <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
-                    <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
-                </p:commandButton>
-
-            </p:panel>
-        </h:form>
-
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.5rem;
+            }
+        </style>
     </ui:define>
 
 </ui:composition>

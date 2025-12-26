@@ -7,87 +7,167 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
->
-    <ui:define name="title">
-        Detalhes da Inscrição
-    </ui:define>
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Detalhes da Inscrição</ui:define>
 
     <ui:define name="content">
-
-        <h:form>
-            <p:panel header="Detalhes da Inscrição" style="width: 95%; margin: 20px auto; font-size: large">
-                <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados do Participante"/>
-                    </f:facet>
-                    <h:outputText value="Nome Completo:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.nomeCompleto}" />
-
-                    <h:outputText value="Telefone:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.telefone}" />
-
-                    <h:outputText value="Email:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.email}" />
-
-                    <h:outputText value="Data de Nascimento:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.nascimento}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>
-                </p:panelGrid>
-
-
-                <p:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados do Edital"/>
-                    </f:facet>
-
-                    <h:outputText value="Edital:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.edital.titulo}" />
-
-                    <h:outputText value="Ano/Número:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.edital.ano} / #{inscricaoBean.inscricao.edital.numero}"/>
-
-                    <h:outputText value="Situação:" />
-                    <h:outputText value="#{inscricaoBean.obterSituacao(inscricaoBean.inscricao.edital.situacao)}" />
-
-                    <h:outputText value="Tipo:" />
-                    <h:outputText value="#{inscricaoBean.obterTipo(inscricaoBean.inscricao.edital.tipo)}"/>
-
-                    <h:outputText value="Início das inscrições:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.edital.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-
-                    <h:outputText value="Fim das inscrições:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.edital.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-
-                    <h:outputText value="Cadastrado:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.edital.dataCadastro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:panelGrid>
-
-
-                <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
-                    <f:facet name="header">
-                        <p:outputLabel value="Dados da Inscrição"/>
-                    </f:facet>
-                    <h:outputText value="Protocolo:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.protocolo}" />
-
-                    <h:outputText value="Data de Inscrição:" />
-                    <h:outputText value="#{inscricaoBean.inscricao.dataInscricao}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>
-                </p:panelGrid>
-
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-info-circle"></i>
+                    Detalhes da Inscrição
+                </h1>
                 <p:commandButton value="Voltar" action="/bolsista/edital/lista-abertos.xhtml?faces-redirect=true"
-                                 styleClass="ui-button-secondary" icon="fa fa-arrow-circle-left"/>
-            </p:panel>
-        </h:form>
-    </ui:define>
+                                 icon="pi pi-arrow-left" styleClass="ui-button-secondary outline"/>
+            </div>
 
+            <div class="content-card">
+                <h:form id="formInscricao">
+                    <p:growl showDetail="true" showSummary="true"/>
+
+                    <!-- Informações da Inscrição -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-check-circle"></i>
+                            Dados da Inscrição
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Protocolo"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.inscricao.protocolo}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Data de Inscrição"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{inscricaoBean.inscricao.dataInscricao}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                        <!-- Dados do Participante -->
+                        <p:panel header="Participante" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-user" style="margin-right: 0.5rem;"></i>
+                                Dados do Participante
+                            </f:facet>
+                            <div style="padding: 1.5rem;">
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Nome Completo"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.nomeCompleto}"
+                                                  style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Telefone"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.telefone}"
+                                                  converter="telefoneConverter" style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Email"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.email}"
+                                                  style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Data de Nascimento"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{inscricaoBean.inscricao.pessoa.nascimento}"
+                                                  style="font-weight: 600;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </div>
+                            </div>
+                        </p:panel>
+
+                        <!-- Dados do Edital -->
+                        <p:panel header="Edital" styleClass="custom-panel">
+                            <f:facet name="header">
+                                <i class="pi pi-file-edit" style="margin-right: 0.5rem;"></i>
+                                Edital Vinculado
+                            </f:facet>
+                            <div style="padding: 1.5rem;">
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Título"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText value="#{inscricaoBean.inscricao.edital.titulo}"
+                                                  style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Ano / Número"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText
+                                            value="#{inscricaoBean.inscricao.edital.ano} / #{inscricaoBean.inscricao.edital.numero}"
+                                            style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Situação"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText
+                                            value="#{inscricaoBean.obterSituacao(inscricaoBean.inscricao.edital.situacao)}"
+                                            style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group" style="margin-bottom: 1rem;">
+                                    <p:outputLabel value="Tipo"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <h:outputText
+                                            value="#{inscricaoBean.obterTipo(inscricaoBean.inscricao.edital.tipo)}"
+                                            style="font-weight: 600;"/>
+                                </div>
+                                <div class="info-group">
+                                    <p:outputLabel value="Período de Inscrições"
+                                                   style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                    <div>
+                                        <h:outputText value="#{inscricaoBean.inscricao.edital.dataInicio}"
+                                                      style="font-weight: 600;">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                        <span style="margin: 0 0.3rem; color: #adb5bd;">a</span>
+                                        <h:outputText value="#{inscricaoBean.inscricao.edital.dataFinal}"
+                                                      style="font-weight: 600;">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.2rem;
+            }
+
+            .custom-panel.ui-panel {
+                border: 1px solid #e9ecef !important;
+                border-radius: 8px !important;
+                overflow: hidden;
+                height: 100%;
+            }
+
+            .custom-panel .ui-panel-titlebar {
+                background: #f8f9fa !important;
+                border-bottom: 1px solid #e9ecef !important;
+                font-weight: 600 !important;
+                color: #495057 !important;
+                padding: 0.75rem 1rem !important;
+            }
+
+            .custom-panel .ui-panel-content {
+                padding: 0 !important;
+            }
+        </style>
+    </ui:define>
 </ui:composition>
+

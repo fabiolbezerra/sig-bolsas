@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Meu Perfil</ui:define>
+
+    <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-user"></i>
+                    Meu Perfil
+                </h1>
+                <p:button outcome="#{papelBean.irParaPaginaPrincipal()}" value="Voltar" icon="pi pi-arrow-left"
+                          styleClass="ui-button-secondary outline"/>
+            </div>
+
+            <div class="content-card">
+                <!-- Dados Pessoais -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                        <i class="pi pi-user"></i>
+                        Dados Pessoais
+                    </h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                            <p:outputLabel value="Nome Completo"
+                                           style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.5rem; font-weight: 600;"/>
+                            <h:outputText value="#{pessoaBean.pessoa.nomeCompleto}"
+                                          style="font-size: 1.1rem; font-weight: 600; color: #212529;"/>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                            <p:outputLabel value="E-mail"
+                                           style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.5rem; font-weight: 600;"/>
+                            <h:outputText value="#{pessoaBean.pessoa.email}"
+                                          style="font-size: 1.1rem; font-weight: 600; color: #212529;"/>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                            <p:outputLabel value="Telefone"
+                                           style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.5rem; font-weight: 600;"/>
+                            <h:outputText value="#{pessoaBean.pessoa.telefone}" converter="telefoneConverter"
+                                          style="font-size: 1.1rem; font-weight: 600; color: #212529;"/>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                            <p:outputLabel value="Data de Nascimento"
+                                           style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.5rem; font-weight: 600;"/>
+                            <h:outputText value="#{pessoaBean.pessoa.nascimento}"
+                                          style="font-size: 1.1rem; font-weight: 600; color: #212529;">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painéis: Papéis e Unidade -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+                    <!-- Papéis/Permissões -->
+                    <div class="custom-panel">
+                        <h3 style="font-size: 1.1rem; color: #036fab; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="pi pi-shield"></i>
+                            Papéis/Permissões
+                        </h3>
+                        <p:dataTable value="#{pessoaBean.pessoa.pessoaPapels}" var="pp"
+                                     emptyMessage="Nenhum papel atribuído">
+                            <p:column headerText="Papel" priority="1">
+                                <h:outputText value="#{pp.papel.nome}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+                    <!-- Unidade Administrativa -->
+                    <div class="custom-panel">
+                        <h3 style="font-size: 1.1rem; color: #036fab; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="pi pi-building"></i>
+                            Unidade Administrativa
+                        </h3>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                            <h:outputText value="#{pessoaBean.pessoa.unidadeAdministrativa.nome}"
+                                          style="font-size: 1rem; font-weight: 600; color: #212529;"
+                                          rendered="#{pessoaBean.pessoa.unidadeAdministrativa != null}"/>
+                            <h:outputText value="Não definida"
+                                          style="font-size: 1rem; color: #6c757d; font-style: italic;"
+                                          rendered="#{pessoaBean.pessoa.unidadeAdministrativa == null}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style type="text/css">
+            .custom-panel {
+                background: white;
+                padding: 1.5rem;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            }
+        </style>
+    </ui:define>
+</ui:composition>
+

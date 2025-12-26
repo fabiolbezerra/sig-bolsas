@@ -10,32 +10,62 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="title">
-        Cadastro de Formulário
-    </ui:define>
+    <ui:define name="title">Cadastro de Formulário</ui:define>
 
     <ui:define name="content">
-        <h1>Formulário de Inscrição</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file-edit"></i>
+                    Cadastro de Formulário
+                </h1>
+            </div>
 
-        <h:form id="formFormulario">
-            <p:growl showDetail="true" showSummary="true"/>
+            <div class="content-card">
+                <h:form id="formFormulario">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h:inputHidden value="#{formularioBean.formulario.id}"/>
-            <h:inputHidden value="#{formularioBean.formulario.dataCriacao}">
-                <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
-            </h:inputHidden>
+                    <h:inputHidden value="#{formularioBean.formulario.id}"/>
+                    <h:inputHidden value="#{formularioBean.formulario.dataCriacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                    </h:inputHidden>
 
-            <h:panelGrid columns="2">
+                    <div class="ui-fluid">
+                        <!-- Dados do Formulário -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-file"></i>
+                                Dados do Formulário
+                            </h2>
+                            <div class="p-grid p-formgrid"
+                                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div class="p-field">
+                                    <p:outputLabel for="nome" value="Nome do Formulário" style="font-weight: 600;"/>
+                                    <p:inputText id="nome"
+                                                 value="#{formularioBean.formulario.nome}"
+                                                 required="true"
+                                                 requiredMessage="O nome do formulário é obrigatório"
+                                                 style="width: 100%"
+                                                 placeholder="Digite o nome do formulário"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <p:outputLabel value="Nome"/>
-                <p:inputText value="#{formularioBean.formulario.nome}"/>
-
-            </h:panelGrid>
-
-            <p:button outcome="lista.xhtml" value="Cancelar" icon="fa fa-ban"/>
-            <p:commandButton value="Salvar" icon="fa fa-floppy-o"
-                             action="#{formularioBean.salvar()}"
-                             update="@form" />
-        </h:form>
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <p:commandButton value="Salvar"
+                                         action="#{formularioBean.salvar()}"
+                                         update="@form"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success"/>
+                        <p:button outcome="lista.xhtml"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

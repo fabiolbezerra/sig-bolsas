@@ -6,33 +6,280 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:p="http://primefaces.org/ui"
 >
 
-    <ui:define name="title">
-        Página Inicial do Gerente
-    </ui:define>
-
+    <ui:define name="title">Dashboard - Gerente</ui:define>
 
     <ui:define name="content">
-        <p:card style="max-width: 900px; margin: 0 auto;">
-            <f:facet name="title">Página Inicial do Gerente</f:facet>
-            <p:panelGrid columns="3" layout="grid" styleClass="p-mt-3" columnClasses="p-pr-2,p-pr-2,p-pr-2">
-                <p:linkButton value="Calcular Pontuação" outcome="/acesso-negado.xhtml" icon="pi pi-calculator"/>
-                <p:linkButton value="Classificar Pesquisadores" outcome="/acesso-negado.xhtml" icon="pi pi-sort"/>
-                <p:linkButton value="Comitês" outcome="/gerente/comite/lista" icon="pi pi-sitemap"/>
-                <p:linkButton value="Formulários" outcome="/gerente/formulario/lista.xhtml" icon="pi pi-file-edit"/>
-                <p:linkButton value="Relatório de Pagamento" outcome="/acesso-negado.xhtml" icon="pi pi-file"/>
-                <p:linkButton value="Histórico Orientação Pesquisadores" outcome="/acesso-negado.xhtml" icon="pi pi-history"/>
-                <p:linkButton value="Histórico Orientação Bolsistas" outcome="/acesso-negado.xhtml" icon="pi pi-history"/>
-                <p:linkButton value="Pessoas" outcome="/gerente/pessoa/lista.xhtml" icon="pi pi-user"/>
-                <p:linkButton value="Editais" outcome="/gerente/edital/lista.xhtml" icon="pi pi-file"/>
-                <p:linkButton value="Editais Abertos" outcome="/bolsista/edital/lista-abertos.xhtml" icon="pi pi-folder-open"/>
-                <p:linkButton value="Editais Encerrados" outcome="/gerente/edital/lista-encerrados.xhtml" icon="pi pi-folder"/>
-                <p:linkButton value="Planos de Trabalho" outcome="/gerente/plano/lista.xhtml" icon="pi pi-briefcase"/>
-            </p:panelGrid>
-        </p:card>
+
+        <style type="text/css">
+            .dashboard-container {
+                padding: 2rem;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .dashboard-header {
+                margin-bottom: 2rem;
+            }
+
+            .dashboard-header h1 {
+                color: #495057;
+                font-size: 2rem;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .dashboard-header p {
+                color: #6c757d;
+                margin: 0;
+            }
+
+            .dashboard-section {
+                margin-bottom: 2.5rem;
+            }
+
+            .dashboard-section-title {
+                color: #495057;
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #e9ecef;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .dashboard-card {
+                background: white;
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                border-left: 4px solid transparent;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dashboard-card:hover {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+                transform: translateY(-2px);
+            }
+
+            .dashboard-card.blue {
+                border-left-color: #007ad9;
+            }
+
+            .dashboard-card.green {
+                border-left-color: #28a745;
+            }
+
+            .dashboard-card.orange {
+                border-left-color: #fd7e14;
+            }
+
+            .dashboard-card.purple {
+                border-left-color: #6f42c1;
+            }
+
+            .dashboard-card.red {
+                border-left-color: #dc3545;
+            }
+
+            .dashboard-card.teal {
+                border-left-color: #20c997;
+            }
+
+            .card-icon {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                display: block;
+            }
+
+            .card-icon.blue {
+                color: #007ad9;
+            }
+
+            .card-icon.green {
+                color: #28a745;
+            }
+
+            .card-icon.orange {
+                color: #fd7e14;
+            }
+
+            .card-icon.purple {
+                color: #6f42c1;
+            }
+
+            .card-icon.red {
+                color: #dc3545;
+            }
+
+            .card-icon.teal {
+                color: #20c997;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #495057;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+                color: #6c757d;
+                line-height: 1.5;
+            }
+        </style>
+
+        <div class="dashboard-container">
+
+            <div class="dashboard-header">
+                <h1>Painel do Gerente</h1>
+                <p>Gerencie o sistema e acompanhe relatórios e estatísticas</p>
+            </div>
+
+            <!-- Seção: Análises e Classificações -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-chart-bar" style="margin-right: 0.5rem;"></i>
+                    Análises e Classificações
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/acesso-negado.xhtml" styleClass="dashboard-card blue">
+                        <span class="card-icon blue">
+                            <i class="pi pi-calculator"></i>
+                        </span>
+                        <h3 class="card-title">Calcular Pontuação</h3>
+                        <p class="card-description">Calcule pontos de pesquisadores</p>
+                    </h:link>
+
+                    <h:link outcome="/acesso-negado.xhtml" styleClass="dashboard-card green">
+                        <span class="card-icon green">
+                            <i class="pi pi-sort-amount-down"></i>
+                        </span>
+                        <h3 class="card-title">Classificar Pesquisadores</h3>
+                        <p class="card-description">Ranking de classificação</p>
+                    </h:link>
+                </div>
+            </div>
+
+            <!-- Seção: Gestão de Editais -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-file" style="margin-right: 0.5rem;"></i>
+                    Gestão de Editais
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/gerente/edital/lista.xhtml" styleClass="dashboard-card blue">
+                        <span class="card-icon blue">
+                            <i class="pi pi-file"></i>
+                        </span>
+                        <h3 class="card-title">Todos os Editais</h3>
+                        <p class="card-description">Gerencie todos os editais</p>
+                    </h:link>
+
+                    <h:link outcome="/bolsista/edital/lista-abertos.xhtml" styleClass="dashboard-card green">
+                        <span class="card-icon green">
+                            <i class="pi pi-folder-open"></i>
+                        </span>
+                        <h3 class="card-title">Editais Abertos</h3>
+                        <p class="card-description">Editais com inscrições abertas</p>
+                    </h:link>
+
+                    <h:link outcome="/gerente/edital/lista-encerrados.xhtml" styleClass="dashboard-card orange">
+                        <span class="card-icon orange">
+                            <i class="pi pi-folder"></i>
+                        </span>
+                        <h3 class="card-title">Editais Encerrados</h3>
+                        <p class="card-description">Consulte editais finalizados</p>
+                    </h:link>
+                </div>
+            </div>
+
+            <!-- Seção: Administração do Sistema -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-cog" style="margin-right: 0.5rem;"></i>
+                    Administração do Sistema
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/gerente/comite/lista" styleClass="dashboard-card purple">
+                        <span class="card-icon purple">
+                            <i class="pi pi-sitemap"></i>
+                        </span>
+                        <h3 class="card-title">Comitês</h3>
+                        <p class="card-description">Gerencie comitês de avaliação</p>
+                    </h:link>
+
+                    <h:link outcome="/gerente/formulario/lista.xhtml" styleClass="dashboard-card teal">
+                        <span class="card-icon teal">
+                            <i class="pi pi-file-edit"></i>
+                        </span>
+                        <h3 class="card-title">Formulários</h3>
+                        <p class="card-description">Formulários de inscrição</p>
+                    </h:link>
+
+                    <h:link outcome="/gerente/pessoa/lista.xhtml" styleClass="dashboard-card blue">
+                        <span class="card-icon blue">
+                            <i class="pi pi-users"></i>
+                        </span>
+                        <h3 class="card-title">Pessoas</h3>
+                        <p class="card-description">Cadastro de usuários</p>
+                    </h:link>
+
+                    <h:link outcome="/gerente/plano/lista.xhtml" styleClass="dashboard-card green">
+                        <span class="card-icon green">
+                            <i class="pi pi-briefcase"></i>
+                        </span>
+                        <h3 class="card-title">Planos de Trabalho</h3>
+                        <p class="card-description">Consulte planos de pesquisa</p>
+                    </h:link>
+                </div>
+            </div>
+
+            <!-- Seção: Relatórios e Histórico -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-title">
+                    <i class="pi pi-chart-line" style="margin-right: 0.5rem;"></i>
+                    Relatórios e Histórico
+                </div>
+                <div class="card-grid">
+                    <h:link outcome="/acesso-negado.xhtml" styleClass="dashboard-card orange">
+                        <span class="card-icon orange">
+                            <i class="pi pi-dollar"></i>
+                        </span>
+                        <h3 class="card-title">Relatório de Pagamento</h3>
+                        <p class="card-description">Consulte pagamentos realizados</p>
+                    </h:link>
+
+                    <h:link outcome="/acesso-negado.xhtml" styleClass="dashboard-card purple">
+                        <span class="card-icon purple">
+                            <i class="pi pi-history"></i>
+                        </span>
+                        <h3 class="card-title">Histórico Pesquisadores</h3>
+                        <p class="card-description">Orientações de pesquisadores</p>
+                    </h:link>
+
+                    <h:link outcome="/acesso-negado.xhtml" styleClass="dashboard-card red">
+                        <span class="card-icon red">
+                            <i class="pi pi-chart-line"></i>
+                        </span>
+                        <h3 class="card-title">Histórico Bolsistas</h3>
+                        <p class="card-description">Orientações de bolsistas</p>
+                    </h:link>
+                </div>
+            </div>
+
+        </div>
+
     </ui:define>
 
 </ui:composition>
+

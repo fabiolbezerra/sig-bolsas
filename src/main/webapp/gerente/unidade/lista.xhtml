@@ -10,58 +10,82 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="Unidades Administrativas">
-        Unidades Administrativas
-    </ui:define>
+    <ui:define name="title">Unidades Administrativas</ui:define>
 
     <ui:define name="content">
-        <h1> Listagem de Unidades Administrativas </h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-building"></i>
+                    Unidades Administrativas
+                </h1>
 
-        <br/>
+                <p:link outcome="formulario.xhtml"
+                        rendered="#{papelBean.usuarioLogadoAdministrador}"
+                        styleClass="btn-new">
+                    <i class="pi pi-plus"></i>
+                    <span>Cadastrar Unidade</span>
+                </p:link>
+            </div>
 
-        <p:link value="Cadastrar unidade administrativa"
-                outcome="formulario.xhtml"
-                rendered="#{papelBean.usuarioLogadoAdministrador}"/>
+            <div class="content-card">
+                <h:form id="formComite">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <br/> <br/>
+                    <p:dataTable value="#{unidadeAdministrativaBean.unidades}"
+                                 var="unidade"
+                                 paginator="true"
+                                 rows="10"
+                                 rowHover="true"
+                                 paginatorPosition="bottom"
+                                 reflow="true"
+                                 emptyMessage="Nenhuma unidade cadastrada">
 
-        <h:form id="formComite">
-            <p:growl showDetail="true" showSummary="true"/>
+                        <p:column headerText="Nome" priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{unidade.nome}" style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{unidade.sigla} - #{unidade.tipo.descricao}"
+                                              style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"
+                                              class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-            <p:dataTable value="#{unidadeAdministrativaBean.unidades}" var="unidade" paginator="true" rows="10" rowHover="true" responsiveLayout="scroll">
-                <p:column headerText="Nome">
-                    <h:outputText value="#{unidade.nome}"/>
-                </p:column>
+                        <p:column headerText="Sigla" priority="2" styleClass="text-center">
+                            <h:outputText value="#{unidade.sigla}" style="font-weight: 600;"/>
+                        </p:column>
 
-                <p:column headerText="Sigla">
-                    <h:outputText value="#{unidade.sigla}"/>
-                </p:column>
+                        <p:column headerText="Tipo" priority="3">
+                            <h:outputText value="#{unidade.tipo.descricao}"/>
+                        </p:column>
 
-                <p:column headerText="Tipo">
-                    <h:outputText value="#{unidade.tipo.descricao}"/>
-                </p:column>
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:splitButton value="Detalhes"
+                                           action="detalhes.xhtml"
+                                           icon="pi pi-info-circle"
+                                           styleClass="split-action">
+                                <f:setPropertyActionListener value="#{unidade}"
+                                                             target="#{unidadeAdministrativaBean.unidade}"/>
 
-                <p:column headerText="Operações" styleClass="p-text-center">
-                    <p:splitButton value="Detalhes"
-                                   action="detalhes.xhtml"
-                                   icon="pi pi-info-circle">
-                        <f:setPropertyActionListener value="#{unidade}" target="#{unidadeAdministrativaBean.unidade}"/>
-
-                        <p:menuitem value="Editar"
-                                    action="formulario.xhtml"
-                                    icon="pi pi-pencil"
-                                    rendered="#{papelBean.usuarioLogadoAdministrador}">
-                            <f:setPropertyActionListener value="#{unidade}"
-                                                         target="#{unidadeAdministrativaBean.unidade}"/>
-                        </p:menuitem>
-                    </p:splitButton>
-                </p:column>
-            </p:dataTable>
-
-            <br/>
-
-        </h:form>
-
+                                <p:menuitem value="Editar"
+                                            action="formulario.xhtml"
+                                            icon="pi pi-pencil"
+                                            rendered="#{papelBean.usuarioLogadoAdministrador}">
+                                    <f:setPropertyActionListener value="#{unidade}"
+                                                                 target="#{unidadeAdministrativaBean.unidade}"/>
+                                </p:menuitem>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

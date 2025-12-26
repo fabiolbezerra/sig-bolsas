@@ -15,73 +15,92 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1> Editais com Inscrição Aberta </h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file"></i>
+                    Editais com Inscrição Aberta
+                </h1>
+            </div>
 
-        <br/>
+            <div class="content-card">
+                <h:form id="formEdital">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <br/><br/>
+                    <p:dataTable value="#{editalBean.editaisAbertos}" var="edital"
+                                 emptyMessage="Nenhum edital aberto no momento"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true">
 
-        <h:form id="formEdital">
-            <p:growl showDetail="true" showSummary="true"/>
+                        <p:column headerText="Título" filterBy="#{edital.titulo}" filterMatchMode="contains"
+                                  priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{edital.titulo}" style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{edital.ano} / #{edital.numero}"
+                                              style="font-size: 0.85rem; color: #666;" class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-            <p:dataTable value="#{editalBean.editaisAbertos}" var="edital" paginator="true" rows="10" rowHover="true" responsiveLayout="scroll">
-                <p:column headerText="Título" filterBy="#{edital.titulo}" filterMatchMode="contains">
-                    <h:outputText value="#{edital.titulo}"/>
-                </p:column>
+                        <p:column headerText="Ano e Número" priority="3">
+                            <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
+                        </p:column>
 
-                <p:column headerText="Ano e Número">
-                    <h:outputText value="#{edital.ano}"/> / <h:outputText value="#{edital.numero}"/>
-                </p:column>
+                        <p:column headerText="Cadastro" priority="4">
+                            <h:outputText value="#{edital.dataCadastro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Cadastro">
-                    <h:outputText value="#{edital.dataCadastro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Inscrições" priority="2">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <h:outputText value="#{edital.dataInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <span style="color: #adb5bd;">a</span>
+                                <h:outputText value="#{edital.dataFinal}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </p:column>
 
-                <p:column headerText="Inscrições">
-                    <h:outputText value="#{edital.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                    a
-                    <h:outputText value="#{edital.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Situação" priority="4">
+                            <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}"/>
+                        </p:column>
 
-                <p:column headerText="Situação">
-                    <h:outputText value="#{editalBean.obterSituacao(edital.situacao)}"/>
-                </p:column>
+                        <p:column headerText="Tipo" priority="5">
+                            <h:outputText value="#{editalBean.obterTipo(edital.tipo)}"/>
+                        </p:column>
 
-                <p:column headerText="Tipo">
-                    <h:outputText value="#{editalBean.obterTipo(edital.tipo)}"/>
-                </p:column>
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:splitButton value="Detalhes" action="/bolsista/edital/detalhes.xhtml"
+                                           icon="pi pi-info-circle"
+                                           ajax="false" styleClass="split-action">
+                                <f:setPropertyActionListener target="#{editalBean.edital}" value="#{edital}"/>
 
-                <p:column headerText="Operações" styleClass="p-text-center">
-                    <p:splitButton value="Detalhes" action="/bolsista/edital/detalhes.xhtml" icon="pi pi-info-circle"
-                                   ajax="false">
-                        <f:setPropertyActionListener target="#{editalBean.edital}" value="#{edital}"/>
+                                <p:menuitem value="Inscrever-se"
+                                            action="#{inscricaoBean.iniciarInscricao()}"
+                                            icon="pi pi-pencil"
+                                            rendered="#{papelBean.usuarioLogadoPesquisador}">
+                                    <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
+                                    <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
 
-                        <p:menuitem value="Inscrever-se"
-                                    action="#{inscricaoBean.iniciarInscricao()}"
-                                    icon="pi pi-pencil"
-                                    rendered="#{papelBean.usuarioLogadoPesquisador}">
-                            <f:param name="editalID" value="#{inscricaoBean.edital.id}"/>
-                            <f:param name="pesquisadorID" value="#{inscricaoBean.pesquisador.id}"/>
-
-                            <f:setPropertyActionListener target="#{inscricaoBean.edital}" value="#{edital}"/>
-                            <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}"
-                                                         value="#{papelBean.usuarioLogado}"/>
-                        </p:menuitem>
-                    </p:splitButton>
-                </p:column>
-
-            </p:dataTable>
-
-            <br/>
-
-        </h:form>
-
+                                    <f:setPropertyActionListener target="#{inscricaoBean.edital}" value="#{edital}"/>
+                                    <f:setPropertyActionListener target="#{inscricaoBean.pesquisador}"
+                                                                 value="#{papelBean.usuarioLogado}"/>
+                                </p:menuitem>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

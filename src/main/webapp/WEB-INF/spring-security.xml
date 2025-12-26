@@ -20,6 +20,7 @@
 
 
         <intercept-url pattern="/j_spring_security_check" access="permitAll"/>
+        <intercept-url pattern="/j_spring_security_logout" access="permitAll"/>
         <intercept-url pattern="/publico/**" access="permitAll"/>
         <intercept-url pattern="/jakarta.faces.resource/**" access="permitAll"/>
         <!-- estáticos do projeto -->
@@ -60,6 +61,7 @@
 
     <beans:bean id="myLoginHandler"
                 class="br.edu.ufra.seguranca.LoginHandler" />
+
 
     <beans:bean id="myAuthenticationHandler"
                 class="br.edu.ufra.seguranca.AuthenticationHandler" />

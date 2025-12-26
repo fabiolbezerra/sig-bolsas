@@ -6,30 +6,102 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">
-        Detalhes de um formulário
-    </ui:define>
+    <ui:define name="title">Detalhes do Formulário</ui:define>
 
     <ui:define name="content">
-        <h1>#{formularioBean.formulario.nome}</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file-edit"></i>
+                    #{formularioBean.formulario.nome}
+                </h1>
+                <p:commandButton value="Voltar" action="lista.xhtml" icon="pi pi-arrow-left"
+                                 styleClass="ui-button-secondary outline"/>
+            </div>
 
-        <h:form id="formPessoa">
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h2>#{formularioBean.formulario.nome}</h2>
+                    <!-- Informações do Formulário -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-file"></i>
+                            Dados do Formulário
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="info-group">
+                                <p:outputLabel value="Nome"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{formularioBean.formulario.nome}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Data de Criação"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{formularioBean.formulario.dataCriacao}"
+                                              style="font-weight: 600; color: #212529;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </div>
+                            <div class="info-group">
+                                <p:outputLabel value="Número de Perguntas"
+                                               style="display: block; font-size: 0.85rem; color: #6c757d; margin-bottom: 0.25rem;"/>
+                                <h:outputText value="#{formularioBean.formulario.perguntas.size()}"
+                                              style="font-weight: 600; color: #212529;"/>
+                            </div>
+                        </div>
+                    </div>
 
-            <h3>Perguntas</h3>
-            
-            <p:dataList value="#{formularioBean.formulario.perguntas}"
-                        var="pergunta"
-                        emptyMessage="Nenhuma pergunta adicionada">
-                <h:outputText value="#{pergunta.texto}" />
-            </p:dataList>
+                    <!-- Perguntas do Formulário -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                            <i class="pi pi-question-circle"></i>
+                            Perguntas
+                        </h2>
 
-            <br/>
+                        <p:dataTable value="#{formularioBean.formulario.perguntas}"
+                                     var="pergunta"
+                                     emptyMessage="Nenhuma pergunta cadastrada"
+                                     reflow="true"
+                                     styleClass="ui-datatable-sm">
+                            <p:column headerText="Ordem" priority="1" styleClass="text-center" style="width: 80px;">
+                                <h:outputText value="#{pergunta.ordem}" style="font-weight: 600;"/>
+                            </p:column>
+                            <p:column headerText="Texto da Pergunta" priority="1">
+                                <h:outputText value="#{pergunta.texto}"/>
+                            </p:column>
+                            <p:column headerText="Tipo" priority="2">
+                                <h:outputText value="#{pergunta.tipo.descricao}"/>
+                            </p:column>
+                            <p:column headerText="Pontuação" priority="3" styleClass="text-center">
+                                <h:outputText value="#{pergunta.pontuacao}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
-            <p:commandLink value="Voltar" action="lista.xhtml" />
-        </h:form>
+        <style type="text/css">
+            .info-group {
+                background: #fff;
+                padding: 0.2rem;
+            }
+
+            .ui-datatable-sm .ui-datatable-thead th {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+
+            .ui-datatable-sm .ui-datatable-data td {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+        </style>
     </ui:define>
 </ui:composition>
+

@@ -15,92 +15,101 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>Listagem de Pessoas</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-users"></i>
+                    Listagem de Pessoas
+                </h1>
 
-        <br/>
+                <p:link outcome="formulario.xhtml" styleClass="btn-new">
+                    <i class="pi pi-plus"></i>
+                    <span>Nova Pessoa</span>
+                </p:link>
+            </div>
 
-        <p:link value="Nova pessoa" outcome="formulario.xhtml"/>
+            <div class="content-card">
+                <h:form id="formPessoa">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <br/><br/>
+                    <div style="margin-bottom: 2rem; background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <div style="display: flex; gap: 1rem; align-items: flex-end;">
+                            <div style="flex: 1;">
+                                <p:outputLabel value="Critério de Pesquisa"
+                                               style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;"/>
+                                <p:selectOneMenu value="#{pessoaBean.criterio}" style="width: 100%;">
+                                    <f:selectItem itemValue="N" itemLabel="Nome Completo"/>
+                                    <f:selectItem itemValue="E" itemLabel="E-mail"/>
+                                    <f:selectItem itemValue="D" itemLabel="Data de Nascimento"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div style="flex: 2;">
+                                <p:outputLabel value="Palavra-chave"
+                                               style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;"/>
+                                <p:inputText value="#{pessoaBean.chaveDeBusca}" placeholder="Digite sua pesquisa..."
+                                             style="width: 100%;"/>
+                            </div>
+                            <p:commandButton value="Buscar" action="#{pessoaBean.pesquisar()}" update="@form"
+                                             icon="pi pi-search" styleClass="ui-button-primary" style="height: 34px;"/>
+                        </div>
+                    </div>
 
-        <h:form id="formPessoa">
-            <p:growl showDetail="true" showSummary="true"/>
+                    <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa"
+                                 emptyMessage="Nenhuma informação a ser exibida"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true">
 
-            <p:panelGrid columns="2">
-                <f:facet name="header">
-                    Critério de Pesquisa
-                </f:facet>
+                        <p:column headerText="Nome Completo">
+                            <h:outputText value="#{pessoa.nomeCompleto}" style="font-weight: bold; color: #2c3e50;"/>
+                        </p:column>
 
-                <f:facet name="footer">
-                    <p:commandButton value="Buscar" action="#{pessoaBean.pesquisar()}" update="@form"
-                                     icon="fa fa-search"/>
-                </f:facet>
+                        <p:column headerText="Telefone" style="text-align: center;">
+                            <h:outputText value="#{pessoa.telefone}" converter="telefoneConverter"/>
+                        </p:column>
 
-                <p:selectOneMenu value="#{pessoaBean.criterio}">
-                    <f:selectItem itemValue="N" itemLabel="Nome Completo"/>
-                    <f:selectItem itemValue="E" itemLabel="E-mail"/>
-                    <f:selectItem itemValue="D" itemLabel="Data de Nascimento"/>
+                        <p:column headerText="E-mail">
+                            <h:outputText value="#{pessoa.email}"/>
+                        </p:column>
 
-                </p:selectOneMenu>
+                        <p:column headerText="Nascimento" style="text-align: center;">
+                            <h:outputText value="#{pessoa.nascimento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:inputText value="#{pessoaBean.chaveDeBusca}" placeholder="Digite a pista de pesquisa"/>
-            </p:panelGrid>
+                        <p:column headerText="Operações" style="text-align: center; width: 150px;">
+                            <p:splitButton value="Detalhes" action="/pesquisador/pessoa/detalhes.xhtml"
+                                           icon="pi pi-info-circle">
+                                <f:param name="pessoa" value="#{pessoa.id}"/>
 
-            <br/><br/>
+                                <p:menuitem value="Editar" action="formulario.xhtml" icon="pi pi-pencil">
+                                    <f:param name="pessoa" value="#{pessoa.id}"/>
+                                </p:menuitem>
 
-            <p:dataTable value="#{pessoaBean.pessoas}" var="pessoa"
-                         emptyMessage="Nenhuma informação a ser exibida"
-                         paginator="true" rows="10" paginatorPosition="bottom"
-                         rowHover="true" responsiveLayout="scroll">
-                <p:column headerText="Nome Completo">
-                    <h:outputText value="#{pessoa.nomeCompleto}"/>
-                </p:column>
+                                <p:menuitem value="Senha" outcome="/bolsista/pessoa/formulario-senha.xhtml"
+                                            icon="pi pi-lock">
+                                    <f:param name="pessoaID" value="#{pessoa.id}"/>
+                                    <f:param name="returnTo" value="/gerente/pessoa/lista.xhtml"/>
+                                </p:menuitem>
 
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{pessoa.telefone}" converter="telefoneConverter"/>
-                </p:column>
+                                <p:menuitem value="E-mail" outcome="/bolsista/pessoa/formulario-email.xhtml"
+                                            icon="pi pi-envelope">
+                                    <f:param name="pessoaID" value="#{pessoa.id}"/>
+                                    <f:param name="returnTo" value="/gerente/pessoa/lista.xhtml"/>
+                                </p:menuitem>
 
-                <p:column headerText="E-mail">
-                    <h:outputText value="#{pessoa.email}"/>
-                </p:column>
-
-                <p:column headerText="Nascimento">
-                    <h:outputText value="#{pessoa.nascimento}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
-
-                <p:column headerText="Operações" styleClass="p-text-center">
-
-                    <p:splitButton value="Detalhes" action="/pesquisador/pessoa/detalhes.xhtml"
-                                   icon="pi pi-info-circle">
-                        <f:param name="pessoa" value="#{pessoa.id}"/>
-
-                        <p:menuitem value="Editar" action="formulario.xhtml" icon="pi pi-pencil">
-                            <f:param name="pessoa" value="#{pessoa.id}"/>
-                        </p:menuitem>
-
-                        <p:menuitem value="Senha" action="formulario-senha.xhtml" icon="pi pi-lock"
-                                    aria-hidden="true">
-                            <f:param name="pessoa" value="#{pessoa.id}"/>
-                        </p:menuitem>
-
-                        <p:menuitem value="E-mail" action="formulario-email.xhtml" icon="pi pi-envelope"
-                                    aria-hidden="true">
-                            <f:param name="pessoa" value="#{pessoa.id}"/>
-                        </p:menuitem>
-                        <p:menuitem title="Alterar os papéis (permissões)"
-                                    rendered="#{papelBean.usuarioLogadoAdministrador}"
-                                    value="Permissão"
-                                    action="formulario-papel.xhtml" icon="pi pi-check-circle" aria-hidden="true">
-                            <f:param name="pessoa" value="#{pessoa.id}"/>
-                        </p:menuitem>
-                    </p:splitButton>
-                </p:column>
-            </p:dataTable>
-            <br/>
-        </h:form>
-
+                                <p:menuitem title="Alterar os papéis (permissões)"
+                                            rendered="#{papelBean.usuarioLogadoAdministrador}"
+                                            value="Permissão"
+                                            action="formulario-papel.xhtml" icon="pi pi-check-circle">
+                                    <f:param name="pessoa" value="#{pessoa.id}"/>
+                                </p:menuitem>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

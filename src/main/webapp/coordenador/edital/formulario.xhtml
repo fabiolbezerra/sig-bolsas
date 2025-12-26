@@ -15,80 +15,121 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>Edital</h1>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file"></i>
+                    Cadastro de Edital
+                </h1>
+            </div>
 
-        <h:form id="formEdital">
-            <p:growl showDetail="true" showSummary="true"/>
+            <div class="content-card">
+                <h:form id="formEdital">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h:inputHidden value="#{editalBean.edital.id}"/>
-            <h:inputHidden value="#{editalBean.edital.dataCadastro}">
-                <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
-            </h:inputHidden>
-            
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Título"/>
-                <p:inputText value="#{editalBean.edital.titulo}"
-                required="true"
-                requiredMessage="O título é obrigatório."/>
+                    <h:inputHidden value="#{editalBean.edital.id}"/>
+                    <h:inputHidden value="#{editalBean.edital.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                    </h:inputHidden>
 
-                <p:outputLabel value="Ano"/>
-                <p:inputMask mask="9999" value="#{editalBean.edital.ano}"
-                required="true"
-                requiredMessage="O ano é obrigatório."/>
+                    <div class="ui-fluid">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div class="p-field">
+                                <p:outputLabel for="titulo" value="Título" style="font-weight: 600;"/>
+                                <p:inputText id="titulo" value="#{editalBean.edital.titulo}"
+                                             required="true"
+                                             requiredMessage="O título é obrigatório."/>
+                            </div>
 
-                <p:outputLabel value="Número"/>
-                <p:inputText value="#{editalBean.edital.numero}" size="5"
-                required="true"
-                requiredMessage="É preciso escolher o número para o edital"/>
+                            <div class="p-field">
+                                <p:outputLabel for="ano" value="Ano" style="font-weight: 600;"/>
+                                <p:inputMask id="ano" mask="9999" value="#{editalBean.edital.ano}"
+                                             required="true"
+                                             requiredMessage="O ano é obrigatório."/>
+                            </div>
 
-                <p:outputLabel value="Início das inscrições"/>
-                <p:calendar pattern="dd/MM/yyyy" value="#{editalBean.edital.dataInicio}"
-                required="true"
-                requiredMessage="Data inicial é obrigatória"/>
+                            <div class="p-field">
+                                <p:outputLabel for="numero" value="Número" style="font-weight: 600;"/>
+                                <p:inputText id="numero" value="#{editalBean.edital.numero}"
+                                             required="true"
+                                             requiredMessage="É preciso escolher o número para o edital"/>
+                            </div>
 
-                <p:outputLabel value="Fim das inscrições"/>
-                <p:calendar pattern="dd/MM/yyyy" value="#{editalBean.edital.dataFinal}"
-                required="true"
-                requiredMessage="Data final é obrigatória"/>
+                            <div class="p-field">
+                                <p:outputLabel for="inicio" value="Início das inscrições" style="font-weight: 600;"/>
+                                <p:calendar id="inicio" pattern="dd/MM/yyyy" value="#{editalBean.edital.dataInicio}"
+                                            required="true"
+                                            requiredMessage="Data inicial é obrigatória" showOn="button"/>
+                            </div>
 
-                <p:outputLabel value="Situação"/>
-                <p:selectOneMenu value="#{editalBean.edital.situacao}">
-                    <f:selectItem itemValue="C" itemLabel="Cadastrado"/>
-                    <f:selectItem itemValue="P" itemLabel="Publicado"/>
-                    <f:selectItem itemValue="N" itemLabel="Não publicado"/>
-                    <f:selectItem itemValue="E" itemLabel="Encerrado"/>
-                </p:selectOneMenu>
+                            <div class="p-field">
+                                <p:outputLabel for="final" value="Fim das inscrições" style="font-weight: 600;"/>
+                                <p:calendar id="final" pattern="dd/MM/yyyy" value="#{editalBean.edital.dataFinal}"
+                                            required="true"
+                                            requiredMessage="Data final é obrigatória" showOn="button"/>
+                            </div>
 
-                <p:outputLabel value="Tipo"/>
-                <p:selectOneMenu value="#{editalBean.edital.tipo}" required="true">
-                    <f:selectItem itemValue="P" itemLabel="Pesquisa"/>
-                    <f:selectItem itemValue="D" itemLabel="Desenvolvimento Tecnológico"/>
-                    <f:selectItem itemValue="E" itemLabel="Extensão"/>
-                </p:selectOneMenu>
+                            <div class="p-field">
+                                <p:outputLabel for="situacao" value="Situação" style="font-weight: 600;"/>
+                                <p:selectOneMenu id="situacao" value="#{editalBean.edital.situacao}">
+                                    <f:selectItem itemValue="C" itemLabel="Cadastrado"/>
+                                    <f:selectItem itemValue="P" itemLabel="Publicado"/>
+                                    <f:selectItem itemValue="N" itemLabel="Não publicado"/>
+                                    <f:selectItem itemValue="E" itemLabel="Encerrado"/>
+                                </p:selectOneMenu>
+                            </div>
 
-                <p:outputLabel value="Comitê"/>
-                <p:selectOneMenu converter="comiteConverter" value="#{editalBean.edital.comite}" required="true">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione o comitê"/>
-                    <f:selectItems value="#{comiteBean.comites}" var="c" itemValue="#{c}" itemLabel="#{c.portaria}"/>
-                </p:selectOneMenu>
+                            <div class="p-field">
+                                <p:outputLabel for="tipo" value="Tipo" style="font-weight: 600;"/>
+                                <p:selectOneMenu id="tipo" value="#{editalBean.edital.tipo}" required="true">
+                                    <f:selectItem itemValue="P" itemLabel="Pesquisa"/>
+                                    <f:selectItem itemValue="D" itemLabel="Desenvolvimento Tecnológico"/>
+                                    <f:selectItem itemValue="E" itemLabel="Extensão"/>
+                                </p:selectOneMenu>
+                            </div>
 
-                <p:outputLabel value="Coordenador"/>
-                <p:selectOneMenu converter="pessoaConverter" value="#{editalBean.edital.coordenador}" required="true">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma pessoa como coordenador"/>
-                    <f:selectItems value="#{pessoaBean.coordenadores}" var="coordenador"
-                                   itemValue="#{coordenador}" itemLabel="#{coordenador.nomeCompleto}"/>
-                </p:selectOneMenu>
+                            <div class="p-field">
+                                <p:outputLabel for="comite" value="Comitê" style="font-weight: 600;"/>
+                                <p:selectOneMenu id="comite" converter="comiteConverter"
+                                                 value="#{editalBean.edital.comite}" required="true">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Selecione o comitê"/>
+                                    <f:selectItems value="#{comiteBean.comites}" var="c" itemValue="#{c}"
+                                                   itemLabel="#{c.portaria}"/>
+                                </p:selectOneMenu>
+                            </div>
 
-                <p:outputLabel value="Formulário de inscrição"/>
-                <p:selectOneMenu converter="formularioConverter" value="#{editalBean.edital.formulario}" required="true">
-                    <f:selectItem noSelectionOption="true" itemLabel="Selecione um formulário"/>
-                    <f:selectItems value="#{formularioBean.formularios}" var="formulario"
-                                   itemValue="#{formulario}" itemLabel="#{formulario.nome}"/>
-                </p:selectOneMenu>
-            </h:panelGrid>
+                            <div class="p-field">
+                                <p:outputLabel for="coordenador" value="Coordenador" style="font-weight: 600;"/>
+                                <p:selectOneMenu id="coordenador" converter="pessoaConverter"
+                                                 value="#{editalBean.edital.coordenador}" required="true">
+                                    <f:selectItem noSelectionOption="true"
+                                                  itemLabel="Selecione uma pessoa como coordenador"/>
+                                    <f:selectItems value="#{pessoaBean.coordenadores}" var="coordenador"
+                                                   itemValue="#{coordenador}" itemLabel="#{coordenador.nomeCompleto}"/>
+                                </p:selectOneMenu>
+                            </div>
 
-            <p:button outcome="/gerente/edital/lista.xhtml" value="Cancelar" icon="fa fa-ban"/>
-            <p:commandButton value="Salvar" action="#{editalBean.salvar()}" update="@form" icon="fa fa-floppy-o"/>
-        </h:form>
+                            <div class="p-field">
+                                <p:outputLabel for="formulario" value="Formulário de inscrição"
+                                               style="font-weight: 600;"/>
+                                <p:selectOneMenu id="formulario" converter="formularioConverter"
+                                                 value="#{editalBean.edital.formulario}" required="true">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Selecione um formulário"/>
+                                    <f:selectItems value="#{formularioBean.formularios}" var="formulario"
+                                                   itemValue="#{formulario}" itemLabel="#{formulario.nome}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <p:commandButton value="Salvar" action="#{editalBean.salvar()}" update="@form"
+                                         icon="pi pi-check" styleClass="ui-button-success"/>
+                        <p:button outcome="/gerente/edital/lista.xhtml" value="Cancelar" icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

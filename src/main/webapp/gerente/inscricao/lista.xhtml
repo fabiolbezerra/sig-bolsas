@@ -9,50 +9,70 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">
-        Inscrições no Edital
-    </ui:define>
+    <ui:define name="title">Inscrições no Edital</ui:define>
 
     <ui:define name="content">
-        <h1>Inscrições no Edital XXXXX</h1>
+        <style type="text/css">
+            @media (min-width: 641px) {
+                .mobile-only {
+                    display: none !important;
+                }
+            }
+        </style>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-users"></i>
+                    Inscrições no Edital
+                </h1>
+            </div>
 
-        <!--TODO Dados do Edital-->
-        <br/>
+            <div class="content-card">
+                <h:form id="formInscricao">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-        <h:form id="formInscricao">
-            <p:growl showDetail="true" showSummary="true"/>
+                    <p:dataTable value="#{inscricaoBean.inscricoes}"
+                                 var="inscricao"
+                                 emptyMessage="Nenhuma inscrição encontrada"
+                                 paginator="true"
+                                 rows="10"
+                                 paginatorPosition="bottom"
+                                 reflow="true">
 
-            <p:dataTable value="#{inscricaoBean.inscricoes}"
-                         var="inscricao"
-                         emptyMessage="Nenhuma inscrição encontrada"
-                         paginator="true"
-                         rows="10"
-                         paginatorPosition="bottom">
+                        <p:column headerText="Pesquisador" priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{inscricao.pessoa.nomeCompleto}"
+                                              style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{inscricao.pessoa.telefone}"
+                                              style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"
+                                              class="mobile-only"/>
+                            </div>
+                        </p:column>
 
-                <p:column headerText="Pesquisador">
-                    <h:outputText value="#{inscricao.pessoa.nomeCompleto}" />
-                </p:column>
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{inscricao.pessoa.telefone}" />
-                </p:column>
-                <p:column headerText="E-mail">
-                    <h:outputText value="#{inscricao.pessoa.email}" />
-                </p:column>
+                        <p:column headerText="Telefone" priority="3" styleClass="text-center">
+                            <h:outputText value="#{inscricao.pessoa.telefone}" converter="telefoneConverter"/>
+                        </p:column>
 
-                <p:column headerText=" ">
-                    <p:commandButton value="Planos de trabalho"
-                                     action="/pesquisador/plano/lista-pesquisador.xhtml" icon="fa fa-file-text-o"
-                                     styleClass="ui-button-danger"
-                                     update="@form"
-                                     ajax="true">
-                        <f:param name="editalID" value="#{inscricao.edital.id}"/>
-                        <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
-                        <f:param name="inscricaoID" value="#{inscricao.id}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+                        <p:column headerText="E-mail" priority="2">
+                            <h:outputText value="#{inscricao.pessoa.email}"/>
+                        </p:column>
 
+                        <p:column headerText="Operações" styleClass="text-center action-column" priority="1">
+                            <p:commandButton value="Planos de Trabalho"
+                                             action="/pesquisador/plano/lista-pesquisador.xhtml"
+                                             icon="pi pi-clipboard"
+                                             styleClass="ui-button-info"
+                                             update="@form"
+                                             ajax="true">
+                                <f:param name="editalID" value="#{inscricao.edital.id}"/>
+                                <f:param name="pesquisadorID" value="#{papelBean.usuarioLogado.id}"/>
+                                <f:param name="inscricaoID" value="#{inscricao.id}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

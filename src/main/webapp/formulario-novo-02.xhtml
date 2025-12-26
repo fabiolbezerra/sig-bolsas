@@ -7,27 +7,106 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
-    <ui:define name="title">
-        Novo Usuário
-    </ui:define>
+    <ui:define name="title">Validar E-mail</ui:define>
 
     <ui:define name="content">
-        <h1>Validar E-mail</h1>
-        <h:form id="formAutoCastro">
-            <p:growl showDetail="true" showSummary="true"/>
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-envelope"></i>
+                    Validar E-mail
+                </h1>
+            </div>
 
-            <!--@elvariable id="autoCadastroBean" type="br.edu.ufra.bean.AutoCadastroBean"-->
+            <div class="content-card">
+                <h:form id="formAutoCastro">
+                    <p:growl showDetail="true" showSummary="true"/>
 
-            <h:panelGrid columns="2">
-                <p:outputLabel value="Digite o Código:"/>
-                <p:inputText id="codidoDigitado" value="#{autoCadastroBean.codigoDigitado}" required="true"/>
-            </h:panelGrid>
+                    <div class="ui-fluid">
+                        <!-- Instrução -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #007ad9; margin-bottom: 2rem;">
+                                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                    <i class="pi pi-info-circle"
+                                       style="font-size: 1.5rem; color: #007ad9; margin-top: 0.2rem;"></i>
+                                    <div>
+                                        <h3 style="margin: 0 0 0.5rem 0; color: #007ad9; font-size: 1.1rem;">Código de Verificação Enviado</h3>
+                                        <p style="margin: 0; color: #495057; line-height: 1.6;">
+                                            Enviamos um código de verificação para o seu e-mail.
+                                            <br/>
+                                            Por favor, digite o código recebido no campo abaixo para validar seu cadastro.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-            <p:button outcome="index.xhtml" value="Cancelar" icon="fa fa-ban"/>
-            <p:commandButton value="Validar" action="#{autoCadastroBean.validarCodigo()}" update="@form"/>
-        </h:form>
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-key"></i>
+                                Código de Verificação
+                            </h2>
+
+                            <div class="p-grid p-formgrid"
+                                 style="display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 400px; margin: 0 auto;">
+                                <div class="p-field">
+                                    <p:outputLabel for="codigoDigitado" value="Digite o Código"
+                                                   style="font-weight: 600;"/>
+                                    <p:inputText id="codigoDigitado"
+                                                 value="#{autoCadastroBean.codigoDigitado}"
+                                                 required="true"
+                                                 requiredMessage="Por favor, digite o código de verificação"
+                                                 style="width: 100%; text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem; font-weight: 600;"
+                                                 placeholder="000000"
+                                                 maxlength="6"/>
+                                    <small style="display: block; margin-top: 0.5rem; color: #6c757d; text-align: center;">
+                                        Digite o código de 6 dígitos enviado para seu e-mail
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
+                        <p:commandButton value="Validar Código"
+                                         action="#{autoCadastroBean.validarCodigo()}"
+                                         update="@form"
+                                         icon="pi pi-check"
+                                         styleClass="ui-button-success"
+                                         style="min-width: 180px;"/>
+                        <p:button outcome="index.xhtml"
+                                  value="Cancelar"
+                                  icon="pi pi-times"
+                                  styleClass="ui-button-secondary outline"
+                                  style="min-width: 180px;"/>
+                    </div>
+
+                    <!-- Ajuda Adicional -->
+                    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e9ecef; text-align: center;">
+                        <p style="color: #6c757d; margin-bottom: 1rem;">
+                            <i class="pi pi-question-circle"></i>
+                            Não recebeu o código?
+                        </p>
+                        <p style="color: #495057; font-size: 0.9rem; line-height: 1.6;">
+                            Verifique sua caixa de spam ou aguarde alguns minutos.
+                            <br/>
+                            Se o problema persistir, entre em contato com o suporte.
+                        </p>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+        <style type="text/css">
+            .content-card {
+                background: white;
+                border-radius: 8px;
+                padding: 2rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 2rem;
+            }
+        </style>
     </ui:define>
 </ui:composition>
+
