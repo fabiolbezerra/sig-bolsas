@@ -4,10 +4,13 @@ import br.edu.ufra.dao.InscricaoDAO;
 import br.edu.ufra.entidade.Edital;
 import br.edu.ufra.entidade.Inscricao;
 import br.edu.ufra.entidade.Pessoa;
+import br.edu.ufra.entidade.tipo.EnumAcaoAuditoria;
+import br.edu.ufra.rn.LogAuditoriaRN;
 import br.edu.ufra.util.UtilEmail;
 import br.edu.ufra.util.UtilTexto;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -127,5 +130,92 @@ public class InscricaoRN {
         } else {
             return DAO.obter(edital, inicio, fim);
         }
+    }
+
+    public boolean homologar(Inscricao inscricao, String usuarioResponsavel) {
+        if (inscricao == null) return false;
+        inscricao.setSituacao('H');
+        boolean ok = DAO.alterar(inscricao);
+        if (ok) {
+            LogAuditoriaRN.registrar(usuarioResponsavel, EnumAcaoAuditoria.HOMOLOGAR, "Inscricao",
+                inscricao.getId(), "Inscrição homologada: protocolo " + inscricao.getProtocolo(), null);
+            notificarMudancaSituacao(inscricao);
+        }
+        return ok;
+    }
+
+    public boolean aprovar(Inscricao inscricao, String usuarioResponsavel) {
+        if (inscricao == null) return false;
+        inscricao.setSituacao('A');
+        boolean ok = DAO.alterar(inscricao);
+        if (ok) {
+            LogAuditoriaRN.registrar(usuarioResponsavel, EnumAcaoAuditoria.APROVAR, "Inscricao",
+                inscricao.getId(), "Inscrição aprovada: protocolo " + inscricao.getProtocolo(), null);
+            notificarMudancaSituacao(inscricao);
+        }
+        return ok;
+    }
+
+    public boolean indeferir(Inscricao inscricao, String motivo, String usuarioResponsavel) {
+        if (inscricao == null) return false;
+        inscricao.setSituacao('I');
+        inscricao.setMotivoIndeferimento(motivo);
+        boolean ok = DAO.alterar(inscricao);
+        if (ok) {
+            LogAuditoriaRN.registrar(usuarioResponsavel, EnumAcaoAuditoria.INDEFERIR, "Inscricao",
+                inscricao.getId(), "Inscrição indeferida. Motivo: " + motivo, null);
+            notificarMudancaSituacao(inscricao);
+        }
+        return ok;
+    }
+
+    public boolean classificar(Edital edital, String usuarioResponsavel) {
+        List<Inscricao> inscricoes = DAO.obter(edital);
+        if (inscricoes == null || inscricoes.isEmpty()) return false;
+
+        inscricoes.sort(Comparator.comparingDouble(
+            (Inscricao i) -> i.getPontuacaoPesquisador() + i.getPontuacaoComite()
+        ).reversed());
+
+        for (int i = 0; i < inscricoes.size(); i++) {
+            inscricoes.get(i).setClassificacao(i + 1);
+            DAO.alterar(inscricoes.get(i));
+        }
+        LogAuditoriaRN.registrar(usuarioResponsavel, EnumAcaoAuditoria.CLASSIFICAR, "Edital",
+            edital.getId(), "Ranking de pesquisadores recalculado para o edital: " + edital.getTitulo(), null);
+        return true;
+    }
+
+    private void notificarMudancaSituacao(Inscricao inscricao) {
+        Pessoa pesquisador = inscricao.getPessoa();
+        if (pesquisador == null || pesquisador.getEmail() == null) return;
+
+        String assunto = "Atualização da sua inscrição — SIG Bolsas";
+        StringBuilder msg = new StringBuilder();
+        msg.append("Prezado(a) ").append(pesquisador.getNomeCompleto()).append(",\n\n");
+        msg.append("O status da sua inscrição no edital \"")
+           .append(inscricao.getEdital().getTitulo()).append("\" foi atualizado.\n\n");
+
+        Character sit = inscricao.getSituacao();
+        if (sit == null) sit = 'P';
+        switch (sit) {
+            case 'H':
+                msg.append("Status: HOMOLOGADA — sua inscrição está em análise pelo comitê.\n");
+                break;
+            case 'A':
+                msg.append("Status: APROVADA — parabéns!\n");
+                msg.append("Classificação: ").append(inscricao.getClassificacao()).append("\n");
+                break;
+            case 'I':
+                msg.append("Status: INDEFERIDA.\n");
+                if (inscricao.getMotivoIndeferimento() != null) {
+                    msg.append("Motivo: ").append(inscricao.getMotivoIndeferimento()).append("\n");
+                }
+                break;
+            default:
+                msg.append("Status: Em análise.\n");
+        }
+        msg.append("\nAcesse o sistema para mais detalhes.\nAtenciosamente,\nSIG-BOLSAS");
+        UtilEmail.enviarEmail(pesquisador.getEmail(), assunto, msg.toString());
     }
 }

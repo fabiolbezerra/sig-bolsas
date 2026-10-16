@@ -17,6 +17,7 @@
         <intercept-url pattern="/formulario-novo-01.xhtml" access="permitAll"/>
         <intercept-url pattern="/formulario-novo-02.xhtml" access="permitAll"/>
         <intercept-url pattern="/formulario-reinicializar-senha.xhtml" access="permitAll"/>
+        <intercept-url pattern="/formulario-autentica-dois-fatores.xhtml" access="isAuthenticated()"/>
 
 
         <intercept-url pattern="/j_spring_security_check" access="permitAll"/>
@@ -49,13 +50,6 @@
                 delete-cookies="JSESSIONID"/>
 
         <access-denied-handler error-page="/acesso-negado.xhtml"/>
-
-        <!-- Qualquer outra URL exige autenticação -->
-        <!--  <intercept-url pattern="/**" access="isAuthenticated()"/> -->
-
-
-         <!-- Se precisar, pode desabilitar CSRF (não recomendado em produção) -->
-        <!-- <csrf disabled="true"/> -->
     </http>
 
 

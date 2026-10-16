@@ -125,6 +125,30 @@
                                 </div>
                             </div>
                         </ui:fragment>
+
+                        <!-- Configurações de Segurança -->
+                        <div style="margin-bottom: 2.5rem;">
+                            <h2 style="font-size: 1.25rem; color: #036fab; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem;">
+                                <i class="pi pi-shield"></i>
+                                Configurações de Segurança
+                            </h2>
+                            <div class="p-grid p-formgrid" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                                <div style="flex: 0 0 auto;">
+                                    <p:inputSwitch id="doisFatores"
+                                                   value="#{pessoaBean.pessoa.doisFatoresHabilitado}"
+                                                   onLabel="Ativado"
+                                                   offLabel="Desativado"/>
+                                </div>
+                                <div style="flex: 1;">
+                                    <p:outputLabel for="doisFatores"
+                                                   value="Autenticação de Dois Fatores (2FA)"
+                                                   style="font-weight: 600; display: block; margin-bottom: 0.25rem;"/>
+                                    <span style="font-size: 0.875rem; color: #6c757d;">
+                                        Quando ativado, o usuário precisará informar um código enviado por e-mail a cada login
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Botões de Ação -->

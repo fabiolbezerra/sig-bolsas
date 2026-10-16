@@ -101,4 +101,8 @@ public class InscricaoBolsistaRN {
             return resposta;
         }
     }
+
+    public List<InscricaoBolsista> listarTodas() {
+        return DAO.obterTodos(InscricaoBolsista.class);
+    }
 }

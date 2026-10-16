@@ -150,6 +150,17 @@ public class InscricaoBean {
         }
     }
 
+    public String obterSituacaoLabel(Character situacao) {
+        if (situacao == null) return "Pendente";
+        switch (situacao) {
+            case 'P': return "Pendente";
+            case 'H': return "Homologada";
+            case 'A': return "Aprovada";
+            case 'I': return "Indeferida";
+            default:  return "-";
+        }
+    }
+
     public String obterTipo(Character tipo) {
         if (tipo == null) {
             return null;

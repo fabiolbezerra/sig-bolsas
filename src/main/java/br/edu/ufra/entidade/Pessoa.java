@@ -52,6 +52,15 @@ public class Pessoa {
     @OneToMany(mappedBy = "pessoa")
     private Set<AvaliacaoInscricao> avaliacaoInscricaos = new LinkedHashSet<>();
 
+    @Column(name = "dois_fatores_habilitado")
+    private Boolean doisFatoresHabilitado = false;
+
+    @Column(name = "dois_fatores_codigo", length = 6)
+    private String doisFatoresCodigo;
+
+    @Column(name = "dois_fatores_expiracao")
+    private java.time.LocalDateTime doisFatoresExpiracao;
+
     public Set<AvaliacaoInscricao> getAvaliacaoInscricaos() {
         return avaliacaoInscricaos;
     }
@@ -155,6 +164,15 @@ public class Pessoa {
     public void setPessoaPapels(List<PessoaPapel> pessoaPapels) {
         this.pessoaPapels = pessoaPapels;
     }
+
+    public Boolean getdoisFatoresHabilitado() { return doisFatoresHabilitado; }
+    public void setdoisFatoresHabilitado(Boolean doisFatoresHabilitado) { this.doisFatoresHabilitado = doisFatoresHabilitado; }
+
+    public String getdoisFatoresCodigo() { return doisFatoresCodigo; }
+    public void setdoisFatoresCodigo(String doisFatoresCodigo) { this.doisFatoresCodigo = doisFatoresCodigo; }
+
+    public java.time.LocalDateTime getdoisFatoresExpiracao() { return doisFatoresExpiracao; }
+    public void setdoisFatoresExpiracao(java.time.LocalDateTime doisFatoresExpiracao) { this.doisFatoresExpiracao = doisFatoresExpiracao; }
 
     @Override
     public boolean equals(Object object) {

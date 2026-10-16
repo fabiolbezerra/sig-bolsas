@@ -6,6 +6,12 @@ import java.util.Date;
 
 @Entity
 @Table(name = "inscricao_bolsista")
+@jakarta.persistence.NamedQueries({
+    @jakarta.persistence.NamedQuery(name = "InscricaoBolsista.findAll",
+        query = "SELECT i FROM InscricaoBolsista i"),
+    @jakarta.persistence.NamedQuery(name = "InscricaoBolsista.findById",
+        query = "SELECT i FROM InscricaoBolsista i WHERE i.id = :id")
+})
 public class InscricaoBolsista {
     @Id
     @Column(name = "id", nullable = false)

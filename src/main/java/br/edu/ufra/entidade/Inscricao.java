@@ -30,6 +30,12 @@ public class Inscricao {
     @Column(name = "classificacao", nullable = false)
     private int classificacao;
 
+    @Column(name = "situacao", length = 1)
+    private Character situacao = 'P';
+
+    @Column(name = "motivo_indeferimento", length = 500)
+    private String motivoIndeferimento;
+
     @OneToMany(mappedBy = "inscricao")
     private List<AvaliacaoInscricao> avaliacoes = new ArrayList<>();
 
@@ -70,6 +76,12 @@ public class Inscricao {
     public void setClassificacao(int classificacao) {
         this.classificacao = classificacao;
     }
+
+    public Character getSituacao() { return situacao; }
+    public void setSituacao(Character situacao) { this.situacao = situacao; }
+
+    public String getMotivoIndeferimento() { return motivoIndeferimento; }
+    public void setMotivoIndeferimento(String motivoIndeferimento) { this.motivoIndeferimento = motivoIndeferimento; }
 
     public double getPontuacaoComite() {
         return pontuacaoComite;
