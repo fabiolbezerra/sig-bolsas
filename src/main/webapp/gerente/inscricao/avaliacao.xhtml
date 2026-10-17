@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Avaliação de Inscrição</ui:define>
+
+    <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-star"></i>
+                    Avaliação de Inscrições
+                </h1>
+            </div>
+
+            <h:form id="formAvaliacao">
+                <p:growl showDetail="true" showSummary="true"/>
+
+                <!-- Painel do pesquisador e inscrição -->
+                <ui:fragment rendered="#{avaliacaoBean.inscricao != null}">
+                    <div class="content-card" style="margin-bottom: 1rem;">
+                        <p:panel header="Dados do Pesquisador">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <strong>Nome:</strong>
+                                    <p:outputLabel value="#{avaliacaoBean.inscricao.pessoa.nomeCompleto}"/>
+                                </div>
+                                <div>
+                                    <strong>E-mail:</strong>
+                                    <p:outputLabel value="#{avaliacaoBean.inscricao.pessoa.email}"/>
+                                </div>
+                                <div>
+                                    <strong>Protocolo:</strong>
+                                    <p:outputLabel value="#{avaliacaoBean.inscricao.protocolo}"/>
+                                </div>
+                                <div>
+                                    <strong>Situação:</strong>
+                                    <p:tag value="#{avaliacaoBean.obterDescricaoSituacao(avaliacaoBean.inscricao.situacao)}"
+                                           severity="#{avaliacaoBean.inscricao.situacao == 'A' ? 'success' :
+                                                       avaliacaoBean.inscricao.situacao == 'I' ? 'danger' :
+                                                       avaliacaoBean.inscricao.situacao == 'H' ? 'info' : 'warning'}"/>
+                                </div>
+                                <div>
+                                    <strong>Pontuação Pesquisador:</strong>
+                                    <p:outputLabel value="#{avaliacaoBean.inscricao.pontuacaoPesquisador}"/>
+                                </div>
+                                <div>
+                                    <strong>Pontuação Comitê (média):</strong>
+                                    <p:outputLabel value="#{avaliacaoBean.inscricao.pontuacaoComite}"/>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+
+                    <!-- Formulário de avaliação do membro do comitê -->
+                    <div class="content-card" style="margin-bottom: 1rem;">
+                        <p:panel header="Minha Avaliação">
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div class="field">
+                                    <p:outputLabel for="pontuacao" value="Pontuação (0 a 10)" styleClass="field-label"/>
+                                    <p:spinner id="pontuacao"
+                                               value="#{avaliacaoBean.avaliacao.pontuacaoAvaliacao}"
+                                               min="0" max="10" stepFactor="0.5"
+                                               style="width: 120px;"
+                                               required="true"/>
+                                </div>
+                                <div class="field">
+                                    <p:outputLabel for="resumoComite" value="Parecer do comitê" styleClass="field-label"/>
+                                    <p:inputTextarea id="resumoComite"
+                                                     value="#{avaliacaoBean.avaliacao.resumoComite}"
+                                                     rows="4" style="width: 100%;"
+                                                     maxlength="500"
+                                                     placeholder="Descreva o parecer sobre o currículo do pesquisador..."/>
+                                </div>
+                                <div>
+                                    <p:commandButton value="Salvar Avaliação"
+                                                     action="#{avaliacaoBean.salvarAvaliacao}"
+                                                     icon="pi pi-save"
+                                                     styleClass="ui-button-success"
+                                                     update="formAvaliacao"
+                                                     ajax="true"/>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+
+                    <!-- Ações de status -->
+                    <div class="content-card" style="margin-bottom: 1rem;">
+                        <p:panel header="Ações sobre a Inscrição">
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
+                                <p:commandButton value="Homologar"
+                                                 action="#{avaliacaoBean.homologar}"
+                                                 icon="pi pi-check-circle"
+                                                 styleClass="ui-button-info"
+                                                 update="formAvaliacao"
+                                                 ajax="true">
+                                    <p:confirm header="Confirmar homologação"
+                                               message="Deseja homologar esta inscrição? O pesquisador será notificado por e-mail."
+                                               icon="pi pi-info-circle"/>
+                                </p:commandButton>
+
+                                <p:commandButton value="Indeferir"
+                                                 action="#{avaliacaoBean.indeferir}"
+                                                 icon="pi pi-times-circle"
+                                                 styleClass="ui-button-danger"
+                                                 update="formAvaliacao"
+                                                 ajax="true">
+                                    <p:confirm header="Confirmar indeferimento"
+                                               message="Deseja indeferir esta inscrição? O pesquisador será notificado."
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="field" style="margin-top: 1rem;">
+                                <p:outputLabel for="motivoIndeferimento" value="Motivo do indeferimento (obrigatório ao indeferir)"/>
+                                <p:inputTextarea id="motivoIndeferimento"
+                                                 value="#{avaliacaoBean.motivoIndeferimento}"
+                                                 rows="3" style="width:100%;"
+                                                 maxlength="500"
+                                                 placeholder="Informe o motivo para o pesquisador..."/>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade">
+                                <p:commandButton value="Confirmar" type="button" styleClass="ui-confirmdialog-yes"/>
+                                <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"/>
+                            </p:confirmDialog>
+                        </p:panel>
+                    </div>
+
+                    <!-- Histórico de avaliações -->
+                    <div class="content-card">
+                        <p:panel header="Avaliações do Comitê">
+                            <p:dataTable value="#{avaliacaoBean.avaliacoes}" var="av"
+                                         emptyMessage="Nenhuma avaliação registrada ainda.">
+                                <p:column headerText="Avaliador">
+                                    <h:outputText value="#{av.pessoa.nomeCompleto}"/>
+                                </p:column>
+                                <p:column headerText="Data" style="width:120px;">
+                                    <h:outputText value="#{av.dataAvaliacao}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" type="localDate"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Pontuação" style="width:100px;" styleClass="text-center">
+                                    <strong><h:outputText value="#{av.pontuacaoAvaliacao}"/></strong>
+                                </p:column>
+                                <p:column headerText="Parecer">
+                                    <h:outputText value="#{av.resumoComite}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{avaliacaoBean.inscricao == null}">
+                    <div class="content-card">
+                        <p:messages severity="info">
+                            <p:message summary="Selecione uma inscrição para avaliar."
+                                       detail="Use a lista de inscrições do edital para navegar até esta tela."/>
+                        </p:messages>
+                    </div>
+                </ui:fragment>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

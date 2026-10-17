@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:define name="title">
+        Modelo de Pesquisa Responsiva
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- 
+            GUIA DE USO DO MODELO DE PESQUISA RESPONSIVA:
+            1. Use 'grid-filter' para os campos de busca. Ele se ajusta automaticamente.
+            2. Na p:dataTable, use 'priority' nas colunas:
+               - priority="1": Sempre visível (essencial)
+               - priority="2": Visível em tablets e desktops
+               - priority="3": Visível apenas em desktops largos
+            3. Use 'p:rowExpansion' para dados que não cabem na tabela em modo mobile.
+            4. O atributo 'reflow="true"' na p:dataTable é essencial para a quebra automática em mobile.
+        -->
+        <style type="text/css">
+            /* Ajustes para tornar a busca ainda mais responsiva */
+            .search-panel .ui-panel-content {
+                padding: 1.5rem !important;
+            }
+            
+            .grid-filter {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                align-items: end;
+            }
+
+            .filter-item {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .filter-item label {
+                font-weight: 600;
+                color: #495057;
+            }
+
+            .filter-actions {
+                display: flex;
+                gap: 0.5rem;
+                justify-content: flex-end;
+                margin-top: 1rem;
+            }
+
+            @media (max-width: 640px) {
+                .filter-actions {
+                    flex-direction: column;
+                }
+                .filter-actions .ui-button {
+                    width: 100%;
+                }
+                .page-header {
+                    flex-direction: column;
+                    align-items: flex-start !important;
+                    gap: 1rem;
+                }
+                .btn-new {
+                    width: 100%;
+                    justify-content: center !important;
+                }
+            }
+
+            /* Estilo para garantir que informações "escondidas" possam ser vistas */
+            .info-badge {
+                padding: 0.25rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                background: #e9ecef;
+                color: #495057;
+            }
+        </style>
+
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-search"></i>
+                    Modelo de Pesquisa Responsiva
+                </h1>
+
+                <p:link outcome="#" styleClass="btn-new">
+                    <i class="pi pi-plus"></i>
+                    <span>Novo Registro</span>
+                </p:link>
+            </div>
+
+            <h:form id="formPesquisa">
+                <p:growl id="messages" showDetail="true" />
+
+                <!-- Painel de Filtros Responsivo -->
+                <p:panel header="Filtros de Pesquisa" toggleable="true" styleClass="search-panel content-card" style="margin-bottom: 2rem;">
+                    <div class="grid-filter">
+                        <div class="filter-item">
+                            <p:outputLabel for="criterio" value="Critério" />
+                            <p:selectOneMenu id="criterio" value="#{bean.criterio}" style="width: 100%">
+                                <f:selectItem itemLabel="Selecione..." itemValue="" />
+                                <f:selectItem itemLabel="Nome" itemValue="N" />
+                                <f:selectItem itemLabel="Código" itemValue="C" />
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="filter-item">
+                            <p:outputLabel for="busca" value="Palavra-chave" />
+                            <p:inputText id="busca" value="#{bean.termo}" placeholder="O que você procura?" style="width: 100%" />
+                        </div>
+
+                        <div class="filter-item">
+                            <p:outputLabel for="dataIni" value="Data Início" />
+                            <p:calendar id="dataIni" pattern="dd/MM/yyyy" showOn="button" style="width: 100%" />
+                        </div>
+                    </div>
+
+                    <div class="filter-actions">
+                        <p:commandButton value="Limpar" icon="pi pi-refresh" styleClass="ui-button-secondary outline" />
+                        <p:commandButton value="Pesquisar" icon="pi pi-search" update="tabelaResultados" styleClass="ui-button-primary" />
+                    </div>
+                </p:panel>
+
+                <div class="content-card">
+                    <!-- Tabela Altamente Responsiva -->
+                    <p:dataTable id="tabelaResultados" value="#{bean.lista}" var="item"
+                                 emptyMessage="Nenhum registro encontrado."
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 reflow="true" rowHover="true">
+                        
+                        <!-- Coluna Principal (Sempre visível) -->
+                        <p:column headerText="Identificação" sortBy="#{item.nome}" priority="1">
+                            <div style="display: flex; flex-direction: column;">
+                                <h:outputText value="#{item.nome}" style="font-weight: 600; color: #2c3e50;"/>
+                                <h:outputText value="#{item.subtitulo}" style="font-size: 0.85rem; color: #6c757d;" />
+                            </div>
+                        </p:column>
+
+                        <!-- Colunas com prioridade (somem conforme a tela diminui) -->
+                        <p:column headerText="Categoria" priority="2">
+                            <h:outputText value="#{item.categoria}" />
+                        </p:column>
+
+                        <p:column headerText="Data" styleClass="text-center" priority="3">
+                            <h:outputText value="#{item.data}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Status" styleClass="text-center" priority="4">
+                            <span class="info-badge">#{item.status}</span>
+                        </p:column>
+
+                        <!-- Ações -->
+                        <p:column headerText="Ações" styleClass="text-center action-column" priority="1">
+                             <p:button icon="pi pi-eye" title="Visualizar" styleClass="ui-button-info ui-button-flat" />
+                             <p:button icon="pi pi-pencil" title="Editar" styleClass="ui-button-warning ui-button-flat" />
+                             <p:commandButton icon="pi pi-trash" title="Excluir" styleClass="ui-button-danger ui-button-flat" />
+                        </p:column>
+
+                        <!-- Row Expansion: Truque para não perder informação em mobile -->
+                        <p:rowExpansion>
+                            <div style="padding: 1rem;">
+                                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
+                                    <h:outputText value="Detalhes Completos:" style="font-weight: bold" />
+                                    <h:outputText value="#{item.descricaoLonga}" />
+                                    
+                                    <h:outputText value="Criado em:" style="font-weight: bold" />
+                                    <h:outputText value="#{item.dataCriacao}" />
+                                </p:panelGrid>
+                            </div>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

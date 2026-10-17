@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Ranking de Pesquisadores</ui:define>
+
+    <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-sort-amount-down"></i>
+                    Ranking de Pesquisadores
+                </h1>
+            </div>
+
+            <div class="content-card">
+                <h:form id="formRanking">
+                    <p:growl showDetail="true" showSummary="true"/>
+
+                    <ui:fragment rendered="#{avaliacaoBean.edital != null}">
+                        <p:panel style="margin-bottom: 1rem; background: #f8f9fa;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong>Edital:</strong> #{avaliacaoBean.edital.titulo} (#{avaliacaoBean.edital.ano})
+                                </div>
+                                <p:commandButton value="Recalcular Ranking"
+                                                 action="#{avaliacaoBean.classificarTodas}"
+                                                 icon="pi pi-refresh"
+                                                 styleClass="ui-button-warning"
+                                                 update="formRanking"
+                                                 ajax="true">
+                                    <p:confirm header="Recalcular ranking"
+                                               message="Isso irá recalcular a classificação de todos os pesquisadores. Confirma?"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </div>
+                        </p:panel>
+                        <p:confirmDialog global="true" showEffect="fade">
+                            <p:commandButton value="Confirmar" type="button" styleClass="ui-confirmdialog-yes"/>
+                            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"/>
+                        </p:confirmDialog>
+                    </ui:fragment>
+
+                    <p:dataTable value="#{avaliacaoBean.inscricoes}"
+                                 var="inscricao"
+                                 emptyMessage="Nenhuma inscrição encontrada para este edital."
+                                 paginator="true"
+                                 rows="20"
+                                 paginatorPosition="bottom"
+                                 reflow="true"
+                                 sortField="classificacao"
+                                 sortOrder="ascending">
+
+                        <p:column headerText="#" sortBy="#{inscricao.classificacao}" style="width:60px; text-align:center;">
+                            <p:tag value="#{inscricao.classificacao == 0 ? '-' : inscricao.classificacao}"
+                                   severity="#{inscricao.classificacao == 1 ? 'success' :
+                                               inscricao.classificacao == 2 ? 'info' :
+                                               inscricao.classificacao == 3 ? 'warning' : null}"/>
+                        </p:column>
+
+                        <p:column headerText="Pesquisador" sortBy="#{inscricao.pessoa.nomeCompleto}" priority="1">
+                            <h:outputText value="#{inscricao.pessoa.nomeCompleto}"
+                                          style="font-weight: 600;"/>
+                        </p:column>
+
+                        <p:column headerText="Protocolo" priority="3" style="width:160px;">
+                            <h:outputText value="#{inscricao.protocolo}"/>
+                        </p:column>
+
+                        <p:column headerText="Pts. Pesquisador" sortBy="#{inscricao.pontuacaoPesquisador}"
+                                  style="width:130px; text-align:center;" priority="2">
+                            <h:outputText value="#{inscricao.pontuacaoPesquisador}">
+                                <f:convertNumber maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Pts. Comitê" sortBy="#{inscricao.pontuacaoComite}"
+                                  style="width:110px; text-align:center;" priority="2">
+                            <h:outputText value="#{inscricao.pontuacaoComite}">
+                                <f:convertNumber maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Pts. Total" sortBy="#{inscricao.pontuacaoPesquisador + inscricao.pontuacaoComite}"
+                                  style="width:110px; text-align:center;" priority="1">
+                            <strong>
+                                <h:outputText value="#{inscricao.pontuacaoPesquisador + inscricao.pontuacaoComite}">
+                                    <f:convertNumber maxFractionDigits="2"/>
+                                </h:outputText>
+                            </strong>
+                        </p:column>
+
+                        <p:column headerText="Situação" style="width:120px; text-align:center;" priority="1">
+                            <p:tag value="#{avaliacaoBean.obterDescricaoSituacao(inscricao.situacao)}"
+                                   severity="#{inscricao.situacao == 'A' ? 'success' :
+                                               inscricao.situacao == 'I' ? 'danger' :
+                                               inscricao.situacao == 'H' ? 'info' : 'warning'}"/>
+                        </p:column>
+
+                        <p:column headerText="Ações" style="width:120px; text-align:center;" priority="1">
+                            <p:commandButton icon="pi pi-star"
+                                             title="Avaliar"
+                                             styleClass="ui-button-info"
+                                             action="/gerente/inscricao/avaliacao.xhtml?faces-redirect=true">
+                                <f:param name="inscricaoID" value="#{inscricao.id}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

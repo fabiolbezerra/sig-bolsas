@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        template="/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Log de Auditoria</ui:define>
+
+    <ui:define name="content">
+        <div class="page-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="pi pi-file-edit"></i>
+                    Log de Auditoria
+                </h1>
+            </div>
+
+            <div class="content-card">
+                <h:form id="formFiltro">
+                    <p:growl showDetail="true" showSummary="true"/>
+
+                    <p:panel header="Filtros" toggleable="true" collapsed="false" style="margin-bottom: 1rem;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end;">
+                            <div class="field">
+                                <p:outputLabel for="filtroUsuario" value="Usuário (e-mail)"/>
+                                <p:inputText id="filtroUsuario" value="#{logAuditoriaBean.filtroUsuario}"
+                                             placeholder="email@exemplo.com" style="width: 220px;"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="filtroAcao" value="Ação"/>
+                                <p:selectOneMenu id="filtroAcao" value="#{logAuditoriaBean.filtroAcao}" style="width: 180px;">
+                                    <f:selectItem itemLabel="Todas" itemValue=""/>
+                                    <f:selectItems value="#{logAuditoriaBean.acoesDisponiveis}"
+                                                   var="acao"
+                                                   itemLabel="#{acao.name()}"
+                                                   itemValue="#{acao.name()}"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="filtroInicio" value="Data inicial"/>
+                                <p:datePicker id="filtroInicio" value="#{logAuditoriaBean.filtroInicio}"
+                                              pattern="dd/MM/yyyy" style="width: 140px;"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="filtroFim" value="Data final"/>
+                                <p:datePicker id="filtroFim" value="#{logAuditoriaBean.filtroFim}"
+                                              pattern="dd/MM/yyyy" style="width: 140px;"/>
+                            </div>
+                            <p:commandButton value="Pesquisar" action="#{logAuditoriaBean.pesquisar}"
+                                             icon="pi pi-search" update="formFiltro" ajax="true"/>
+                            <p:commandButton value="Limpar" action="#{logAuditoriaBean.limparFiltros}"
+                                             icon="pi pi-times" styleClass="ui-button-secondary"
+                                             update="formFiltro" ajax="true"/>
+                        </div>
+                    </p:panel>
+
+                    <div style="margin-bottom: 1rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
+                        <p:commandButton value="Exportar Excel" icon="pi pi-file-excel"
+                                         styleClass="ui-button-success">
+                            <p:dataExporter type="xlsx" target="tblLogs" fileName="log_auditoria"/>
+                        </p:commandButton>
+                        <p:commandButton value="Exportar CSV" icon="pi pi-file"
+                                         styleClass="ui-button-help">
+                            <p:dataExporter type="csv" target="tblLogs" fileName="log_auditoria"/>
+                        </p:commandButton>
+                        <p:commandButton value="Exportar PDF" icon="pi pi-file-pdf"
+                                         styleClass="ui-button-danger">
+                            <p:dataExporter type="pdf" target="tblLogs" fileName="log_auditoria"/>
+                        </p:commandButton>
+                    </div>
+
+                    <p:dataTable id="tblLogs"
+                                 value="#{logAuditoriaBean.logs}"
+                                 var="log"
+                                 emptyMessage="Nenhum registro encontrado"
+                                 paginator="true"
+                                 rows="25"
+                                 paginatorPosition="bottom"
+                                 reflow="true"
+                                 sortField="dataHora"
+                                 sortOrder="descending">
+
+                        <p:column headerText="Data/Hora" sortBy="#{log.dataHora}" priority="1" style="width:160px;">
+                            <h:outputText value="#{log.dataHora}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" type="localDateTime"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Usuário" sortBy="#{log.usuario}" priority="2">
+                            <h:outputText value="#{log.usuario}"/>
+                        </p:column>
+
+                        <p:column headerText="Ação" sortBy="#{log.acao}" priority="1" style="width:130px;">
+                            <p:tag value="#{log.acao}"
+                                   severity="#{logAuditoriaBean.getSeveridadePorAcao(log.acao)}"/>
+                        </p:column>
+
+                        <p:column headerText="IP" priority="4" style="width:140px;">
+                            <h:outputText value="#{log.ipAddress != null ? log.ipAddress : '-'}"/>
+                        </p:column>
+
+                        <p:column headerText="Entidade" priority="3" style="width:120px;">
+                            <h:outputText value="#{log.entidade}#{log.entidadeId != null ? ' #'.concat(log.entidadeId) : ''}"/>
+                        </p:column>
+
+                        <p:column headerText="Descrição" priority="2">
+                            <h:outputText value="#{log.descricao}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
