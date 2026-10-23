@@ -7,3 +7,9 @@
 /dataSources/
 /dataSources.local.xml
 /misc.xml
+/dataSources.xml
+/vcs.xml
+/webContext.xml
+
+### Copilot ###
+copilot.*

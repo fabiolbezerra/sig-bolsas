@@ -45,6 +45,9 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`pessoa` (
   `email` VARCHAR(50) NOT NULL,
   `senha` VARCHAR(100) NOT NULL DEFAULT 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb',
   `unidade_administrativa` INT NOT NULL,
+  `dois_fatores_habilitado` TINYINT(1) NOT NULL DEFAULT 0,
+  `dois_fatores_codigo` VARCHAR(6) NULL,
+  `dois_fatores_expiracao` DATETIME NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   INDEX `fk_pessoa_unidade_administrativa1_idx` (`unidade_administrativa` ASC) VISIBLE,
@@ -208,6 +211,8 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`inscricao` (
   `classificacao` INT NULL DEFAULT 0,
   `edital` INT NOT NULL,
   `pessoa` INT NOT NULL,
+  `situacao` CHAR(1) NOT NULL DEFAULT 'P',
+  `motivo_indeferimento` VARCHAR(500) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_inscricao_edital1_idx` (`edital` ASC) VISIBLE,
   INDEX `fk_inscricao_pessoa1_idx` (`pessoa` ASC) VISIBLE,
@@ -372,6 +377,19 @@ CREATE TABLE IF NOT EXISTS `sig_bolsas_bd`.`inscricao_bolsista` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `sig_bolsas_bd`.`log_auditoria`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS log_auditoria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(100),
+    acao VARCHAR(50),
+    entidade VARCHAR(100),
+    entidade_id INT,
+    descricao VARCHAR(500),
+    data_hora DATETIME NOT NULL)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

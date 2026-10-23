@@ -1,6 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition
         template="/template.xhtml"
         xmlns="http://www.w3.org/1999/xhtml"
@@ -25,64 +22,6 @@
             3. Use 'p:rowExpansion' para dados que não cabem na tabela em modo mobile.
             4. O atributo 'reflow="true"' na p:dataTable é essencial para a quebra automática em mobile.
         -->
-        <style type="text/css">
-            /* Ajustes para tornar a busca ainda mais responsiva */
-            .search-panel .ui-panel-content {
-                padding: 1.5rem !important;
-            }
-            
-            .grid-filter {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1.5rem;
-                align-items: end;
-            }
-
-            .filter-item {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .filter-item label {
-                font-weight: 600;
-                color: #495057;
-            }
-
-            .filter-actions {
-                display: flex;
-                gap: 0.5rem;
-                justify-content: flex-end;
-                margin-top: 1rem;
-            }
-
-            @media (max-width: 640px) {
-                .filter-actions {
-                    flex-direction: column;
-                }
-                .filter-actions .ui-button {
-                    width: 100%;
-                }
-                .page-header {
-                    flex-direction: column;
-                    align-items: flex-start !important;
-                    gap: 1rem;
-                }
-                .btn-new {
-                    width: 100%;
-                    justify-content: center !important;
-                }
-            }
-
-            /* Estilo para garantir que informações "escondidas" possam ser vistas */
-            .info-badge {
-                padding: 0.25rem 0.5rem;
-                border-radius: 4px;
-                font-size: 0.85rem;
-                background: #e9ecef;
-                color: #495057;
-            }
-        </style>
 
         <div class="page-container">
             <div class="page-header">
